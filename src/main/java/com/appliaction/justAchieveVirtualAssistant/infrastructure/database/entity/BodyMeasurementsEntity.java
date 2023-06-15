@@ -19,7 +19,7 @@ import java.time.OffsetDateTime;
 public class BodyMeasurementsEntity {
 
     @Id
-    @Column(name = "body_measurement_id")
+    @Column(name = "body_measurement_id", unique = true, nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer bodyMeasurementId;
 

@@ -15,7 +15,7 @@ import lombok.*;
 public class FitnessTipsEntity {
 
     @Id
-    @Column(name = "tip_id")
+    @Column(name = "tip_id", unique = true, nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer tipId;
 
@@ -23,6 +23,6 @@ public class FitnessTipsEntity {
     @JoinColumn(name = "diet_goal_id")
     private DietGoalsEntity dietGoalId;
 
-    @Column(name = "tip")
+    @Column(name = "tip", nullable = false)
     private String tip;
 }

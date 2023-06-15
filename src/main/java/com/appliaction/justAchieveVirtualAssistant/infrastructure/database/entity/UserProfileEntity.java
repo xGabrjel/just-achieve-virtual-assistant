@@ -3,8 +3,8 @@ package com.appliaction.justAchieveVirtualAssistant.infrastructure.database.enti
 import com.appliaction.justAchieveVirtualAssistant.security.UserEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 import lombok.*;
+import org.hibernate.validator.constraints.Length;
 
 import java.math.BigDecimal;
 
@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Table(name = "user_profile")
 @EqualsAndHashCode(of = "profileId")
-@ToString(of = {"profileId", "name", "surname", "email", "phone", "age", "sex"})
+@ToString(of = {"profileId", "userId", "name", "surname", "phone", "age", "sex"})
 public class UserProfileEntity {
 
     @Id
@@ -24,6 +24,9 @@ public class UserProfileEntity {
     @Column(name = "profile_id", unique = true, nullable = false)
     private Integer profileId;
 
+    @JoinColumn(name = "user_id", nullable = false)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private UserEntity userId;
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -31,11 +34,7 @@ public class UserProfileEntity {
     @Column(name = "surname", nullable = false)
     private String surname;
 
-    @JoinColumn(name = "email", nullable = false)
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private UserEntity email;
-
-    @Size(min = 7, max = 15)
+    @Length(min = 7, max = 15)
     @Pattern(regexp = "^[+]\\d{2}\\s\\d{3}\\s\\d{3}\\s\\d{3}$")
     @Column(name = "phone", unique = true, nullable = false)
     private String phone;
