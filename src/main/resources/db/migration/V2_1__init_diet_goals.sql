@@ -1,0 +1,1 @@
+INSERT INTO diet_goals (diet_goal_id, diet_goal) VALUES (1, 'MUSCLE BUILDING'), (2, 'FAT LOSS'), (3, 'WEIGHT MAINTENANCE');
