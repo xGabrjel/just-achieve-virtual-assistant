@@ -13,7 +13,6 @@ import java.util.Set;
 
 @UtilityClass
 public class EntityMapperFixtures {
-
     public static DietGoalsEntity someDietGoals() {
         return DietGoalsEntity.builder()
                 .dietGoalId(2)
@@ -47,7 +46,7 @@ public class EntityMapperFixtures {
                 .age(54)
                 .sex("MALE")
                 .weight(new BigDecimal("77"))
-                .height(183)
+                .height(BigDecimal.valueOf(1.83))
                 .build();
     }
 

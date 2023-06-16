@@ -49,7 +49,7 @@ public class UserProfileEntity {
     private BigDecimal weight;
 
     @Column(name = "height", nullable = false)
-    private Integer height;
+    private BigDecimal height;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "diet_goal_id")

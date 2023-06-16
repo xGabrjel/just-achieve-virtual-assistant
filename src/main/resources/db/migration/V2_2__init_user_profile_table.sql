@@ -8,7 +8,7 @@ CREATE TABLE user_profile
     age             SMALLINT        NOT NULL,
     sex             VARCHAR(32)     NOT NULL,
     weight          NUMERIC(3, 1)   NOT NULL,
-    height          SMALLINT        NOT NULL,
+    height          NUMERIC(3, 1)   NOT NULL,
     diet_goal_id    INT             NOT NULL,
 
     PRIMARY KEY (profile_id),

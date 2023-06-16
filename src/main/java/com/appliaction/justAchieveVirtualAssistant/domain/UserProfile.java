@@ -5,20 +5,23 @@ import lombok.*;
 import java.math.BigDecimal;
 
 @With
-@Value
+@Getter
+@Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(of = "profileId")
 @ToString(of = {"profileId", "name", "surname", "phone", "age", "sex", "weight", "height"})
 public class UserProfile {
 
-    Integer profileId;
-    User user;
-    String name;
-    String surname;
-    String phone;
-    Integer age;
-    String sex;
-    BigDecimal weight;
-    Integer height;
-    DietGoals dietGoal;
+    private Integer profileId;
+    private User user;
+    private String name;
+    private String surname;
+    private String phone;
+    private Integer age;
+    private String sex;
+    private BigDecimal weight;
+    private BigDecimal height;
+    private DietGoals dietGoal;
 }
