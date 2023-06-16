@@ -8,11 +8,11 @@ import java.math.BigDecimal;
 @Value
 @Builder
 @EqualsAndHashCode(of = "profileId")
-@ToString(of = {"profileId", "userId", "name", "surname", "phone", "age", "sex"})
+@ToString(of = {"profileId", "name", "surname", "phone", "age", "sex", "weight", "height"})
 public class UserProfile {
 
     Integer profileId;
-    User userId;
+    User user;
     String name;
     String surname;
     String phone;
@@ -20,5 +20,5 @@ public class UserProfile {
     String sex;
     BigDecimal weight;
     Integer height;
-    DietGoals dietGoalId;
+    DietGoals dietGoal;
 }

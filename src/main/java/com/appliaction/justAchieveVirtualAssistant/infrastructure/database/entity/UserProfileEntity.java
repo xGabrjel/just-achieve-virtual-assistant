@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Table(name = "user_profile")
 @EqualsAndHashCode(of = "profileId")
-@ToString(of = {"profileId", "userId", "name", "surname", "phone", "age", "sex"})
+@ToString(of = {"profileId", "name", "surname", "phone", "age", "sex", "weight", "height"})
 public class UserProfileEntity {
 
     @Id
@@ -26,7 +26,7 @@ public class UserProfileEntity {
 
     @JoinColumn(name = "user_id", nullable = false)
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private UserEntity userId;
+    private UserEntity user;
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -53,6 +53,6 @@ public class UserProfileEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "diet_goal_id")
-    private DietGoalsEntity dietGoalId;
+    private DietGoalsEntity dietGoal;
 }
 

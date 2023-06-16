@@ -21,7 +21,7 @@ public class FitnessTipsEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "diet_goal_id")
-    private DietGoalsEntity dietGoalId;
+    private DietGoalsEntity dietGoal;
 
     @Column(name = "tip", nullable = false)
     private String tip;

@@ -25,7 +25,7 @@ public class BodyMeasurementsEntity {
 
     @JoinColumn(name = "user_id", nullable = false)
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private UserEntity userId;
+    private UserEntity user;
 
     @Column(name = "date", nullable = false)
     private OffsetDateTime date;

@@ -10,6 +10,6 @@ import lombok.*;
 public class FitnessTips {
 
     Integer tipId;
-    DietGoals dietGoalId;
+    DietGoals dietGoal;
     String tip;
 }
