@@ -5,17 +5,20 @@ import com.appliaction.justAchieveVirtualAssistant.domain.exception.NotFoundExce
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.entity.UserProfileEntity;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.mapper.UserProfileEntityMapper;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.repository.UserProfileRepository;
+import com.appliaction.justAchieveVirtualAssistant.util.DomainFixtures;
+import com.appliaction.justAchieveVirtualAssistant.util.EntityFixtures;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
 import java.util.Collections;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class BmiCalculatorServiceTest {
@@ -32,19 +35,20 @@ class BmiCalculatorServiceTest {
     @Test
     void getUserProfileWorksCorrectly() {
         //given
-        String phoneNumber = "+48 511 533 522";
-        UserProfileEntity userProfileEntity = new UserProfileEntity();
+        UserProfileEntity user = EntityFixtures.someUserProfileEntity();
+        UserProfile userProfile = DomainFixtures.someUserProfile();
+        String phoneNumber = "+48 511 522 533";
 
-        Mockito.when(userProfileRepository.findByPhone(phoneNumber)).thenReturn(Collections.singleton(userProfileEntity));
-        Mockito.when(userProfileEntityMapper.mapFromEntity(userProfileEntity)).thenReturn(new UserProfile());
+        when(userProfileRepository.findByPhone(user.getPhone())).thenReturn(Set.of(user));
+        when(userProfileEntityMapper.mapFromEntity(user)).thenReturn(userProfile);
 
         //when
-        UserProfile userProfile = bmiCalculatorService.getUserProfile(phoneNumber);
+        UserProfile result = bmiCalculatorService.getUserProfile(user.getPhone());
 
         //then
-        assertNotNull(userProfile);
-        Mockito.verify(userProfileRepository, Mockito.times(1)).findByPhone(phoneNumber);
-        Mockito.verify(userProfileEntityMapper, Mockito.times(1)).mapFromEntity(userProfileEntity);
+        assertNotNull(result);
+        verify(userProfileRepository, times(1)).findByPhone(phoneNumber);
+        verify(userProfileEntityMapper, times(1)).mapFromEntity(user);
     }
 
     @Test
@@ -53,27 +57,28 @@ class BmiCalculatorServiceTest {
         String phoneNumber = "+48 511 533 522";
 
         //when
-        Mockito.when(userProfileRepository.findByPhone(phoneNumber)).thenReturn(Collections.emptySet());
+        when(userProfileRepository.findByPhone(phoneNumber)).thenReturn(Collections.emptySet());
 
         //then
         assertThrows(NotFoundException.class, () -> bmiCalculatorService.getUserProfile(phoneNumber));
-        Mockito.verify(userProfileRepository, Mockito.times(1)).findByPhone(phoneNumber);
+        verify(userProfileRepository, times(1)).findByPhone(phoneNumber);
     }
 
     @Test
     void calculateBMIWorksCorrectly() {
         //given
-        UserProfile user = UserProfile.builder()
-                .height(BigDecimal.valueOf(1.83))
-                .phone("+48 511 522 162")
-                .weight(BigDecimal.valueOf(60))
-                .build();
+        UserProfileEntity user = EntityFixtures.someUserProfileEntity();
 
-        Mockito.when(userProfileRepository.findByPhone(user.getPhone())).thenReturn(Collections.singleton(new UserProfileEntity()));
-        Mockito.when(userProfileEntityMapper.mapFromEntity(Mockito.any(UserProfileEntity.class))).thenReturn(user);
+        UserProfile userProfile = DomainFixtures.someUserProfile()
+                .withHeight(BigDecimal.valueOf(1.83))
+                .withPhone("+48 511 522 162")
+                .withWeight(BigDecimal.valueOf(60));
+
+        when(userProfileRepository.findByPhone(userProfile.getPhone())).thenReturn(Set.of(user));
+        when(userProfileEntityMapper.mapFromEntity(user)).thenReturn(userProfile);
 
         //when
-        BigDecimal result = bmiCalculatorService.calculateBMI(user.getPhone());
+        BigDecimal result = bmiCalculatorService.calculateBMI(userProfile.getPhone());
 
         //then
         assertNotNull(result);
@@ -83,10 +88,15 @@ class BmiCalculatorServiceTest {
     @Test
     void underweightUserInterpretBMIWorksCorrectly() {
         //given
-        UserProfile underweightUser = UserProfile.builder().height(BigDecimal.valueOf(1.83)).phone("+48 511 522 162").weight(BigDecimal.valueOf(60)).build();
+        UserProfileEntity user = EntityFixtures.someUserProfileEntity();
 
-        Mockito.when(userProfileRepository.findByPhone(underweightUser.getPhone())).thenReturn(Collections.singleton(new UserProfileEntity()));
-        Mockito.when(userProfileEntityMapper.mapFromEntity(Mockito.any(UserProfileEntity.class))).thenReturn(underweightUser);
+        UserProfile underweightUser = DomainFixtures.someUserProfile()
+                .withHeight(BigDecimal.valueOf(1.83))
+                .withPhone("+48 511 522 162")
+                .withWeight(BigDecimal.valueOf(60));
+
+        when(userProfileRepository.findByPhone(underweightUser.getPhone())).thenReturn(Set.of(user));
+        when(userProfileEntityMapper.mapFromEntity(user)).thenReturn(underweightUser);
 
         //when
         String underweightResult = bmiCalculatorService.interpretBMI(underweightUser.getPhone());
@@ -99,10 +109,15 @@ class BmiCalculatorServiceTest {
     @Test
     void healthyUserInterpretBMIWorksCorrectly() {
         //given
-        UserProfile healthyUser = UserProfile.builder().height(BigDecimal.valueOf(1.83)).phone("+48 512 522 162").weight(BigDecimal.valueOf(80)).build();
+        UserProfileEntity user = EntityFixtures.someUserProfileEntity();
 
-        Mockito.when(userProfileRepository.findByPhone(healthyUser.getPhone())).thenReturn(Collections.singleton(new UserProfileEntity()));
-        Mockito.when(userProfileEntityMapper.mapFromEntity(Mockito.any(UserProfileEntity.class))).thenReturn(healthyUser);
+        UserProfile healthyUser = DomainFixtures.someUserProfile()
+                .withHeight(BigDecimal.valueOf(1.83))
+                .withPhone("+48 512 522 162")
+                .withWeight(BigDecimal.valueOf(80));
+
+        when(userProfileRepository.findByPhone(healthyUser.getPhone())).thenReturn(Set.of(user));
+        when(userProfileEntityMapper.mapFromEntity(user)).thenReturn(healthyUser);
 
         //when
         String healthyResult = bmiCalculatorService.interpretBMI(healthyUser.getPhone());
@@ -115,10 +130,15 @@ class BmiCalculatorServiceTest {
     @Test
     void overweightUserInterpretBMIWorksCorrectly() {
         //given
-        UserProfile overweightUser = UserProfile.builder().height(BigDecimal.valueOf(1.83)).phone("+48 513 522 162").weight(BigDecimal.valueOf(90)).build();
+        UserProfileEntity user = EntityFixtures.someUserProfileEntity();
 
-        Mockito.when(userProfileRepository.findByPhone(overweightUser.getPhone())).thenReturn(Collections.singleton(new UserProfileEntity()));
-        Mockito.when(userProfileEntityMapper.mapFromEntity(Mockito.any(UserProfileEntity.class))).thenReturn(overweightUser);
+        UserProfile overweightUser = DomainFixtures.someUserProfile()
+                .withHeight(BigDecimal.valueOf(1.83))
+                .withPhone("+48 513 522 162")
+                .withWeight(BigDecimal.valueOf(90));
+
+        when(userProfileRepository.findByPhone(overweightUser.getPhone())).thenReturn(Set.of(user));
+        when(userProfileEntityMapper.mapFromEntity(user)).thenReturn(overweightUser);
 
         //when
         String overweightResult = bmiCalculatorService.interpretBMI(overweightUser.getPhone());
@@ -131,10 +151,15 @@ class BmiCalculatorServiceTest {
     @Test
     void obeseUserInterpretBMIWorksCorrectly() {
         //given
-        UserProfile obeseUser = UserProfile.builder().height(BigDecimal.valueOf(1.83)).phone("+48 511 524 162").weight(BigDecimal.valueOf(120)).build();
+        UserProfileEntity user = EntityFixtures.someUserProfileEntity();
 
-        Mockito.when(userProfileRepository.findByPhone(obeseUser.getPhone())).thenReturn(Collections.singleton(new UserProfileEntity()));
-        Mockito.when(userProfileEntityMapper.mapFromEntity(Mockito.any(UserProfileEntity.class))).thenReturn(obeseUser);
+        UserProfile obeseUser = DomainFixtures.someUserProfile()
+                .withHeight(BigDecimal.valueOf(1.83))
+                .withPhone("+48 511 524 162")
+                .withWeight(BigDecimal.valueOf(120));
+
+        when(userProfileRepository.findByPhone(obeseUser.getPhone())).thenReturn(Set.of(user));
+        when(userProfileEntityMapper.mapFromEntity(user)).thenReturn(obeseUser);
 
         //when
         String obeseResult = bmiCalculatorService.interpretBMI(obeseUser.getPhone());

@@ -2,7 +2,7 @@ package com.appliaction.justAchieveVirtualAssistant.infrastructure.database.mapp
 
 import com.appliaction.justAchieveVirtualAssistant.domain.DietGoals;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.entity.DietGoalsEntity;
-import com.appliaction.justAchieveVirtualAssistant.util.EntityMapperFixtures;
+import com.appliaction.justAchieveVirtualAssistant.util.EntityFixtures;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 
@@ -15,7 +15,7 @@ class DietGoalsEntityMapperTest {
     @Test
     void dietGoalsEntityMapperWorksCorrectly() {
         //given
-        DietGoalsEntity entity = EntityMapperFixtures.someDietGoals();
+        DietGoalsEntity entity = EntityFixtures.someDietGoalsEntity();
 
         //when
         DietGoals domain = dietGoalsEntityMapper.mapFromEntity(entity);

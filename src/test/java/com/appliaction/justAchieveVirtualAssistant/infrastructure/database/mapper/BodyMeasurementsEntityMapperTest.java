@@ -2,7 +2,7 @@ package com.appliaction.justAchieveVirtualAssistant.infrastructure.database.mapp
 
 import com.appliaction.justAchieveVirtualAssistant.domain.BodyMeasurements;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.entity.BodyMeasurementsEntity;
-import com.appliaction.justAchieveVirtualAssistant.util.EntityMapperFixtures;
+import com.appliaction.justAchieveVirtualAssistant.util.EntityFixtures;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 
@@ -15,7 +15,7 @@ class BodyMeasurementsEntityMapperTest {
     @Test
     void bodyMeasurementsEntityMapperWorksCorrectly() {
         //given
-        BodyMeasurementsEntity entity = EntityMapperFixtures.someBodyMeasurements();
+        BodyMeasurementsEntity entity = EntityFixtures.someBodyMeasurementsEntity();
 
         //when
         var domain = bodyMeasurementsEntityMapper.mapFromEntity(entity);

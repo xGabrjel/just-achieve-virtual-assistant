@@ -9,27 +9,24 @@ import lombok.experimental.UtilityClass;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
-import java.util.Set;
 
 @UtilityClass
-public class EntityMapperFixtures {
-    public static DietGoalsEntity someDietGoals() {
+public class EntityFixtures {
+    public static DietGoalsEntity someDietGoalsEntity() {
         return DietGoalsEntity.builder()
                 .dietGoalId(2)
                 .dietGoal("BUILDING MUSCLE")
-                .users(Set.of())
-                .tips(Set.of())
                 .build();
     }
 
-    public static FitnessTipsEntity someFitnessTips() {
+    public static FitnessTipsEntity someFitnessTipsEntity() {
         return FitnessTipsEntity.builder()
                 .tipId(1)
                 .tip("Eat a lot of protein!")
                 .build();
     }
 
-    public static UserEntity someUser() {
+    public static UserEntity someUserEntity() {
         return UserEntity.builder()
                 .userId(1)
                 .email("test@test.pl")
@@ -37,20 +34,22 @@ public class EntityMapperFixtures {
                 .build();
     }
 
-    public static UserProfileEntity someUserProfile() {
+    public static UserProfileEntity someUserProfileEntity() {
         return UserProfileEntity.builder()
                 .profileId(1)
+                .user(someUserEntity())
                 .name("Adam")
                 .surname("Adamski")
                 .phone("+48 511 522 533")
                 .age(54)
                 .sex("MALE")
                 .weight(new BigDecimal("77"))
+                .dietGoal(someDietGoalsEntity())
                 .height(BigDecimal.valueOf(1.83))
                 .build();
     }
 
-    public static BodyMeasurementsEntity someBodyMeasurements() {
+    public static BodyMeasurementsEntity someBodyMeasurementsEntity() {
         return BodyMeasurementsEntity.builder()
                 .bodyMeasurementId(1)
                 .date(OffsetDateTime.now())

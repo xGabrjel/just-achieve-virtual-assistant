@@ -2,7 +2,7 @@ package com.appliaction.justAchieveVirtualAssistant.infrastructure.database.mapp
 
 import com.appliaction.justAchieveVirtualAssistant.domain.UserProfile;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.entity.UserProfileEntity;
-import com.appliaction.justAchieveVirtualAssistant.util.EntityMapperFixtures;
+import com.appliaction.justAchieveVirtualAssistant.util.EntityFixtures;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 
@@ -15,7 +15,7 @@ class UserProfileEntityMapperTest {
     @Test
     void userProfileEntityMapperWorksCorrectly() {
         //given
-        UserProfileEntity entity = EntityMapperFixtures.someUserProfile();
+        UserProfileEntity entity = EntityFixtures.someUserProfileEntity();
 
         //when
         UserProfile domain = userProfileEntityMapper.mapFromEntity(entity);
