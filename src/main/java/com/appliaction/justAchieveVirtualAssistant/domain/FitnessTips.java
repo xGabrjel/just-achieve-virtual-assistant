@@ -3,13 +3,16 @@ package com.appliaction.justAchieveVirtualAssistant.domain;
 import lombok.*;
 
 @With
-@Value
+@Getter
+@Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(of = "tipId")
 @ToString(of = {"tip"})
 public class FitnessTips {
 
-    Integer tipId;
-    DietGoals dietGoal;
-    String tip;
+    private Integer tipId;
+    private DietGoals dietGoal;
+    private String tip;
 }

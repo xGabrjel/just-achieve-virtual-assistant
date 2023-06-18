@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 public enum ActivityLevel {
     SEDENTARY(BigDecimal.valueOf(1.2)),
     LIGHTLY_ACTIVE(BigDecimal.valueOf(1.375)),
-    MODERATELY_ACTIVE (BigDecimal.valueOf(1.55)),
+    MODERATELY_ACTIVE(BigDecimal.valueOf(1.55)),
     ACTIVE(BigDecimal.valueOf(1.725)),
     VERY_ACTIVE(BigDecimal.valueOf(1.9));
 

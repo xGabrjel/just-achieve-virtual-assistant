@@ -19,7 +19,7 @@ public class FitnessTipsEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer tipId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "diet_goal_id")
     private DietGoalsEntity dietGoal;
 

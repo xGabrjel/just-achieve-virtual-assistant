@@ -3,9 +3,11 @@ package com.appliaction.justAchieveVirtualAssistant.util;
 import com.appliaction.justAchieveVirtualAssistant.domain.DietGoals;
 import com.appliaction.justAchieveVirtualAssistant.domain.User;
 import com.appliaction.justAchieveVirtualAssistant.domain.UserProfile;
+import lombok.experimental.UtilityClass;
 
 import java.math.BigDecimal;
 
+@UtilityClass
 public class DomainFixtures {
     public static UserProfile someUserProfile() {
         return UserProfile.builder()

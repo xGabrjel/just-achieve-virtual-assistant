@@ -13,7 +13,7 @@ import java.math.RoundingMode;
 @AllArgsConstructor
 public class BmrCalculatorService {
 
-    private final BmiCalculatorService bmiCalculatorService;
+    private final UserProfileService userProfileService;
 
     public String calculateActivityIncludedBMR(String phoneNumber, ActivityLevel activityLevel) {
         switch (activityLevel) {
@@ -66,11 +66,12 @@ public class BmrCalculatorService {
             }
         }
     }
+
     public BigDecimal calculateActivityExcludedBMR(String phoneNumber) {
-        BigDecimal weight = bmiCalculatorService.getUserProfile(phoneNumber).getWeight();
-        BigDecimal height = bmiCalculatorService.getUserProfile(phoneNumber).getHeight();
-        Integer age = bmiCalculatorService.getUserProfile(phoneNumber).getAge();
-        String sex = bmiCalculatorService.getUserProfile(phoneNumber).getSex();
+        BigDecimal weight = userProfileService.getUserProfile(phoneNumber).getWeight();
+        BigDecimal height = userProfileService.getUserProfile(phoneNumber).getHeight();
+        Integer age = userProfileService.getUserProfile(phoneNumber).getAge();
+        String sex = userProfileService.getUserProfile(phoneNumber).getSex();
 
         if (sex.equalsIgnoreCase("MALE")) {
             return calculateByRevisedHarrisBenedictFormulaForMale(weight, height, age);
@@ -78,6 +79,7 @@ public class BmrCalculatorService {
             return calculateByRevisedHarrisBenedictFormulaForFemale(weight, height, age);
         }
     }
+
     public BigDecimal calculateByRevisedHarrisBenedictFormulaForFemale(BigDecimal weight, BigDecimal height, Integer age) {
         return (((BigDecimal.valueOf(447.6)
                 .add(BigDecimal.valueOf(9.25).multiply(weight)))
@@ -85,6 +87,7 @@ public class BmrCalculatorService {
                 .subtract(BigDecimal.valueOf(4.33).multiply(BigDecimal.valueOf(age))))
                 .setScale(2, RoundingMode.HALF_UP);
     }
+
     public BigDecimal calculateByRevisedHarrisBenedictFormulaForMale(BigDecimal weight, BigDecimal height, Integer age) {
         return (((BigDecimal.valueOf(88.4)
                 .add(BigDecimal.valueOf(13.4).multiply(weight)))

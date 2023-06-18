@@ -4,6 +4,9 @@ import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.entit
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
-public interface FitnessTipRepository extends JpaRepository<FitnessTipsEntity, Integer> {
+public interface FitnessTipsRepository extends JpaRepository<FitnessTipsEntity, Integer> {
+    List<FitnessTipsEntity> findByDietGoalDietGoalId(Integer dietGoalId);
 }

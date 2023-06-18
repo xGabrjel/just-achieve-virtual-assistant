@@ -22,7 +22,7 @@ class BmrCalculatorServiceTest {
     private BmrCalculatorService bmrCalculatorService;
 
     @Mock
-    private BmiCalculatorService bmiCalculatorService;
+    private UserProfileService userProfileService;
 
     @Test
     void calculateByRevisedHarrisBenedictFormulaForFemaleWorksCorrectly() {
@@ -64,7 +64,7 @@ class BmrCalculatorServiceTest {
                 .withWeight(BigDecimal.valueOf(80))
                 .withSex("MALE");
 
-        when(bmiCalculatorService.getUserProfile(user.getPhone())).thenReturn(user);
+        when(userProfileService.getUserProfile(user.getPhone())).thenReturn(user);
 
         //when
         BigDecimal result = bmrCalculatorService.calculateActivityExcludedBMR(user.getPhone());
@@ -85,7 +85,7 @@ class BmrCalculatorServiceTest {
                 .withWeight(BigDecimal.valueOf(69))
                 .withSex("FEMALE");
 
-        when(bmiCalculatorService.getUserProfile(user.getPhone())).thenReturn(user);
+        when(userProfileService.getUserProfile(user.getPhone())).thenReturn(user);
 
         //when
         BigDecimal result = bmrCalculatorService.calculateActivityExcludedBMR(user.getPhone());
@@ -106,7 +106,7 @@ class BmrCalculatorServiceTest {
                 .withWeight(BigDecimal.valueOf(69))
                 .withSex("FEMALE");
 
-        when(bmiCalculatorService.getUserProfile(user.getPhone())).thenReturn(user);
+        when(userProfileService.getUserProfile(user.getPhone())).thenReturn(user);
 
         //when
         String result1 = bmrCalculatorService.calculateActivityIncludedBMR(user.getPhone(), ActivityLevel.SEDENTARY);

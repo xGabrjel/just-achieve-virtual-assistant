@@ -1,9 +1,5 @@
 package com.appliaction.justAchieveVirtualAssistant.business;
 
-import com.appliaction.justAchieveVirtualAssistant.domain.UserProfile;
-import com.appliaction.justAchieveVirtualAssistant.domain.exception.NotFoundException;
-import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.mapper.UserProfileEntityMapper;
-import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.repository.UserProfileRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -16,8 +12,7 @@ import java.math.RoundingMode;
 @AllArgsConstructor
 public class BmiCalculatorService {
 
-    private final UserProfileRepository userProfileRepository;
-    private final UserProfileEntityMapper userProfileEntityMapper;
+    private final UserProfileService userProfileService;
 
     public String interpretBMI(String phoneNumber) {
         BigDecimal bmiResult = calculateBMI(phoneNumber);
@@ -43,19 +38,13 @@ public class BmiCalculatorService {
     }
 
     public BigDecimal calculateBMI(String phoneNumber) {
-        BigDecimal height = getUserProfile(phoneNumber).getHeight();
-        BigDecimal weight = getUserProfile(phoneNumber).getWeight();
+        BigDecimal height = userProfileService.getUserProfile(phoneNumber).getHeight();
+        BigDecimal weight = userProfileService.getUserProfile(phoneNumber).getWeight();
 
-        log.info("User profile: [%s] - User height is: [%s], Weight is: [%s]".formatted(getUserProfile(phoneNumber), height, weight));
+        log.info("User profile: [%s] - User height is: [%s], Weight is: [%s]".formatted(userProfileService
+                .getUserProfile(phoneNumber), height, weight));
+
         return weight.divide((height.multiply(height)), RoundingMode.HALF_UP);
-    }
-
-    public UserProfile getUserProfile(String phoneNumber) {
-        return userProfileRepository.findByPhone(phoneNumber)
-                .stream()
-                .map(userProfileEntityMapper::mapFromEntity)
-                .findFirst()
-                .orElseThrow(() -> new NotFoundException("Could not find UserProfile by this number: [%s]".formatted(phoneNumber)));
     }
 }
 
