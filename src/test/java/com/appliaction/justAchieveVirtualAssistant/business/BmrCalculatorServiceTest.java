@@ -2,6 +2,7 @@ package com.appliaction.justAchieveVirtualAssistant.business;
 
 import com.appliaction.justAchieveVirtualAssistant.business.support.ActivityLevel;
 import com.appliaction.justAchieveVirtualAssistant.domain.UserProfile;
+import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.repository.UserProfileRepository;
 import com.appliaction.justAchieveVirtualAssistant.util.DomainFixtures;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,7 +23,7 @@ class BmrCalculatorServiceTest {
     private BmrCalculatorService bmrCalculatorService;
 
     @Mock
-    private UserProfileService userProfileService;
+    private UserProfileRepository userProfileRepository;
 
     @Test
     void calculateByRevisedHarrisBenedictFormulaForFemaleWorksCorrectly() {
@@ -64,7 +65,7 @@ class BmrCalculatorServiceTest {
                 .withWeight(BigDecimal.valueOf(80))
                 .withSex("MALE");
 
-        when(userProfileService.getUserProfile(user.getPhone())).thenReturn(user);
+        when(userProfileRepository.getUserProfile(user.getPhone())).thenReturn(user);
 
         //when
         BigDecimal result = bmrCalculatorService.calculateActivityExcludedBMR(user.getPhone());
@@ -85,7 +86,7 @@ class BmrCalculatorServiceTest {
                 .withWeight(BigDecimal.valueOf(69))
                 .withSex("FEMALE");
 
-        when(userProfileService.getUserProfile(user.getPhone())).thenReturn(user);
+        when(userProfileRepository.getUserProfile(user.getPhone())).thenReturn(user);
 
         //when
         BigDecimal result = bmrCalculatorService.calculateActivityExcludedBMR(user.getPhone());
@@ -106,7 +107,7 @@ class BmrCalculatorServiceTest {
                 .withWeight(BigDecimal.valueOf(69))
                 .withSex("FEMALE");
 
-        when(userProfileService.getUserProfile(user.getPhone())).thenReturn(user);
+        when(userProfileRepository.getUserProfile(user.getPhone())).thenReturn(user);
 
         //when
         String result1 = bmrCalculatorService.calculateActivityIncludedBMR(user.getPhone(), ActivityLevel.SEDENTARY);

@@ -2,6 +2,7 @@ package com.appliaction.justAchieveVirtualAssistant.infrastructure.database.mapp
 
 import com.appliaction.justAchieveVirtualAssistant.domain.BodyMeasurements;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.entity.BodyMeasurementsEntity;
+import com.appliaction.justAchieveVirtualAssistant.util.DomainFixtures;
 import com.appliaction.justAchieveVirtualAssistant.util.EntityFixtures;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
@@ -13,12 +14,12 @@ class BodyMeasurementsEntityMapperTest {
     private final BodyMeasurementsEntityMapper bodyMeasurementsEntityMapper = Mappers.getMapper(BodyMeasurementsEntityMapper.class);
 
     @Test
-    void bodyMeasurementsEntityMapperWorksCorrectly() {
+    void bodyMeasurementsMapFromEntityMapperWorksCorrectly() {
         //given
         BodyMeasurementsEntity entity = EntityFixtures.someBodyMeasurementsEntity();
 
         //when
-        var domain = bodyMeasurementsEntityMapper.mapFromEntity(entity);
+        BodyMeasurements domain = bodyMeasurementsEntityMapper.mapFromEntity(entity);
 
         //then
         assertEquals(entity.getArm(), domain.getArm());
@@ -31,5 +32,26 @@ class BodyMeasurementsEntityMapperTest {
         assertEquals(entity.getCurrentWeight(), domain.getCurrentWeight());
         assertEquals(entity.getMeasurementNote(), domain.getMeasurementNote());
         assertEquals(entity.getBodyMeasurementId(), domain.getBodyMeasurementId());
+    }
+
+    @Test
+    void bodyMeasurementsMapToEntityMapperWorksCorrectly() {
+        //given
+        BodyMeasurements domain = DomainFixtures.someBodyMeasurements();
+
+        //when
+        BodyMeasurementsEntity entity = bodyMeasurementsEntityMapper.mapToEntity(domain);
+
+        //then
+        assertEquals(domain.getArm(), entity.getArm());
+        assertEquals(domain.getDate(), entity.getDate());
+        assertEquals(domain.getCalf(), entity.getCalf());
+        assertEquals(domain.getThigh(), entity.getThigh());
+        assertEquals(domain.getWaist(), entity.getWaist());
+        assertEquals(domain.getChest(), entity.getChest());
+        assertEquals(BodyMeasurementsEntity.class, entity.getClass());
+        assertEquals(domain.getCurrentWeight(), entity.getCurrentWeight());
+        assertEquals(domain.getMeasurementNote(), entity.getMeasurementNote());
+        assertEquals(domain.getBodyMeasurementId(), entity.getBodyMeasurementId());
     }
 }

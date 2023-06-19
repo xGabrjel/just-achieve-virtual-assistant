@@ -1,10 +1,11 @@
-package com.appliaction.justAchieveVirtualAssistant.business;
+package com.appliaction.justAchieveVirtualAssistant.infrastructure.database;
 
 import com.appliaction.justAchieveVirtualAssistant.domain.UserProfile;
 import com.appliaction.justAchieveVirtualAssistant.domain.exception.NotFoundException;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.entity.UserProfileEntity;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.mapper.UserProfileEntityMapper;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.repository.UserProfileRepository;
+import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.repository.jpa.UserProfileJpaRepository;
 import com.appliaction.justAchieveVirtualAssistant.util.DomainFixtures;
 import com.appliaction.justAchieveVirtualAssistant.util.EntityFixtures;
 import org.junit.jupiter.api.Test;
@@ -21,13 +22,13 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class UserProfileServiceTest {
+class UserProfileJpaRepositoryTest {
 
     @InjectMocks
-    private UserProfileService userProfileService;
+    private UserProfileRepository userProfileRepository;
 
     @Mock
-    private UserProfileRepository userProfileRepository;
+    private UserProfileJpaRepository userProfileJpaRepository;
 
     @Mock
     private UserProfileEntityMapper userProfileEntityMapper;
@@ -38,15 +39,15 @@ class UserProfileServiceTest {
         UserProfileEntity userProfileEntity = EntityFixtures.someUserProfileEntity();
         UserProfile userProfile = DomainFixtures.someUserProfile();
 
-        when(userProfileRepository.findByPhone(userProfileEntity.getPhone())).thenReturn(Set.of(userProfileEntity));
+        when(userProfileJpaRepository.findByPhone(userProfileEntity.getPhone())).thenReturn(Set.of(userProfileEntity));
         when(userProfileEntityMapper.mapFromEntity(userProfileEntity)).thenReturn(userProfile);
 
         //when
-        UserProfile result = userProfileService.getUserProfile(userProfileEntity.getPhone());
+        UserProfile result = userProfileRepository.getUserProfile(userProfileEntity.getPhone());
 
         //then
         assertNotNull(result);
-        verify(userProfileRepository, times(1)).findByPhone(userProfileEntity.getPhone());
+        verify(userProfileJpaRepository, times(1)).findByPhone(userProfileEntity.getPhone());
         verify(userProfileEntityMapper, times(1)).mapFromEntity(userProfileEntity);
     }
 
@@ -56,10 +57,10 @@ class UserProfileServiceTest {
         String phoneNumber = "+48 511 533 522";
 
         //when
-        when(userProfileRepository.findByPhone(phoneNumber)).thenReturn(Collections.emptySet());
+        when(userProfileJpaRepository.findByPhone(phoneNumber)).thenReturn(Collections.emptySet());
 
         //then
-        assertThrows(NotFoundException.class, () -> userProfileService.getUserProfile(phoneNumber));
-        verify(userProfileRepository, times(1)).findByPhone(phoneNumber);
+        assertThrows(NotFoundException.class, () -> userProfileRepository.getUserProfile(phoneNumber));
+        verify(userProfileJpaRepository, times(1)).findByPhone(phoneNumber);
     }
 }

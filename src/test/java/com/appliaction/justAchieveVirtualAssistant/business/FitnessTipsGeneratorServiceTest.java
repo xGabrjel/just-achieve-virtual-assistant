@@ -6,7 +6,8 @@ import com.appliaction.justAchieveVirtualAssistant.domain.UserProfile;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.entity.DietGoalsEntity;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.entity.FitnessTipsEntity;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.mapper.FitnessTipsEntityMapper;
-import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.repository.FitnessTipsRepository;
+import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.repository.UserProfileRepository;
+import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.repository.jpa.FitnessTipsJpaRepository;
 import com.appliaction.justAchieveVirtualAssistant.util.DomainFixtures;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,13 +28,13 @@ class FitnessTipsGeneratorServiceTest {
     private FitnessTipsGeneratorService fitnessTipsGeneratorService;
 
     @Mock
-    private FitnessTipsRepository fitnessTipsRepository;
+    private FitnessTipsJpaRepository fitnessTipsJpaRepository;
 
     @Mock
     private FitnessTipsEntityMapper fitnessTipsEntityMapper;
 
     @Mock
-    private UserProfileService userProfileService;
+    private UserProfileRepository userProfileRepository;
 
     @Test
     void getRandomTipForDietGoalWorksCorrectly() {
@@ -42,8 +43,8 @@ class FitnessTipsGeneratorServiceTest {
         List<FitnessTipsEntity> fitnessTipsEntities = new ArrayList<>();
         fitnessTipsEntities.add(new FitnessTipsEntity(1, DietGoalsEntity.builder().dietGoalId(1).dietGoal("MUSCLE BUILDING").build(), "Tip 1"));
 
-        when(userProfileService.getUserProfile(user.getPhone())).thenReturn(user);
-        when(fitnessTipsRepository.findByDietGoalDietGoalId(user.getDietGoal().getDietGoalId())).thenReturn(fitnessTipsEntities);
+        when(userProfileRepository.getUserProfile(user.getPhone())).thenReturn(user);
+        when(fitnessTipsJpaRepository.findByDietGoalDietGoalId(user.getDietGoal().getDietGoalId())).thenReturn(fitnessTipsEntities);
         when(fitnessTipsEntityMapper.mapFromEntity(any(FitnessTipsEntity.class))).thenReturn(new FitnessTips(1, DietGoals.builder().dietGoalId(1).dietGoal("MUSCLE BUILDING").build(), "Tip 1"));
 
         //when
@@ -54,8 +55,8 @@ class FitnessTipsGeneratorServiceTest {
         assertFalse(result.isEmpty());
         assertTrue(fitnessTipsEntities.stream().anyMatch(entity -> entity.getTip().equals(result)));
 
-        verify(userProfileService).getUserProfile(user.getPhone());
-        verify(fitnessTipsRepository).findByDietGoalDietGoalId(user.getDietGoal().getDietGoalId());
+        verify(userProfileRepository).getUserProfile(user.getPhone());
+        verify(fitnessTipsJpaRepository).findByDietGoalDietGoalId(user.getDietGoal().getDietGoalId());
         verify(fitnessTipsEntityMapper, times(fitnessTipsEntities.size())).mapFromEntity(any(FitnessTipsEntity.class));
     }
 
@@ -66,8 +67,8 @@ class FitnessTipsGeneratorServiceTest {
         List<FitnessTipsEntity> fitnessTipsEntities = new ArrayList<>();
         String noTipsCommunication = "Sorry, no tips available for the selected goal";
 
-        when(userProfileService.getUserProfile(user.getPhone())).thenReturn(user);
-        when(fitnessTipsRepository.findByDietGoalDietGoalId(user.getDietGoal().getDietGoalId())).thenReturn(fitnessTipsEntities);
+        when(userProfileRepository.getUserProfile(user.getPhone())).thenReturn(user);
+        when(fitnessTipsJpaRepository.findByDietGoalDietGoalId(user.getDietGoal().getDietGoalId())).thenReturn(fitnessTipsEntities);
 
         //when
         String result = fitnessTipsGeneratorService.getRandomTipForDietGoal(user.getPhone());
@@ -75,8 +76,8 @@ class FitnessTipsGeneratorServiceTest {
         //then
         assertEquals(noTipsCommunication, result);
 
-        verify(userProfileService).getUserProfile(user.getPhone());
-        verify(fitnessTipsRepository).findByDietGoalDietGoalId(user.getDietGoal().getDietGoalId());
+        verify(userProfileRepository).getUserProfile(user.getPhone());
+        verify(fitnessTipsJpaRepository).findByDietGoalDietGoalId(user.getDietGoal().getDietGoalId());
         verify(fitnessTipsEntityMapper, never()).mapFromEntity(any(FitnessTipsEntity.class));
     }
 }

@@ -1,6 +1,7 @@
 package com.appliaction.justAchieveVirtualAssistant.business;
 
 import com.appliaction.justAchieveVirtualAssistant.business.support.ActivityLevel;
+import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.repository.UserProfileRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -13,7 +14,7 @@ import java.math.RoundingMode;
 @AllArgsConstructor
 public class BmrCalculatorService {
 
-    private final UserProfileService userProfileService;
+    private final UserProfileRepository userProfileRepository;
 
     public String calculateActivityIncludedBMR(String phoneNumber, ActivityLevel activityLevel) {
         switch (activityLevel) {
@@ -68,10 +69,10 @@ public class BmrCalculatorService {
     }
 
     public BigDecimal calculateActivityExcludedBMR(String phoneNumber) {
-        BigDecimal weight = userProfileService.getUserProfile(phoneNumber).getWeight();
-        BigDecimal height = userProfileService.getUserProfile(phoneNumber).getHeight();
-        Integer age = userProfileService.getUserProfile(phoneNumber).getAge();
-        String sex = userProfileService.getUserProfile(phoneNumber).getSex();
+        BigDecimal weight = userProfileRepository.getUserProfile(phoneNumber).getWeight();
+        BigDecimal height = userProfileRepository.getUserProfile(phoneNumber).getHeight();
+        Integer age = userProfileRepository.getUserProfile(phoneNumber).getAge();
+        String sex = userProfileRepository.getUserProfile(phoneNumber).getSex();
 
         if (sex.equalsIgnoreCase("MALE")) {
             return calculateByRevisedHarrisBenedictFormulaForMale(weight, height, age);

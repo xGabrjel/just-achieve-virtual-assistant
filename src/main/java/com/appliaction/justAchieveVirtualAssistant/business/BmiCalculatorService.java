@@ -1,5 +1,6 @@
 package com.appliaction.justAchieveVirtualAssistant.business;
 
+import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.repository.UserProfileRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -12,7 +13,7 @@ import java.math.RoundingMode;
 @AllArgsConstructor
 public class BmiCalculatorService {
 
-    private final UserProfileService userProfileService;
+    private final UserProfileRepository userProfileRepository;
 
     public String interpretBMI(String phoneNumber) {
         BigDecimal bmiResult = calculateBMI(phoneNumber);
@@ -38,10 +39,10 @@ public class BmiCalculatorService {
     }
 
     public BigDecimal calculateBMI(String phoneNumber) {
-        BigDecimal height = userProfileService.getUserProfile(phoneNumber).getHeight();
-        BigDecimal weight = userProfileService.getUserProfile(phoneNumber).getWeight();
+        BigDecimal height = userProfileRepository.getUserProfile(phoneNumber).getHeight();
+        BigDecimal weight = userProfileRepository.getUserProfile(phoneNumber).getWeight();
 
-        log.info("User profile: [%s] - User height is: [%s], Weight is: [%s]".formatted(userProfileService
+        log.info("User profile: [%s] - User height is: [%s], Weight is: [%s]".formatted(userProfileRepository
                 .getUserProfile(phoneNumber), height, weight));
 
         return weight.divide((height.multiply(height)), RoundingMode.HALF_UP);

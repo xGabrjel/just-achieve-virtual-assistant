@@ -2,7 +2,8 @@ package com.appliaction.justAchieveVirtualAssistant.business;
 
 import com.appliaction.justAchieveVirtualAssistant.domain.FitnessTips;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.mapper.FitnessTipsEntityMapper;
-import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.repository.FitnessTipsRepository;
+import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.repository.UserProfileRepository;
+import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.repository.jpa.FitnessTipsJpaRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -15,13 +16,13 @@ import java.util.Random;
 @AllArgsConstructor
 public class FitnessTipsGeneratorService {
 
-    private final FitnessTipsRepository fitnessTipsRepository;
+    private final FitnessTipsJpaRepository fitnessTipsJpaRepository;
     private final FitnessTipsEntityMapper fitnessTipsEntityMapper;
-    private final UserProfileService userProfileService;
+    private final UserProfileRepository userProfileRepository;
 
     public String getRandomTipForDietGoal(String phoneNumber) {
 
-        List<FitnessTips> tips = fitnessTipsRepository.findByDietGoalDietGoalId(userProfileService.getUserProfile(phoneNumber).getDietGoal().getDietGoalId())
+        List<FitnessTips> tips = fitnessTipsJpaRepository.findByDietGoalDietGoalId(userProfileRepository.getUserProfile(phoneNumber).getDietGoal().getDietGoalId())
                 .stream()
                 .map(fitnessTipsEntityMapper::mapFromEntity)
                 .toList();

@@ -52,6 +52,7 @@ public class EntityFixtures {
     public static BodyMeasurementsEntity someBodyMeasurementsEntity() {
         return BodyMeasurementsEntity.builder()
                 .bodyMeasurementId(1)
+                .user(someUserEntity())
                 .date(OffsetDateTime.now())
                 .currentWeight(new BigDecimal("100.3"))
                 .calf(new BigDecimal("40.3"))

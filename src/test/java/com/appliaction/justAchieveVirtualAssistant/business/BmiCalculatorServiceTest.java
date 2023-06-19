@@ -1,6 +1,7 @@
 package com.appliaction.justAchieveVirtualAssistant.business;
 
 import com.appliaction.justAchieveVirtualAssistant.domain.UserProfile;
+import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.repository.UserProfileRepository;
 import com.appliaction.justAchieveVirtualAssistant.util.DomainFixtures;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,7 +22,7 @@ class BmiCalculatorServiceTest {
     private BmiCalculatorService bmiCalculatorService;
 
     @Mock
-    private UserProfileService userProfileService;
+    private UserProfileRepository userProfileRepository;
 
 
     @Test
@@ -32,7 +33,7 @@ class BmiCalculatorServiceTest {
                 .withPhone("+48 511 522 162")
                 .withWeight(BigDecimal.valueOf(60));
 
-        when(userProfileService.getUserProfile(userProfile.getPhone())).thenReturn(userProfile);
+        when(userProfileRepository.getUserProfile(userProfile.getPhone())).thenReturn(userProfile);
 
         //when
         BigDecimal result = bmiCalculatorService.calculateBMI(userProfile.getPhone());
@@ -50,7 +51,7 @@ class BmiCalculatorServiceTest {
                 .withPhone("+48 511 522 162")
                 .withWeight(BigDecimal.valueOf(60));
 
-        when(userProfileService.getUserProfile(underweightUser.getPhone())).thenReturn(underweightUser);
+        when(userProfileRepository.getUserProfile(underweightUser.getPhone())).thenReturn(underweightUser);
 
         //when
         String underweightResult = bmiCalculatorService.interpretBMI(underweightUser.getPhone());
@@ -68,7 +69,7 @@ class BmiCalculatorServiceTest {
                 .withPhone("+48 512 522 162")
                 .withWeight(BigDecimal.valueOf(80));
 
-        when(userProfileService.getUserProfile(healthyUser.getPhone())).thenReturn(healthyUser);
+        when(userProfileRepository.getUserProfile(healthyUser.getPhone())).thenReturn(healthyUser);
 
         //when
         String healthyResult = bmiCalculatorService.interpretBMI(healthyUser.getPhone());
@@ -86,7 +87,7 @@ class BmiCalculatorServiceTest {
                 .withPhone("+48 513 522 162")
                 .withWeight(BigDecimal.valueOf(90));
 
-        when(userProfileService.getUserProfile(overweightUser.getPhone())).thenReturn(overweightUser);
+        when(userProfileRepository.getUserProfile(overweightUser.getPhone())).thenReturn(overweightUser);
 
         //when
         String overweightResult = bmiCalculatorService.interpretBMI(overweightUser.getPhone());
@@ -104,7 +105,7 @@ class BmiCalculatorServiceTest {
                 .withPhone("+48 511 524 162")
                 .withWeight(BigDecimal.valueOf(120));
 
-        when(userProfileService.getUserProfile(obeseUser.getPhone())).thenReturn(obeseUser);
+        when(userProfileRepository.getUserProfile(obeseUser.getPhone())).thenReturn(obeseUser);
 
         //when
         String obeseResult = bmiCalculatorService.interpretBMI(obeseUser.getPhone());

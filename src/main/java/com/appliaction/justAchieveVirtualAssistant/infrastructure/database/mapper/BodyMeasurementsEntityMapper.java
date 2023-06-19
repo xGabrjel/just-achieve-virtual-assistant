@@ -8,4 +8,6 @@ import org.mapstruct.ReportingPolicy;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface BodyMeasurementsEntityMapper {
     BodyMeasurements mapFromEntity(BodyMeasurementsEntity entity);
+
+    BodyMeasurementsEntity mapToEntity(BodyMeasurements domain);
 }
