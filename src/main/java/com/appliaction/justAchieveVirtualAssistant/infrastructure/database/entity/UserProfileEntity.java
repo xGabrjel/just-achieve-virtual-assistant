@@ -25,7 +25,7 @@ public class UserProfileEntity {
     private Integer profileId;
 
     @JoinColumn(name = "user_id", nullable = false)
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER)
     private UserEntity user;
 
     @Column(name = "name", nullable = false)

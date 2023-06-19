@@ -29,6 +29,8 @@ public class EntityFixtures {
     public static UserEntity someUserEntity() {
         return UserEntity.builder()
                 .userId(1)
+                .username("test1")
+                .password("test1")
                 .email("test@test.pl")
                 .active(true)
                 .build();
@@ -52,7 +54,7 @@ public class EntityFixtures {
     public static BodyMeasurementsEntity someBodyMeasurementsEntity() {
         return BodyMeasurementsEntity.builder()
                 .bodyMeasurementId(1)
-                .user(someUserEntity())
+                .profileId(someUserProfileEntity())
                 .date(OffsetDateTime.now())
                 .currentWeight(new BigDecimal("100.3"))
                 .calf(new BigDecimal("40.3"))

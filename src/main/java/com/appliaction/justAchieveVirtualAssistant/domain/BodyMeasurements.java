@@ -13,7 +13,7 @@ import java.time.OffsetDateTime;
 public class BodyMeasurements {
 
     Integer bodyMeasurementId;
-    User user;
+    UserProfile profileId;
     OffsetDateTime date;
     BigDecimal currentWeight;
     BigDecimal calf;

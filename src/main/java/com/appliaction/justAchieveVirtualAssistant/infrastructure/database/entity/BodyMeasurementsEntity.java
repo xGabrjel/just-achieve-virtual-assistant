@@ -1,6 +1,5 @@
 package com.appliaction.justAchieveVirtualAssistant.infrastructure.database.entity;
 
-import com.appliaction.justAchieveVirtualAssistant.security.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,9 +22,9 @@ public class BodyMeasurementsEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer bodyMeasurementId;
 
-    @JoinColumn(name = "user_id", nullable = false)
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private UserEntity user;
+    @JoinColumn(name = "profile_id", nullable = false)
+    @OneToOne(fetch = FetchType.EAGER)
+    private UserProfileEntity profileId;
 
     @Column(name = "date", nullable = false)
     private OffsetDateTime date;
