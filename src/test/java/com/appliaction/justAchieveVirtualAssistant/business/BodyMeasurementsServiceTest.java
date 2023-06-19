@@ -55,7 +55,7 @@ class BodyMeasurementsServiceTest extends AbstractIT {
         UserProfile userProfile = DomainFixtures.someUserProfile();
 
         //when
-        bodyMeasurementsRepository.updateUserProfileWeight(bodyMeasurements, userProfile);
+        bodyMeasurementsRepository.updateUserProfileWeight(bodyMeasurements);
         UserProfileEntity updatedUserProfileEntity = userProfileJpaRepository.findById(userProfile.getProfileId()).orElse(null);
 
         //then

@@ -31,15 +31,17 @@ public class BodyMeasurementsRepository {
         log.info("BodyMeasurements to save: [%s]".formatted(bodyMeasurements));
 
         BodyMeasurementsEntity toSave = bodyMeasurementsEntityMapper.mapToEntity(bodyMeasurements);
+
         bodyMeasurementsJpaRepository.save(toSave);
+        updateUserProfileWeight(bodyMeasurements);
     }
 
     @Transactional
-    public void updateUserProfileWeight(BodyMeasurements bodyMeasurements, UserProfile userProfile) {
-        userProfileJpaRepository.updateWeightByProfileId(userProfile.getProfileId(), bodyMeasurements.getCurrentWeight());
+    public void updateUserProfileWeight(BodyMeasurements bodyMeasurements) {
+        userProfileJpaRepository.updateWeightByProfileId(bodyMeasurements.getProfileId().getProfileId(), bodyMeasurements.getCurrentWeight());
 
         log.info("UserProfile current weight: [%s] was updated with new weight: [%s]"
-                .formatted(userProfile.getWeight(), bodyMeasurements.getCurrentWeight()));
+                .formatted(bodyMeasurements.getProfileId().getWeight(), bodyMeasurements.getCurrentWeight()));
     }
 
     public List<BodyMeasurementsEntity> findByDateAndProfileId(OffsetDateTime offsetDateTime, UserProfile userProfile) {
