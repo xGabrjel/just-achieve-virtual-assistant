@@ -110,22 +110,22 @@ class BmrCalculatorServiceTest {
         when(userProfileRepository.getUserProfile(user.getPhone())).thenReturn(user);
 
         //when
-        String result1 = bmrCalculatorService.calculateActivityIncludedBMR(user.getPhone(), ActivityLevel.SEDENTARY);
-        String result2 = bmrCalculatorService.calculateActivityIncludedBMR(user.getPhone(), ActivityLevel.LIGHTLY_ACTIVE);
-        String result3 = bmrCalculatorService.calculateActivityIncludedBMR(user.getPhone(), ActivityLevel.MODERATELY_ACTIVE);
-        String result4 = bmrCalculatorService.calculateActivityIncludedBMR(user.getPhone(), ActivityLevel.ACTIVE);
-        String result5 = bmrCalculatorService.calculateActivityIncludedBMR(user.getPhone(), ActivityLevel.VERY_ACTIVE);
+        BigDecimal result1 = bmrCalculatorService.calculateActivityIncludedBMR(user.getPhone(), ActivityLevel.SEDENTARY);
+        BigDecimal result2 = bmrCalculatorService.calculateActivityIncludedBMR(user.getPhone(), ActivityLevel.LIGHTLY_ACTIVE);
+        BigDecimal result3 = bmrCalculatorService.calculateActivityIncludedBMR(user.getPhone(), ActivityLevel.MODERATELY_ACTIVE);
+        BigDecimal result4 = bmrCalculatorService.calculateActivityIncludedBMR(user.getPhone(), ActivityLevel.ACTIVE);
+        BigDecimal result5 = bmrCalculatorService.calculateActivityIncludedBMR(user.getPhone(), ActivityLevel.VERY_ACTIVE);
 
         //then
         assertNotNull(result1);
-        assertEquals("Your BMR including activity level is equal to: [1751.90] kcal", result1);
+        assertEquals(new BigDecimal("1751.90"), result1);
         assertNotNull(result2);
-        assertEquals("Your BMR including activity level is equal to: [2007.39] kcal", result2);
+        assertEquals(new BigDecimal("2007.39"), result2);
         assertNotNull(result3);
-        assertEquals("Your BMR including activity level is equal to: [2262.88] kcal", result3);
+        assertEquals(new BigDecimal("2262.88"), result3);
         assertNotNull(result4);
-        assertEquals("Your BMR including activity level is equal to: [2518.36] kcal", result4);
+        assertEquals(new BigDecimal("2518.36"), result4);
         assertNotNull(result5);
-        assertEquals("Your BMR including activity level is equal to: [2773.85] kcal", result5);
+        assertEquals(new BigDecimal("2773.85"), result5);
     }
 }

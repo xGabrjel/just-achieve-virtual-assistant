@@ -29,7 +29,6 @@ public class BodyMeasurementsRepository {
     @Transactional
     public void saveBodyMeasurements(BodyMeasurements bodyMeasurements) {
         log.info("BodyMeasurements to save: [%s]".formatted(bodyMeasurements));
-
         BodyMeasurementsEntity toSave = bodyMeasurementsEntityMapper.mapToEntity(bodyMeasurements);
 
         bodyMeasurementsJpaRepository.save(toSave);

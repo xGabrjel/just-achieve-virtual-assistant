@@ -16,56 +16,14 @@ public class BmrCalculatorService {
 
     private final UserProfileRepository userProfileRepository;
 
-    public String calculateActivityIncludedBMR(String phoneNumber, ActivityLevel activityLevel) {
-        switch (activityLevel) {
-            case SEDENTARY -> {
-                BigDecimal result1 = calculateActivityExcludedBMR(phoneNumber)
-                        .multiply(ActivityLevel.SEDENTARY.getArmMultiplier())
-                        .setScale(2, RoundingMode.HALF_UP);
+    public BigDecimal calculateActivityIncludedBMR(String phoneNumber, ActivityLevel activityLevel) {
+        BigDecimal bmr = calculateActivityExcludedBMR(phoneNumber);
+        BigDecimal armMultiplier = activityLevel.getArmMultiplier();
 
-                log.info("BMR including activity level is equal to: [%s] kcal".formatted(result1));
-                return "Your BMR including activity level is equal to: [%s] kcal".formatted(result1);
+        BigDecimal result = bmr.multiply(armMultiplier).setScale(2, RoundingMode.HALF_UP);
 
-            }
-            case LIGHTLY_ACTIVE -> {
-                BigDecimal result2 = calculateActivityExcludedBMR(phoneNumber)
-                        .multiply(ActivityLevel.LIGHTLY_ACTIVE.getArmMultiplier())
-                        .setScale(2, RoundingMode.HALF_UP);
-
-                log.info("BMR including activity level is equal to: [%s] kcal".formatted(result2));
-                return "Your BMR including activity level is equal to: [%s] kcal".formatted(result2);
-            }
-            case MODERATELY_ACTIVE -> {
-                BigDecimal result3 = calculateActivityExcludedBMR(phoneNumber)
-                        .multiply(ActivityLevel.MODERATELY_ACTIVE.getArmMultiplier())
-                        .setScale(2, RoundingMode.HALF_UP);
-
-                log.info("BMR including activity level is equal to: [%s] kcal".formatted(result3));
-                return "Your BMR including activity level is equal to: [%s] kcal".formatted(result3);
-            }
-            case ACTIVE -> {
-                BigDecimal result4 = calculateActivityExcludedBMR(phoneNumber)
-                        .multiply(ActivityLevel.ACTIVE.getArmMultiplier())
-                        .setScale(2, RoundingMode.HALF_UP);
-
-                log.info("BMR including activity level is equal to: [%s] kcal".formatted(result4));
-                return "Your BMR including activity level is equal to: [%s] kcal".formatted(result4);
-            }
-            case VERY_ACTIVE -> {
-                BigDecimal result5 = calculateActivityExcludedBMR(phoneNumber)
-                        .multiply(ActivityLevel.VERY_ACTIVE.getArmMultiplier())
-                        .setScale(2, RoundingMode.HALF_UP);
-
-                log.info("BMR including activity level is equal to: [%s] kcal".formatted(result5));
-                return "Your BMR including activity level is equal to: [%s] kcal".formatted(result5);
-            }
-            default -> {
-                BigDecimal defaultResult = calculateActivityExcludedBMR(phoneNumber);
-
-                log.error("Application did not take into account the level of activity");
-                return "Application did not take into account the level of activity, default BMR excluding activity: [%s] kcal".formatted(defaultResult);
-            }
-        }
+        log.info("BMR including activity level is equal to: [%s] kcal".formatted(result));
+        return result;
     }
 
     public BigDecimal calculateActivityExcludedBMR(String phoneNumber) {
