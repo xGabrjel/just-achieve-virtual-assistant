@@ -23,10 +23,10 @@ public class MacronutrientsCalculatorService {
                 .divide(BigDecimal.valueOf(4.0),
                         RoundingMode.HALF_UP);
         BigDecimal carbs = (bmr.multiply(BigDecimal.valueOf(0.5)))
-                .divide(BigDecimal.valueOf(9.0),
+                .divide(BigDecimal.valueOf(4.0),
                         RoundingMode.HALF_UP);
         BigDecimal fat = (bmr.multiply(BigDecimal.valueOf(0.3)))
-                .divide(BigDecimal.valueOf(4.0),
+                .divide(BigDecimal.valueOf(9.0),
                         RoundingMode.HALF_UP);
 
         log.info("Default macronutrients values for BMR [%s] kcal: Protein - [%s], Carbohydrates - [%s], Fat - [%s]"
