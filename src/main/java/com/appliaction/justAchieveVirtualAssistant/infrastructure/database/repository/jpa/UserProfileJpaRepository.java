@@ -8,11 +8,11 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.util.Set;
+import java.util.Optional;
 
 @Repository
 public interface UserProfileJpaRepository extends JpaRepository<UserProfileEntity, Integer> {
-    Set<UserProfileEntity> findByPhone(String phoneNumber);
+    Optional<UserProfileEntity> findByPhone(String phoneNumber);
 
     @Transactional
     @Modifying

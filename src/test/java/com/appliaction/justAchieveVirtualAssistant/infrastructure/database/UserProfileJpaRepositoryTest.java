@@ -14,8 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Collections;
-import java.util.Set;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -39,7 +38,7 @@ class UserProfileJpaRepositoryTest {
         UserProfileEntity userProfileEntity = EntityFixtures.someUserProfileEntity();
         UserProfile userProfile = DomainFixtures.someUserProfile();
 
-        when(userProfileJpaRepository.findByPhone(userProfileEntity.getPhone())).thenReturn(Set.of(userProfileEntity));
+        when(userProfileJpaRepository.findByPhone(userProfileEntity.getPhone())).thenReturn(Optional.of(userProfileEntity));
         when(userProfileEntityMapper.mapFromEntity(userProfileEntity)).thenReturn(userProfile);
 
         //when
@@ -57,7 +56,7 @@ class UserProfileJpaRepositoryTest {
         String phoneNumber = "+48 511 533 522";
 
         //when
-        when(userProfileJpaRepository.findByPhone(phoneNumber)).thenReturn(Collections.emptySet());
+        when(userProfileJpaRepository.findByPhone(phoneNumber)).thenReturn(Optional.empty());
 
         //then
         assertThrows(NotFoundException.class, () -> userProfileRepository.getUserProfile(phoneNumber));

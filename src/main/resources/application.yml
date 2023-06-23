@@ -1,7 +1,7 @@
 server:
   port: 2504
   servlet:
-    context-path: /car-dealership
+    context-path: /justAchieveVirtualAssistant
 
 spring:
   datasource:
