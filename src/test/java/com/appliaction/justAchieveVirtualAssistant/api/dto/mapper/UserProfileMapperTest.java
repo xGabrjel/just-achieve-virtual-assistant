@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 class UserProfileMapperTest {
 
@@ -19,15 +20,17 @@ class UserProfileMapperTest {
 
         //when
         UserProfileDTO dto = userProfileMapper.map(domain);
+        UserProfileDTO nullMapping = userProfileMapper.map(null);
 
         //then
+        assertNull(nullMapping);
         assertEquals(domain.getAge(), dto.getAge());
         assertEquals(domain.getSex(), dto.getSex());
         assertEquals(domain.getName(), dto.getName());
-        assertEquals(UserProfileDTO.class, dto.getClass());
         assertEquals(domain.getPhone(), dto.getPhone());
         assertEquals(domain.getWeight(), dto.getWeight());
         assertEquals(domain.getHeight(), dto.getHeight());
+        assertEquals(UserProfileDTO.class, dto.getClass());
         assertEquals(domain.getSurname(), dto.getSurname());
     }
 }

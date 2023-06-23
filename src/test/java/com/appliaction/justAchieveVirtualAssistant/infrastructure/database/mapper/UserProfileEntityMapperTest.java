@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 class UserProfileEntityMapperTest {
 
@@ -20,8 +21,10 @@ class UserProfileEntityMapperTest {
 
         //when
         UserProfile domain = userProfileEntityMapper.mapFromEntity(entity);
+        UserProfile nullMapping = userProfileEntityMapper.mapFromEntity(null);
 
         //then
+        assertNull(nullMapping);
         assertEquals(entity.getAge(), domain.getAge());
         assertEquals(entity.getSex(), domain.getSex());
         assertEquals(entity.getName(), domain.getName());
@@ -40,16 +43,18 @@ class UserProfileEntityMapperTest {
 
         //when
         UserProfileEntity entity = userProfileEntityMapper.mapToEntity(domain);
+        UserProfileEntity nullMapping = userProfileEntityMapper.mapToEntity(null);
 
         //then
+        assertNull(nullMapping);
         assertEquals(domain.getAge(), entity.getAge());
         assertEquals(domain.getSex(), entity.getSex());
         assertEquals(domain.getName(), entity.getName());
-        assertEquals(UserProfileEntity.class, entity.getClass());
         assertEquals(domain.getPhone(), entity.getPhone());
         assertEquals(domain.getWeight(), entity.getWeight());
         assertEquals(domain.getHeight(), entity.getHeight());
         assertEquals(domain.getSurname(), entity.getSurname());
+        assertEquals(UserProfileEntity.class, entity.getClass());
         assertEquals(domain.getProfileId(), entity.getProfileId());
     }
 }

@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 class FitnessTipsMapperTest {
 
@@ -19,8 +20,10 @@ class FitnessTipsMapperTest {
 
         //when
         FitnessTipsDTO dto = fitnessTipsMapper.map(domain);
+        FitnessTipsDTO nullMapping = fitnessTipsMapper.map(null);
 
         //then
+        assertNull(nullMapping);
         assertEquals(FitnessTipsDTO.class, dto.getClass());
         assertEquals(domain.getTip(), dto.getTip());
     }

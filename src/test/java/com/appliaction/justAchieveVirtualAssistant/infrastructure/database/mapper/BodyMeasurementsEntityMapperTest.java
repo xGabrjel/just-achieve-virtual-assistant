@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 class BodyMeasurementsEntityMapperTest {
 
@@ -20,8 +21,10 @@ class BodyMeasurementsEntityMapperTest {
 
         //when
         BodyMeasurements domain = bodyMeasurementsEntityMapper.mapFromEntity(entity);
+        BodyMeasurements nullMapping = bodyMeasurementsEntityMapper.mapFromEntity(null);
 
         //then
+        assertNull(nullMapping);
         assertEquals(entity.getArm(), domain.getArm());
         assertEquals(entity.getDate(), domain.getDate());
         assertEquals(entity.getCalf(), domain.getCalf());
@@ -41,8 +44,10 @@ class BodyMeasurementsEntityMapperTest {
 
         //when
         BodyMeasurementsEntity entity = bodyMeasurementsEntityMapper.mapToEntity(domain);
+        BodyMeasurementsEntity nullMapping = bodyMeasurementsEntityMapper.mapToEntity(null);
 
         //then
+        assertNull(nullMapping);
         assertEquals(domain.getArm(), entity.getArm());
         assertEquals(domain.getDate(), entity.getDate());
         assertEquals(domain.getCalf(), entity.getCalf());

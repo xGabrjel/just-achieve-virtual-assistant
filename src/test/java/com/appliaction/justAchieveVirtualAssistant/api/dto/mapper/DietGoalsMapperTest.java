@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 class DietGoalsMapperTest {
 
@@ -19,8 +20,10 @@ class DietGoalsMapperTest {
 
         //when
         DietGoalsDTO dto = dietGoalsMapper.map(domain);
+        DietGoalsDTO nullMapping = dietGoalsMapper.map(null);
 
         //then
+        assertNull(nullMapping);
         assertEquals(DietGoalsDTO.class, dto.getClass());
         assertEquals(domain.getDietGoal(), dto.getDietGoal());
     }

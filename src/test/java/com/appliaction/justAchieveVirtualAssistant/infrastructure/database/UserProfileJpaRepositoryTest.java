@@ -55,10 +55,9 @@ class UserProfileJpaRepositoryTest {
         //given
         String phoneNumber = "+48 511 533 522";
 
-        //when
         when(userProfileJpaRepository.findByPhone(phoneNumber)).thenReturn(Optional.empty());
 
-        //then
+        //when, then
         assertThrows(NotFoundException.class, () -> userProfileRepository.getUserProfile(phoneNumber));
         verify(userProfileJpaRepository, times(1)).findByPhone(phoneNumber);
     }

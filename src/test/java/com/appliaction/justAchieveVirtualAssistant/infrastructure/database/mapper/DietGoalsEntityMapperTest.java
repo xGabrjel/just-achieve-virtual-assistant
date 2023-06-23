@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 class DietGoalsEntityMapperTest {
 
@@ -19,10 +20,12 @@ class DietGoalsEntityMapperTest {
 
         //when
         DietGoals domain = dietGoalsEntityMapper.mapFromEntity(entity);
+        DietGoals nullMapping = dietGoalsEntityMapper.mapFromEntity(null);
 
         //then
+        assertNull(nullMapping);
         assertEquals(DietGoals.class, domain.getClass());
-        assertEquals(entity.getDietGoalId(), domain.getDietGoalId());
         assertEquals(entity.getDietGoal(), domain.getDietGoal());
+        assertEquals(entity.getDietGoalId(), domain.getDietGoalId());
     }
 }

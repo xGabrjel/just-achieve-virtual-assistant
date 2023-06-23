@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 class UserEntityMapperTest {
 
@@ -19,8 +20,10 @@ class UserEntityMapperTest {
 
         //when
         User domain = userEntityMapper.mapFromEntity(entity);
+        User nullMapping = userEntityMapper.mapFromEntity(null);
 
         //then
+        assertNull(nullMapping);
         assertEquals(User.class, domain.getClass());
         assertEquals(entity.getEmail(), domain.getEmail());
         assertEquals(entity.getUserId(), domain.getUserId());
