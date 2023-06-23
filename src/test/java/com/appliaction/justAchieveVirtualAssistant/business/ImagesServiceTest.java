@@ -1,8 +1,10 @@
 package com.appliaction.justAchieveVirtualAssistant.business;
 
 import com.appliaction.justAchieveVirtualAssistant.business.support.ImagesUtils;
+import com.appliaction.justAchieveVirtualAssistant.domain.Images;
 import com.appliaction.justAchieveVirtualAssistant.domain.exception.NotFoundException;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.entity.ImagesEntity;
+import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.repository.ImagesRepository;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.repository.jpa.ImagesJpaRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,7 +27,10 @@ class ImagesServiceTest {
     private ImagesService service;
 
     @Mock
-    private ImagesJpaRepository repository;
+    private ImagesJpaRepository jpaRepository;
+
+    @Mock
+    private ImagesRepository repository;
 
     @Test
     void uploadImageWorksCorrectly() throws IOException {
@@ -40,7 +45,7 @@ class ImagesServiceTest {
                 .imageData(ImagesUtils.compressImage(imageData))
                 .build();
 
-        when(repository.save(any(ImagesEntity.class))).thenReturn(savedEntity);
+        when(jpaRepository.save(any(ImagesEntity.class))).thenReturn(savedEntity);
 
         // when
         String result = service.uploadImage(file);
@@ -48,7 +53,7 @@ class ImagesServiceTest {
         // then
         assertNotNull(result);
         assertTrue(result.contains("File uploaded successfully"));
-        verify(repository, times(1)).save(any(ImagesEntity.class));
+        verify(jpaRepository, times(1)).save(any(ImagesEntity.class));
     }
 
     @Test
@@ -56,13 +61,13 @@ class ImagesServiceTest {
         // given
         String fileName = "test.jpg";
         byte[] imageData = "Test image data".getBytes();
-        ImagesEntity imageEntity = ImagesEntity.builder()
+        Images image = Images.builder()
                 .name(fileName)
                 .type("image/jpeg")
                 .imageData(ImagesUtils.compressImage(imageData))
                 .build();
 
-        when(repository.findByName(fileName)).thenReturn(Optional.of(imageEntity));
+        when(repository.getImage(fileName)).thenReturn(Optional.of(image));
 
         // when
         byte[] result = service.downloadImage(fileName);
@@ -70,7 +75,7 @@ class ImagesServiceTest {
         // then
         assertNotNull(result);
         assertArrayEquals(imageData, result);
-        verify(repository, times(1)).findByName(fileName);
+        verify(repository, times(1)).getImage(fileName);
     }
 
     @Test
@@ -78,10 +83,10 @@ class ImagesServiceTest {
         // given
         String fileName = "nonexistent.jpg";
 
-        when(repository.findByName(fileName)).thenReturn(Optional.empty());
+        when(repository.getImage(fileName)).thenReturn(Optional.empty());
 
         // when, then
         assertThrows(NotFoundException.class, () -> service.downloadImage(fileName));
-        verify(repository, times(1)).findByName(fileName);
+        verify(repository, times(1)).getImage(fileName);
     }
 }
