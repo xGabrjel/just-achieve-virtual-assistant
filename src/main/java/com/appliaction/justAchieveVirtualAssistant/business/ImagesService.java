@@ -18,20 +18,15 @@ public class ImagesService {
 
     private ImagesJpaRepository repository;
 
-    public String uploadImage(MultipartFile file) {
-        ImagesEntity imageData;
-        try {
-            imageData = repository.save(ImagesEntity.builder()
+    public String uploadImage(MultipartFile file) throws IOException {
+            repository.save(ImagesEntity.builder()
                     .name(file.getOriginalFilename())
                     .type(file.getContentType())
                     .imageData(ImagesUtils.compressImage(file.getBytes())).build()
             );
-        } catch (IOException e) {
-            throw new NotFoundException(String.valueOf(e));
+            return "File uploaded successfully: [%s]".formatted(file.getOriginalFilename());
         }
-        return imageData != null ? "File uploaded successfully: [%s]".formatted(file.getOriginalFilename()):
-                "File upload failed: [%s]".formatted(file.getOriginalFilename());
-    }
+
     public byte[] downloadImage(String fileName) {
         Optional<ImagesEntity> bdImageData = repository.findByName(fileName);
         return bdImageData
