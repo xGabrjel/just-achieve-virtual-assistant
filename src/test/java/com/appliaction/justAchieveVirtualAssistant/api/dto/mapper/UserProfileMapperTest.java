@@ -1,0 +1,33 @@
+package com.appliaction.justAchieveVirtualAssistant.api.dto.mapper;
+
+import com.appliaction.justAchieveVirtualAssistant.api.dto.UserProfileDTO;
+import com.appliaction.justAchieveVirtualAssistant.domain.UserProfile;
+import com.appliaction.justAchieveVirtualAssistant.util.DomainFixtures;
+import org.junit.jupiter.api.Test;
+import org.mapstruct.factory.Mappers;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+class UserProfileMapperTest {
+
+    private final UserProfileMapper userProfileMapper = Mappers.getMapper(UserProfileMapper.class);
+
+    @Test
+    void userProfileMapperWorksCorrectly() {
+        //given
+        UserProfile domain = DomainFixtures.someUserProfile();
+
+        //when
+        UserProfileDTO dto = userProfileMapper.map(domain);
+
+        //then
+        assertEquals(domain.getAge(), dto.getAge());
+        assertEquals(domain.getSex(), dto.getSex());
+        assertEquals(domain.getName(), dto.getName());
+        assertEquals(UserProfileDTO.class, dto.getClass());
+        assertEquals(domain.getPhone(), dto.getPhone());
+        assertEquals(domain.getWeight(), dto.getWeight());
+        assertEquals(domain.getHeight(), dto.getHeight());
+        assertEquals(domain.getSurname(), dto.getSurname());
+    }
+}

@@ -1,9 +1,6 @@
 package com.appliaction.justAchieveVirtualAssistant.util;
 
-import com.appliaction.justAchieveVirtualAssistant.domain.BodyMeasurements;
-import com.appliaction.justAchieveVirtualAssistant.domain.DietGoals;
-import com.appliaction.justAchieveVirtualAssistant.domain.User;
-import com.appliaction.justAchieveVirtualAssistant.domain.UserProfile;
+import com.appliaction.justAchieveVirtualAssistant.domain.*;
 import lombok.experimental.UtilityClass;
 
 import java.math.BigDecimal;
@@ -55,6 +52,13 @@ public class DomainFixtures {
                 .chest(new BigDecimal("118.2"))
                 .arm(new BigDecimal("44.5"))
                 .measurementNote("Random values for testing purpose")
+                .build();
+    }
+
+    public static FitnessTips someFitnessTips() {
+        return FitnessTips.builder()
+                .tipId(1)
+                .tip("Eat a lot of protein!")
                 .build();
     }
 }
