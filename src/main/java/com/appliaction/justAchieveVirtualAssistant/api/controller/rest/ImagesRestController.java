@@ -1,4 +1,4 @@
-package com.appliaction.justAchieveVirtualAssistant.api.rest;
+package com.appliaction.justAchieveVirtualAssistant.api.controller.rest;
 
 import com.appliaction.justAchieveVirtualAssistant.business.ImagesService;
 import lombok.AllArgsConstructor;

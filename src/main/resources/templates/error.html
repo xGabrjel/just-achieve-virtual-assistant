@@ -1,0 +1,95 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+          crossorigin="anonymous">
+    <title>Error Page!</title>
+    <style>
+
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            margin-top: 100px;
+            text-align: center;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            color: black;
+            font-size: 36px;
+        }
+
+        b {
+            font-size: 20px;
+        }
+
+        b span {
+            display: inline-block;
+            padding: 5px 10px;
+            color: #fff;
+            border-radius: 3px;
+        }
+
+        img {
+            margin-top: 30px;
+            max-width: 100%;
+            height: auto;
+        }
+
+        .btn-back {
+            margin-top: 30px;
+        }
+
+        .btn-back .btn {
+            animation: pulse 1s infinite;
+            background-color: #733d9e;
+            border-color: #733d9e;
+            color: #fff;
+        }
+
+        .btn-back .btn:hover {
+            background-color: purple;
+            border-color: purple;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .error-message {
+        color: black;
+        font-weight: bold;
+        font-size: 20px;
+    }
+
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Something went wrong!</h1>
+    <b>
+        <span th:if="${errorMessage}" th:text="${errorMessage}" class="error-message">Error</span>
+    </b>
+    <img th:src="@{/images/error_png.png}" alt="error_png"/>
+    <p class="btn-back">
+        <a href="/justAchieveVirtualAssistant" class="btn btn-info" role="button">Back to the main page</a>
+    </p>
+</div>
+</body>
+</html>
