@@ -59,16 +59,16 @@ class BmrCalculatorServiceTest {
     void activityExcludedBmrCalculatorWorksCorrectlyForMale() {
         //given
         UserProfile user = DomainFixtures.someUserProfile()
-                .withPhone("+48 567 778 990")
+                .withUser(DomainFixtures.someUser().withUsername("test1"))
                 .withAge(25)
                 .withHeight(BigDecimal.valueOf(1.80))
                 .withWeight(BigDecimal.valueOf(80))
                 .withSex("MALE");
 
-        when(userProfileRepository.getUserProfile(user.getPhone())).thenReturn(user);
+        when(userProfileRepository.findByUserUsername(user.getUser().getUsername())).thenReturn(user);
 
         //when
-        BigDecimal result = bmrCalculatorService.calculateActivityExcludedBMR(user.getPhone());
+        BigDecimal result = bmrCalculatorService.calculateActivityExcludedBMR(user.getUser().getUsername());
 
         //then
         assertNotNull(result);
@@ -80,16 +80,16 @@ class BmrCalculatorServiceTest {
     void activityExcludedBmrCalculatorWorksCorrectlyForFemale() {
         //given
         UserProfile user = DomainFixtures.someUserProfile()
-                .withPhone("+48 567 778 990")
+                .withUser(DomainFixtures.someUser().withUsername("test2"))
                 .withAge(21)
                 .withHeight(BigDecimal.valueOf(1.50))
                 .withWeight(BigDecimal.valueOf(69))
                 .withSex("FEMALE");
 
-        when(userProfileRepository.getUserProfile(user.getPhone())).thenReturn(user);
+        when(userProfileRepository.findByUserUsername(user.getUser().getUsername())).thenReturn(user);
 
         //when
-        BigDecimal result = bmrCalculatorService.calculateActivityExcludedBMR(user.getPhone());
+        BigDecimal result = bmrCalculatorService.calculateActivityExcludedBMR(user.getUser().getUsername());
 
         //then
         assertNotNull(result);
@@ -101,20 +101,20 @@ class BmrCalculatorServiceTest {
     void activityIncludedBmrCalculatorWorksCorrectly() {
         //given
         UserProfile user = DomainFixtures.someUserProfile()
-                .withPhone("+48 567 778 990")
+                .withUser(DomainFixtures.someUser().withUsername("test3"))
                 .withAge(21)
                 .withHeight(BigDecimal.valueOf(1.50))
                 .withWeight(BigDecimal.valueOf(69))
                 .withSex("FEMALE");
 
-        when(userProfileRepository.getUserProfile(user.getPhone())).thenReturn(user);
+        when(userProfileRepository.findByUserUsername(user.getUser().getUsername())).thenReturn(user);
 
         //when
-        BigDecimal result1 = bmrCalculatorService.calculateActivityIncludedBMR(user.getPhone(), ActivityLevel.SEDENTARY);
-        BigDecimal result2 = bmrCalculatorService.calculateActivityIncludedBMR(user.getPhone(), ActivityLevel.LIGHTLY_ACTIVE);
-        BigDecimal result3 = bmrCalculatorService.calculateActivityIncludedBMR(user.getPhone(), ActivityLevel.MODERATELY_ACTIVE);
-        BigDecimal result4 = bmrCalculatorService.calculateActivityIncludedBMR(user.getPhone(), ActivityLevel.ACTIVE);
-        BigDecimal result5 = bmrCalculatorService.calculateActivityIncludedBMR(user.getPhone(), ActivityLevel.VERY_ACTIVE);
+        BigDecimal result1 = bmrCalculatorService.calculateActivityIncludedBMR(user.getUser().getUsername(), ActivityLevel.SEDENTARY);
+        BigDecimal result2 = bmrCalculatorService.calculateActivityIncludedBMR(user.getUser().getUsername(), ActivityLevel.LIGHTLY_ACTIVE);
+        BigDecimal result3 = bmrCalculatorService.calculateActivityIncludedBMR(user.getUser().getUsername(), ActivityLevel.MODERATELY_ACTIVE);
+        BigDecimal result4 = bmrCalculatorService.calculateActivityIncludedBMR(user.getUser().getUsername(), ActivityLevel.ACTIVE);
+        BigDecimal result5 = bmrCalculatorService.calculateActivityIncludedBMR(user.getUser().getUsername(), ActivityLevel.VERY_ACTIVE);
 
         //then
         assertNotNull(result1);

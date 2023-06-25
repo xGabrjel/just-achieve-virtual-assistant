@@ -2,9 +2,7 @@ package com.appliaction.justAchieveVirtualAssistant.infrastructure.database.enti
 
 import com.appliaction.justAchieveVirtualAssistant.security.UserEntity;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Pattern;
 import lombok.*;
-import org.hibernate.validator.constraints.Length;
 
 import java.math.BigDecimal;
 
@@ -34,8 +32,6 @@ public class UserProfileEntity {
     @Column(name = "surname", nullable = false)
     private String surname;
 
-    @Length(min = 7, max = 15)
-    @Pattern(regexp = "^[+]\\d{2}\\s\\d{3}\\s\\d{3}\\s\\d{3}$")
     @Column(name = "phone", unique = true, nullable = false)
     private String phone;
 

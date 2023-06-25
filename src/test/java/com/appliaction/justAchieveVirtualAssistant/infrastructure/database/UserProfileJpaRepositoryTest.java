@@ -38,27 +38,27 @@ class UserProfileJpaRepositoryTest {
         UserProfileEntity userProfileEntity = EntityFixtures.someUserProfileEntity();
         UserProfile userProfile = DomainFixtures.someUserProfile();
 
-        when(userProfileJpaRepository.findByPhone(userProfileEntity.getPhone())).thenReturn(Optional.of(userProfileEntity));
+        when(userProfileJpaRepository.findByUserUsername(userProfileEntity.getUser().getUsername())).thenReturn(Optional.of(userProfileEntity));
         when(userProfileEntityMapper.mapFromEntity(userProfileEntity)).thenReturn(userProfile);
 
         //when
-        UserProfile result = userProfileRepository.getUserProfile(userProfileEntity.getPhone());
+        UserProfile result = userProfileRepository.findByUserUsername(userProfileEntity.getUser().getUsername());
 
         //then
         assertNotNull(result);
-        verify(userProfileJpaRepository, times(1)).findByPhone(userProfileEntity.getPhone());
+        verify(userProfileJpaRepository, times(1)).findByUserUsername(userProfileEntity.getUser().getUsername());
         verify(userProfileEntityMapper, times(1)).mapFromEntity(userProfileEntity);
     }
 
     @Test
     void getUserProfileExceptionThrowingWorksCorrectly() {
         //given
-        String phoneNumber = "+48 511 533 522";
+        String username = "test1";
 
-        when(userProfileJpaRepository.findByPhone(phoneNumber)).thenReturn(Optional.empty());
+        when(userProfileJpaRepository.findByUserUsername(username)).thenReturn(Optional.empty());
 
         //when, then
-        assertThrows(NotFoundException.class, () -> userProfileRepository.getUserProfile(phoneNumber));
-        verify(userProfileJpaRepository, times(1)).findByPhone(phoneNumber);
+        assertThrows(NotFoundException.class, () -> userProfileRepository.findByUserUsername(username));
+        verify(userProfileJpaRepository, times(1)).findByUserUsername(username);
     }
 }

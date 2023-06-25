@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Repository
 public interface UserProfileJpaRepository extends JpaRepository<UserProfileEntity, Integer> {
-    Optional<UserProfileEntity> findByPhone(String phoneNumber);
+    Optional<UserProfileEntity> findByUserUsername(String username);
 
     @Transactional
     @Modifying

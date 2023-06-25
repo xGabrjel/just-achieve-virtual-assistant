@@ -16,8 +16,8 @@ public class BmrCalculatorService {
 
     private final UserProfileRepository userProfileRepository;
 
-    public BigDecimal calculateActivityIncludedBMR(String phoneNumber, ActivityLevel activityLevel) {
-        BigDecimal bmr = calculateActivityExcludedBMR(phoneNumber);
+    public BigDecimal calculateActivityIncludedBMR(String username, ActivityLevel activityLevel) {
+        BigDecimal bmr = calculateActivityExcludedBMR(username);
         BigDecimal armMultiplier = activityLevel.getArmMultiplier();
 
         BigDecimal result = bmr.multiply(armMultiplier).setScale(2, RoundingMode.HALF_UP);
@@ -26,11 +26,11 @@ public class BmrCalculatorService {
         return result;
     }
 
-    public BigDecimal calculateActivityExcludedBMR(String phoneNumber) {
-        BigDecimal weight = userProfileRepository.getUserProfile(phoneNumber).getWeight();
-        BigDecimal height = userProfileRepository.getUserProfile(phoneNumber).getHeight();
-        Integer age = userProfileRepository.getUserProfile(phoneNumber).getAge();
-        String sex = userProfileRepository.getUserProfile(phoneNumber).getSex();
+    public BigDecimal calculateActivityExcludedBMR(String username) {
+        BigDecimal weight = userProfileRepository.findByUserUsername(username).getWeight();
+        BigDecimal height = userProfileRepository.findByUserUsername(username).getHeight();
+        Integer age = userProfileRepository.findByUserUsername(username).getAge();
+        String sex = userProfileRepository.findByUserUsername(username).getSex();
 
         if (sex.equalsIgnoreCase("MALE")) {
             return calculateByRevisedHarrisBenedictFormulaForMale(weight, height, age);

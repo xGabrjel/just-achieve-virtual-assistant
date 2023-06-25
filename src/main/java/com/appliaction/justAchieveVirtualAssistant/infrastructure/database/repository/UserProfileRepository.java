@@ -14,11 +14,11 @@ public class UserProfileRepository {
     private final UserProfileJpaRepository userProfileJpaRepository;
     private final UserProfileEntityMapper userProfileEntityMapper;
 
-    public UserProfile getUserProfile(String phoneNumber) {
-        return userProfileJpaRepository.findByPhone(phoneNumber)
+    public UserProfile findByUserUsername(String username) {
+        return userProfileJpaRepository.findByUserUsername(username)
                 .stream()
                 .map(userProfileEntityMapper::mapFromEntity)
                 .findFirst()
-                .orElseThrow(() -> new NotFoundException("Could not find UserProfile by this number: [%s]".formatted(phoneNumber)));
+                .orElseThrow(() -> new NotFoundException("Could not find UserProfile by this username: [%s]".formatted(username)));
     }
 }

@@ -1,12 +1,10 @@
 package com.appliaction.justAchieveVirtualAssistant.security;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.Length;
 
 import java.util.Set;
 
@@ -23,11 +21,9 @@ public class UserEntity {
     @Column(name = "user_id", unique = true, nullable = false)
     private int userId;
 
-    @Length(min = 5, max = 25)
     @Column(name = "username", unique = true, nullable = false)
     private String username;
 
-    @Email
     @Column(name = "email", unique = true, nullable = false)
     private String email;
 

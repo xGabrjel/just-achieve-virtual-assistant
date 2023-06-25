@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>User Profile</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.2.2/css/bootstrap.min.css"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+          crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            margin-top: 100px;
+            text-align: center;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            color: black;
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-title {
+            color: black;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .card-title span {
+            font-weight: bold;
+        }
+
+        .btn-back {
+            margin-top: 20px;
+        }
+
+        .btn-back .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            text-align: center;
+            text-decoration: none;
+            background-color: #733d9e;
+            color: #fff;
+            border-radius: 25px;
+            transition: background-color 0.3s;
+        }
+
+        .btn-back .btn:hover {
+            background-color: purple;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>User Profile</h1>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Name: <span th:text="${userProfile.name}"></span></h5>
+            <h5 class="card-title">Surname: <span th:text="${userProfile.surname}"></span></h5>
+            <h5 class="card-title">Phone: <span th:text="${userProfile.phone}"></span></h5>
+            <h5 class="card-title">Age: <span th:text="${userProfile.age}"></span></h5>
+            <h5 class="card-title">Sex: <span th:text="${userProfile.sex}"></span></h5>
+            <h5 class="card-title">Weight: <span th:text="${userProfile.weight}"></span></h5>
+            <h5 class="card-title">Height: <span th:text="${userProfile.height}"></span></h5>
+            <h5 class="card-title">Diet Goal: <span th:text="${userProfile.dietGoal.dietgoal}"></span></h5>
+        </div>
+    </div>
+    <div class="btn-back">
+        <a href="/" class="btn">Go Back to the Main Page</a>
+    </div>
+</div>
+</body>
+</html>

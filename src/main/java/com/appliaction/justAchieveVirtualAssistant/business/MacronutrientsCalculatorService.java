@@ -16,8 +16,8 @@ public class MacronutrientsCalculatorService {
 
     private BmrCalculatorService bmrCalculatorService;
 
-    public Map<String, BigDecimal> calculateHealthyMacronutrientsValues(String phoneNumber, ActivityLevel activityLevel) {
-        BigDecimal bmr = bmrCalculatorService.calculateActivityIncludedBMR(phoneNumber, activityLevel);
+    public Map<String, BigDecimal> calculateHealthyMacronutrientsValues(String username, ActivityLevel activityLevel) {
+        BigDecimal bmr = bmrCalculatorService.calculateActivityIncludedBMR(username, activityLevel);
 
         BigDecimal protein = (bmr.multiply(BigDecimal.valueOf(0.2)))
                 .divide(BigDecimal.valueOf(4.0),

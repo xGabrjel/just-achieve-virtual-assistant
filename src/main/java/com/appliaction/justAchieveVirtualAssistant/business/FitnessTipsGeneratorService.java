@@ -20,9 +20,12 @@ public class FitnessTipsGeneratorService {
     private final FitnessTipsEntityMapper fitnessTipsEntityMapper;
     private final UserProfileRepository userProfileRepository;
 
-    public String getRandomTipForDietGoal(String phoneNumber) {
+    public String getRandomTipForDietGoal(String username) {
 
-        List<FitnessTips> tips = fitnessTipsJpaRepository.findByDietGoalDietGoalId(userProfileRepository.getUserProfile(phoneNumber).getDietGoal().getDietGoalId())
+        List<FitnessTips> tips = fitnessTipsJpaRepository.findByDietGoalDietGoalId(userProfileRepository
+                        .findByUserUsername(username)
+                        .getDietGoal()
+                        .getDietGoalId())
                 .stream()
                 .map(fitnessTipsEntityMapper::mapFromEntity)
                 .toList();

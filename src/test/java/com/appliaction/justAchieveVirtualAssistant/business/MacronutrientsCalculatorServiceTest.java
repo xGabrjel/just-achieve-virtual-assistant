@@ -30,10 +30,11 @@ class MacronutrientsCalculatorServiceTest {
         ActivityLevel activityLevel = ActivityLevel.MODERATELY_ACTIVE;
         BigDecimal bmr = BigDecimal.valueOf(3500);
 
-        Mockito.when(bmrCalculatorService.calculateActivityIncludedBMR(userProfile.getPhone(), activityLevel))
+        Mockito.when(bmrCalculatorService.calculateActivityIncludedBMR(userProfile.getUser().getUsername(), activityLevel))
                 .thenReturn(bmr);
         //when
-        Map<String, BigDecimal> result = macronutrientsCalculatorService.calculateHealthyMacronutrientsValues(userProfile.getPhone(), activityLevel);
+        Map<String, BigDecimal> result = macronutrientsCalculatorService
+                .calculateHealthyMacronutrientsValues(userProfile.getUser().getUsername(), activityLevel);
 
         //then
         Assertions.assertNotNull(result);

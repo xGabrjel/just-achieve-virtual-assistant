@@ -30,13 +30,13 @@ class BmiCalculatorServiceTest {
         //given
         UserProfile userProfile = DomainFixtures.someUserProfile()
                 .withHeight(BigDecimal.valueOf(1.83))
-                .withPhone("+48 511 522 162")
+                .withUser(DomainFixtures.someUser().withUsername("test1"))
                 .withWeight(BigDecimal.valueOf(60));
 
-        when(userProfileRepository.getUserProfile(userProfile.getPhone())).thenReturn(userProfile);
+        when(userProfileRepository.findByUserUsername(userProfile.getUser().getUsername())).thenReturn(userProfile);
 
         //when
-        BigDecimal result = bmiCalculatorService.calculateBMI(userProfile.getPhone());
+        BigDecimal result = bmiCalculatorService.calculateBMI(userProfile.getUser().getUsername());
 
         //then
         assertNotNull(result);
@@ -48,13 +48,13 @@ class BmiCalculatorServiceTest {
         //given
         UserProfile underweightUser = DomainFixtures.someUserProfile()
                 .withHeight(BigDecimal.valueOf(1.83))
-                .withPhone("+48 511 522 162")
+                .withUser(DomainFixtures.someUser().withUsername("test2"))
                 .withWeight(BigDecimal.valueOf(60));
 
-        when(userProfileRepository.getUserProfile(underweightUser.getPhone())).thenReturn(underweightUser);
+        when(userProfileRepository.findByUserUsername(underweightUser.getUser().getUsername())).thenReturn(underweightUser);
 
         //when
-        String underweightResult = bmiCalculatorService.interpretBMI(underweightUser.getPhone());
+        String underweightResult = bmiCalculatorService.interpretBMI(underweightUser.getUser().getUsername());
 
         //then
         assertNotNull(underweightResult);
@@ -66,13 +66,13 @@ class BmiCalculatorServiceTest {
         //given
         UserProfile healthyUser = DomainFixtures.someUserProfile()
                 .withHeight(BigDecimal.valueOf(1.83))
-                .withPhone("+48 512 522 162")
+                .withUser(DomainFixtures.someUser().withUsername("test3"))
                 .withWeight(BigDecimal.valueOf(80));
 
-        when(userProfileRepository.getUserProfile(healthyUser.getPhone())).thenReturn(healthyUser);
+        when(userProfileRepository.findByUserUsername(healthyUser.getUser().getUsername())).thenReturn(healthyUser);
 
         //when
-        String healthyResult = bmiCalculatorService.interpretBMI(healthyUser.getPhone());
+        String healthyResult = bmiCalculatorService.interpretBMI(healthyUser.getUser().getUsername());
 
         //then
         assertNotNull(healthyResult);
@@ -84,13 +84,13 @@ class BmiCalculatorServiceTest {
         //given
         UserProfile overweightUser = DomainFixtures.someUserProfile()
                 .withHeight(BigDecimal.valueOf(1.83))
-                .withPhone("+48 513 522 162")
+                .withUser(DomainFixtures.someUser().withUsername("test4"))
                 .withWeight(BigDecimal.valueOf(90));
 
-        when(userProfileRepository.getUserProfile(overweightUser.getPhone())).thenReturn(overweightUser);
+        when(userProfileRepository.findByUserUsername(overweightUser.getUser().getUsername())).thenReturn(overweightUser);
 
         //when
-        String overweightResult = bmiCalculatorService.interpretBMI(overweightUser.getPhone());
+        String overweightResult = bmiCalculatorService.interpretBMI(overweightUser.getUser().getUsername());
 
         //then
         assertNotNull(overweightResult);
@@ -102,13 +102,13 @@ class BmiCalculatorServiceTest {
         //given
         UserProfile obeseUser = DomainFixtures.someUserProfile()
                 .withHeight(BigDecimal.valueOf(1.83))
-                .withPhone("+48 511 524 162")
+                .withUser(DomainFixtures.someUser().withUsername("test5"))
                 .withWeight(BigDecimal.valueOf(120));
 
-        when(userProfileRepository.getUserProfile(obeseUser.getPhone())).thenReturn(obeseUser);
+        when(userProfileRepository.findByUserUsername(obeseUser.getUser().getUsername())).thenReturn(obeseUser);
 
         //when
-        String obeseResult = bmiCalculatorService.interpretBMI(obeseUser.getPhone());
+        String obeseResult = bmiCalculatorService.interpretBMI(obeseUser.getUser().getUsername());
 
         //then
         assertNotNull(obeseResult);

@@ -15,8 +15,8 @@ public class BmiCalculatorService {
 
     private final UserProfileRepository userProfileRepository;
 
-    public String interpretBMI(String phoneNumber) {
-        BigDecimal bmiResult = calculateBMI(phoneNumber);
+    public String interpretBMI(String username) {
+        BigDecimal bmiResult = calculateBMI(username);
 
         int underweight = bmiResult.compareTo(BigDecimal.valueOf(18.5));
         int healthy = bmiResult.compareTo(BigDecimal.valueOf(24.9));
@@ -38,12 +38,12 @@ public class BmiCalculatorService {
         return "BMI value: [%s] - You are 30 or over – you're in the obese range".formatted(bmiResult);
     }
 
-    public BigDecimal calculateBMI(String phoneNumber) {
-        BigDecimal height = userProfileRepository.getUserProfile(phoneNumber).getHeight();
-        BigDecimal weight = userProfileRepository.getUserProfile(phoneNumber).getWeight();
+    public BigDecimal calculateBMI(String username) {
+        BigDecimal height = userProfileRepository.findByUserUsername(username).getHeight();
+        BigDecimal weight = userProfileRepository.findByUserUsername(username).getWeight();
 
         log.info("User profile: [%s] - User height is: [%s], Weight is: [%s]".formatted(userProfileRepository
-                .getUserProfile(phoneNumber), height, weight));
+                .findByUserUsername(username), height, weight));
 
         return weight.divide((height.multiply(height)), RoundingMode.HALF_UP);
     }
