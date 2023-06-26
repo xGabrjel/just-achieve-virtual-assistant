@@ -2,93 +2,18 @@
 <html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <title>Macronutrients Calculator</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.2.2/css/bootstrap.min.css"
+    <link rel="icon" type="image/x-icon" href="assets/gym_icon.ico">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
           integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
           crossorigin="anonymous">
-    <style>
-        body {
-            background-color: #f8f9fa;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-
-        .container {
-            margin-top: 100px;
-            text-align: center;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-        }
-
-        h1 {
-            color: black;
-            font-size: 36px;
-            margin-bottom: 20px;
-        }
-
-        .card {
-            margin-top: 20px;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-        }
-
-        .card-title {
-            color: black;
-            font-size: 20px;
-            margin-bottom: 10px;
-        }
-
-        .card-title span {
-            font-weight: bold;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .btn-back {
-            margin-top: 20px;
-        }
-
-        .btn-back .btn {
-            display: inline-block;
-            padding: 10px 20px;
-            font-size: 16px;
-            text-align: center;
-            text-decoration: none;
-            background-color: #733d9e;
-            color: #fff;
-            border-radius: 25px;
-            transition: background-color 0.3s;
-        }
-
-        .btn-back .btn:hover {
-            background-color: purple;
-        }
-
-        .macro-list {
-            text-align: left;
-            list-style: none;
-            padding-left: 0;
-        }
-
-        .macro-list li {
-            margin-bottom: 10px;
-        }
-    </style>
+    <link type="text/css" rel="stylesheet" href="assets/style_default.css"/>
 </head>
 <body>
 <div class="container">
     <h1>Macronutrients Calculator</h1>
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">Calculate Macronutrients</h5>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <h3 class="panel-heading">Calculate Macronutrients</h3>
             <form method="GET" th:action="@{/macronutrients}">
                 <div class="form-group">
                     <label for="activityLevel">Activity Level:</label>
@@ -104,9 +29,9 @@
             </form>
         </div>
     </div>
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">Your Macronutrients:</h5>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <h3 class="panel-heading">Your Macronutrients:</h3>
             <ul class="macro-list">
                 <li><strong>Protein:</strong> <span th:text="${macro.protein}"></span></li>
                 <li><strong>Carbohydrates:</strong> <span th:text="${macro.carbohydrates}"></span></li>
@@ -115,7 +40,7 @@
         </div>
     </div>
     <div class="btn-back">
-        <a th:href="@{/}" class="btn">Go Back to the Main Page</a>
+        <a th:href="@{/}" class="btn btn-default">Go Back to the Main Page</a>
     </div>
 </div>
 </body>
