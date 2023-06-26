@@ -3,7 +3,6 @@ package com.appliaction.justAchieveVirtualAssistant.business;
 import com.appliaction.justAchieveVirtualAssistant.configuration.AbstractIT;
 import com.appliaction.justAchieveVirtualAssistant.domain.BodyMeasurements;
 import com.appliaction.justAchieveVirtualAssistant.domain.UserProfile;
-import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.entity.BodyMeasurementsEntity;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.entity.UserProfileEntity;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.repository.BodyMeasurementsRepository;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.repository.jpa.UserProfileJpaRepository;
@@ -31,11 +30,11 @@ class BodyMeasurementsServiceTest extends AbstractIT {
 
         //when
         bodyMeasurementsRepository.saveBodyMeasurements(bodyMeasurements1);
-        List<BodyMeasurementsEntity> availableBodyMeasurements1 = bodyMeasurementsRepository
+        List<BodyMeasurements> availableBodyMeasurements1 = bodyMeasurementsRepository
                 .findByDateAndProfileId(bodyMeasurements1.getDate(), bodyMeasurements1.getProfileId());
 
         bodyMeasurementsRepository.saveBodyMeasurements(bodyMeasurements2);
-        List<BodyMeasurementsEntity> availableBodyMeasurements2 = bodyMeasurementsRepository
+        List<BodyMeasurements> availableBodyMeasurements2 = bodyMeasurementsRepository
                 .findByDateAndProfileId(bodyMeasurements2.getDate(), bodyMeasurements2.getProfileId());
 
         //then

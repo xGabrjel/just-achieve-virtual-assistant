@@ -43,10 +43,13 @@ public class BodyMeasurementsRepository {
                 .formatted(bodyMeasurements.getProfileId().getWeight(), bodyMeasurements.getCurrentWeight()));
     }
 
-    public List<BodyMeasurementsEntity> findByDateAndProfileId(OffsetDateTime offsetDateTime, UserProfile userProfile) {
+    public List<BodyMeasurements> findByDateAndProfileId(OffsetDateTime offsetDateTime, UserProfile userProfile) {
         log.info("Finding body measurements by: Date: [%s], UserProfile: [%s]".formatted(offsetDateTime, userProfile));
 
         UserProfileEntity userProfileEntity = userProfileEntityMapper.mapToEntity(userProfile);
-        return bodyMeasurementsJpaRepository.findByDateAndProfileId(offsetDateTime, userProfileEntity);
+        List<BodyMeasurements> list = bodyMeasurementsJpaRepository.findByDateAndProfileId(offsetDateTime, userProfileEntity).stream()
+                .map(bodyMeasurementsEntityMapper::mapFromEntity)
+                .toList();
+        return list;
     }
 }

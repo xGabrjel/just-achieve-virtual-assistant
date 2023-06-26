@@ -54,7 +54,7 @@ class BmiCalculatorServiceTest {
         when(userProfileRepository.findByUserUsername(underweightUser.getUser().getUsername())).thenReturn(underweightUser);
 
         //when
-        String underweightResult = bmiCalculatorService.interpretBMI(underweightUser.getUser().getUsername());
+        String underweightResult = bmiCalculatorService.calculateAndInterpretBMI(underweightUser.getUser().getUsername());
 
         //then
         assertNotNull(underweightResult);
@@ -72,7 +72,7 @@ class BmiCalculatorServiceTest {
         when(userProfileRepository.findByUserUsername(healthyUser.getUser().getUsername())).thenReturn(healthyUser);
 
         //when
-        String healthyResult = bmiCalculatorService.interpretBMI(healthyUser.getUser().getUsername());
+        String healthyResult = bmiCalculatorService.calculateAndInterpretBMI(healthyUser.getUser().getUsername());
 
         //then
         assertNotNull(healthyResult);
@@ -90,7 +90,7 @@ class BmiCalculatorServiceTest {
         when(userProfileRepository.findByUserUsername(overweightUser.getUser().getUsername())).thenReturn(overweightUser);
 
         //when
-        String overweightResult = bmiCalculatorService.interpretBMI(overweightUser.getUser().getUsername());
+        String overweightResult = bmiCalculatorService.calculateAndInterpretBMI(overweightUser.getUser().getUsername());
 
         //then
         assertNotNull(overweightResult);
@@ -108,7 +108,7 @@ class BmiCalculatorServiceTest {
         when(userProfileRepository.findByUserUsername(obeseUser.getUser().getUsername())).thenReturn(obeseUser);
 
         //when
-        String obeseResult = bmiCalculatorService.interpretBMI(obeseUser.getUser().getUsername());
+        String obeseResult = bmiCalculatorService.calculateAndInterpretBMI(obeseUser.getUser().getUsername());
 
         //then
         assertNotNull(obeseResult);

@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
@@ -71,27 +71,27 @@
     <h1>JustAchieve! Virtual Assistant</h1>
     <div class="btn-container">
         <div class="btn-back">
-            <a href="@{/profile}" class="btn btn-info" role="button">View Profile</a>
+            <a th:href="@{/profile}" class="btn btn-info" role="button">View Profile</a>
             <span class="btn-description">Explore your user profile</span>
         </div>
         <div class="btn-back">
-            <a href="@{/bmi}" class="btn btn-info" role="button">BMI Calculator</a>
+            <a th:href="@{/bmi}" class="btn btn-info" role="button">BMI Calculator</a>
             <span class="btn-description">Calculate your Body Mass Index (BMI)</span>
         </div>
         <div class="btn-back">
-            <a href="@{/bmr}" class="btn btn-info" role="button">BMR Calculator</a>
+            <a th:href="@{/bmr}" class="btn btn-info" role="button">BMR Calculator</a>
             <span class="btn-description">Calculate your Basal Metabolic Rate (BMR)</span>
         </div>
         <div class="btn-back">
-            <a href="@{/macronutrients}" class="btn btn-info" role="button">Macronutrients calculator</a>
+            <a th:href="@{/macronutrients}" class="btn btn-info" role="button">Macronutrients calculator</a>
             <span class="btn-description">Calculate your daily macronutrient needs</span>
         </div>
         <div class="btn-back">
-            <a href="@{/tips}" class="btn btn-info" role="button">Fitness Tips</a>
+            <a th:href="@{/tips}" class="btn btn-info" role="button">Fitness Tips</a>
             <span class="btn-description">Discover useful fitness tips and advice</span>
         </div>
         <div class="btn-back">
-            <a href="@{/measurements}" class="btn btn-info" role="button">Body Measurements</a>
+            <a th:href="@{/measurements}" class="btn btn-info" role="button">Body Measurements</a>
             <span class="btn-description">Track your body measurements and progress</span>
         </div>
     </div>

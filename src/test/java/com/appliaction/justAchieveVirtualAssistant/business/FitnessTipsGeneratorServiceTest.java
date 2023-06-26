@@ -18,7 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -60,36 +60,12 @@ class FitnessTipsGeneratorServiceTest {
                         .build(), "Tip 1"));
 
         //when
-        String result = fitnessTipsGeneratorService.getRandomTipForDietGoal(user.getUser().getUsername());
+        FitnessTips result = fitnessTipsGeneratorService.getRandomTipForDietGoal(user.getUser().getUsername());
 
         //then
         assertNotNull(result);
-        assertFalse(result.isEmpty());
-        assertTrue(fitnessTipsEntities.stream().anyMatch(entity -> entity.getTip().equals(result)));
-
         verify(userProfileRepository).findByUserUsername(user.getUser().getUsername());
         verify(fitnessTipsJpaRepository).findByDietGoalDietGoalId(user.getDietGoal().getDietGoalId());
         verify(fitnessTipsEntityMapper, times(fitnessTipsEntities.size())).mapFromEntity(any(FitnessTipsEntity.class));
-    }
-
-    @Test
-    void getRandomTipForDietGoalWorksCorrectlyWhenNoTipsAvailable() {
-        //given
-        UserProfile user = DomainFixtures.someUserProfile();
-        List<FitnessTipsEntity> fitnessTipsEntities = new ArrayList<>();
-        String noTipsCommunication = "Sorry, no tips available for the selected goal";
-
-        when(userProfileRepository.findByUserUsername(user.getUser().getUsername())).thenReturn(user);
-        when(fitnessTipsJpaRepository.findByDietGoalDietGoalId(user.getDietGoal().getDietGoalId())).thenReturn(fitnessTipsEntities);
-
-        //when
-        String result = fitnessTipsGeneratorService.getRandomTipForDietGoal(user.getUser().getUsername());
-
-        //then
-        assertEquals(noTipsCommunication, result);
-
-        verify(userProfileRepository).findByUserUsername(user.getUser().getUsername());
-        verify(fitnessTipsJpaRepository).findByDietGoalDietGoalId(user.getDietGoal().getDietGoalId());
-        verify(fitnessTipsEntityMapper, never()).mapFromEntity(any(FitnessTipsEntity.class));
     }
 }

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <title>User Profile</title>
+    <title>Macronutrients Calculator</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.2.2/css/bootstrap.min.css"
           integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
           crossorigin="anonymous">
@@ -48,6 +48,10 @@
             font-weight: bold;
         }
 
+        .form-group {
+            margin-bottom: 20px;
+        }
+
         .btn-back {
             margin-top: 20px;
         }
@@ -67,25 +71,51 @@
         .btn-back .btn:hover {
             background-color: purple;
         }
+
+        .macro-list {
+            text-align: left;
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .macro-list li {
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
 <div class="container">
-    <h1>User Profile</h1>
+    <h1>Macronutrients Calculator</h1>
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">Name: <span th:text="${userProfile.name}"></span></h5>
-            <h5 class="card-title">Surname: <span th:text="${userProfile.surname}"></span></h5>
-            <h5 class="card-title">Phone: <span th:text="${userProfile.phone}"></span></h5>
-            <h5 class="card-title">Age: <span th:text="${userProfile.age}"></span></h5>
-            <h5 class="card-title">Sex: <span th:text="${userProfile.sex}"></span></h5>
-            <h5 class="card-title">Weight: <span th:text="${userProfile.weight}"></span></h5>
-            <h5 class="card-title">Height: <span th:text="${userProfile.height}"></span></h5>
-            <h5 class="card-title">Diet Goal: <span th:text="${userProfile.dietGoal.dietGoal}"></span></h5>
+            <h5 class="card-title">Calculate Macronutrients</h5>
+            <form method="GET" th:action="@{/macronutrients}">
+                <div class="form-group">
+                    <label for="activityLevel">Activity Level:</label>
+                    <select class="form-control" id="activityLevel" name="activityLevel">
+                        <option value="SEDENTARY">Sedentary</option>
+                        <option value="LIGHTLY_ACTIVE">Lightly Active</option>
+                        <option value="MODERATELY_ACTIVE">Moderately Active</option>
+                        <option value="ACTIVE">Active</option>
+                        <option value="VERY_ACTIVE">Very Active</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Calculate</button>
+            </form>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Your Macronutrients:</h5>
+            <ul class="macro-list">
+                <li><strong>Protein:</strong> <span th:text="${macro.protein}"></span></li>
+                <li><strong>Carbohydrates:</strong> <span th:text="${macro.carbohydrates}"></span></li>
+                <li><strong>Fat:</strong> <span th:text="${macro.fat}"></span></li>
+            </ul>
         </div>
     </div>
     <div class="btn-back">
-        <a href="/" class="btn">Go Back to the Main Page</a>
+        <a th:href="@{/}" class="btn">Go Back to the Main Page</a>
     </div>
 </div>
 </body>

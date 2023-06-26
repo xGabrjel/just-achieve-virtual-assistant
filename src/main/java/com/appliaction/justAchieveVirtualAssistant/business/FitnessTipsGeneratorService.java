@@ -20,7 +20,7 @@ public class FitnessTipsGeneratorService {
     private final FitnessTipsEntityMapper fitnessTipsEntityMapper;
     private final UserProfileRepository userProfileRepository;
 
-    public String getRandomTipForDietGoal(String username) {
+    public FitnessTips getRandomTipForDietGoal(String username) {
 
         List<FitnessTips> tips = fitnessTipsJpaRepository.findByDietGoalDietGoalId(userProfileRepository
                         .findByUserUsername(username)
@@ -30,11 +30,7 @@ public class FitnessTipsGeneratorService {
                 .map(fitnessTipsEntityMapper::mapFromEntity)
                 .toList();
 
-        if (tips.isEmpty()) {
-            log.error("No tips available for the selected goal!");
-            return "Sorry, no tips available for the selected goal";
-        }
-        log.info("Selected tip: [%s]".formatted(tips.get(new Random().nextInt(tips.size())).getTip()));
-        return tips.get(new Random().nextInt(tips.size())).getTip();
+        log.info("Selected tip: [%s]".formatted(tips.get(new Random().nextInt(tips.size()))));
+        return tips.get(new Random().nextInt(tips.size()));
     }
 }

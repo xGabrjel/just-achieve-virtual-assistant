@@ -15,7 +15,7 @@ public class BmiCalculatorService {
 
     private final UserProfileRepository userProfileRepository;
 
-    public String interpretBMI(String username) {
+    public String calculateAndInterpretBMI(String username) {
         BigDecimal bmiResult = calculateBMI(username);
 
         int underweight = bmiResult.compareTo(BigDecimal.valueOf(18.5));
