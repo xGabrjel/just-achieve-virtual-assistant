@@ -20,7 +20,16 @@ public class BmrController {
     private BmrCalculatorService bmrCalculatorService;
 
     @GetMapping
-    public String bmr(Model model, Principal principal, @RequestParam("activityLevel") ActivityLevel activityLevel) {
+    public String page() {
+        return "bmr";
+    }
+
+    @GetMapping("/calculate/{activityLevel}")
+    public String bmr(
+            Model model,
+            Principal principal,
+            @RequestParam("activityLevel") ActivityLevel activityLevel
+    ) {
         String username = principal.getName();
         BigDecimal bmr = bmrCalculatorService.calculateActivityIncludedBMR(username, activityLevel);
 

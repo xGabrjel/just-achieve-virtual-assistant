@@ -21,7 +21,16 @@ public class MacronutrientsController {
     private MacronutrientsCalculatorService macronutrientsCalculatorService;
 
     @GetMapping
-    public String macronutrients(Model model, Principal principal, @RequestParam("activityLevel") ActivityLevel activityLevel) {
+    public String page() {
+        return "macronutrients";
+    }
+
+    @GetMapping("/calculate/{activityLevel}")
+    public String macronutrients(
+            Model model,
+            Principal principal,
+            @RequestParam("activityLevel") ActivityLevel activityLevel
+    ) {
         String username = principal.getName();
         Map<String, BigDecimal> macro = macronutrientsCalculatorService.calculateHealthyMacronutrientsValues(username, activityLevel);
 

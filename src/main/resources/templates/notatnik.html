@@ -4,19 +4,19 @@
 <head>
     <title>BMR Calculator</title>
     <link rel="icon" type="image/x-icon" th:href="@{images/gym_icon.ico}">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.2.2/css/bootstrap.min.css"
           integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
           crossorigin="anonymous">
-    <link  rel="stylesheet" type="text/css" th:href="@{styles.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{styles.css}"/>
 </head>
+
 <body>
 <div class="container">
     <h1>BMR Calculator</h1>
     <div class="card">
         <div class="card-body">
             <h5 class="card-title">Calculate BMR</h5>
-            <form method="GET" th:action="@{/bmr/calculate/{activityLevel}}" th:object="${activityLevel}">
+            <form method="GET" th:action="@{/bmr/calculate/{activityLevel}}" th:object="${activityLevelForm}">
                 <div class="form-group">
                     <label for="activityLevel">Activity Level:</label>
                     <select class="form-control" id="activityLevel" name="activityLevel">
@@ -38,8 +38,9 @@
         </div>
     </div>
     <div class="btn-back">
-        <a th:href="@{/}" class="btn btn-info">Go Back to the Main Page</a>
+        <a th:href="@{/}" class="btn">Go Back to the Main Page</a>
     </div>
 </div>
 </body>
+
 </html>

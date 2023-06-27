@@ -1,65 +1,66 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Body Measurements</title>
-    <link rel="icon" type="image/x-icon" href="assets/gym_icon.ico">
+    <link rel="icon" type="image/x-icon" th:href="@{images/gym_icon.ico}">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
           integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
           crossorigin="anonymous">
-    <link type="text/css" rel="stylesheet" href="assets/style_default.css"/>
+    <link rel="stylesheet" type="text/css" th:href="@{styles.css}"/>
 </head>
 <body>
 <div class="container">
     <h1>Body Measurements</h1>
     <div class="row">
-        <div class="column">
+        <div class="col">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Add Measurements</h5>
-                    <form method="POST" th:action="@{/measurements}">
+                    <form method="POST" th:action="@{/measurements/add}">
                         <div class="form-group">
-                            <label for="date" class="control-label"><b>Date:</b></label>
+                            <label for="date"><b>Date:</b></label>
                             <input type="datetime-local" id="date" name="date" required class="form-control">
                         </div>
                         <div class="form-group">
-                            <label for="currentWeight" class="control-label"><b>Current Weight:</b></label>
+                            <label for="currentWeight"><b>Current Weight:</b></label>
                             <input type="number" step="0.1" id="currentWeight" name="currentWeight" required class="form-control">
                         </div>
                         <div class="form-group">
-                            <label for="calf" class="control-label"><b>Calf:</b></label>
+                            <label for="calf"><b>Calf:</b></label>
                             <input type="number" step="0.1" id="calf" name="calf" required class="form-control">
                         </div>
                         <div class="form-group">
-                            <label for="thigh" class="control-label"><b>Thigh:</b></label>
+                            <label for="thigh"><b>Thigh:</b></label>
                             <input type="number" step="0.1" id="thigh" name="thigh" required class="form-control">
                         </div>
                         <div class="form-group">
-                            <label for="waist" class="control-label"><b>Waist:</b></label>
+                            <label for="waist"><b>Waist:</b></label>
                             <input type="number" step="0.1" id="waist" name="waist" required class="form-control">
                         </div>
                         <div class="form-group">
-                            <label for="chest" class="control-label"><b>Chest:</b></label>
+                            <label for="chest"><b>Chest:</b></label>
                             <input type="number" step="0.1" id="chest" name="chest" required class="form-control">
                         </div>
                         <div class="form-group">
-                            <label for="arm" class="control-label"><b>Arm:</b></label>
+                            <label for="arm"><b>Arm:</b></label>
                             <input type="number" step="0.1" id="arm" name="arm" required class="form-control">
                         </div>
                         <div class="form-group">
-                            <label for="measurementNote" class="control-label"><b>Note:</b></label>
-                            <textarea id="measurementNote" name="measurementNote" rows="3" required class="form-control"></textarea>
+                            <label for="measurementNote"><b>Note:</b></label>
+                            <textarea id="measurementNote" name="measurementNote" rows="3" class="form-control"></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary">Save Measurements</button>
                     </form>
                 </div>
             </div>
         </div>
-        <div class="column">
+        <div class="col">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Your Measurements</h5>
                     <div class="search-form">
-                        <form method="GET" th:action="@{/measurements}">
+                        <form method="GET" th:action="@{/measurements/get}">
                             <label for="searchDate">Search by Date:</label>
                             <input type="datetime-local" id="searchDate" name="date" required class="form-control">
                             <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Search</button>
@@ -82,7 +83,7 @@
         </div>
     </div>
     <div class="btn-back">
-        <a th:href="@{/}" class="btn btn-primary">Go Back to the Main Page</a>
+        <a th:href="@{/}" class="btn btn-info">Go Back to the Main Page</a>
     </div>
 </div>
 </body>

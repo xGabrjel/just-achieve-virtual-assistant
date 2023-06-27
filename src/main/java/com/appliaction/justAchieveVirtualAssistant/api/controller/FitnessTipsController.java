@@ -21,7 +21,10 @@ public class FitnessTipsController {
     private FitnessTipsMapper fitnessTipsMapper;
 
     @GetMapping
-    public String tips(Model model, Principal principal) {
+    public String tips(
+            Model model,
+            Principal principal
+    ) {
         String username = principal.getName();
         FitnessTips randomTipForDietGoal = fitnessTipsGeneratorService.getRandomTipForDietGoal(username);
         FitnessTipsDTO tipsDTO = fitnessTipsMapper.map(randomTipForDietGoal);

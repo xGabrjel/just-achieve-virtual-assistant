@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>BMI Calculator</title>
-    <link rel="icon" type="image/x-icon" href="assets/gym_icon.ico">
+    <link rel="icon" type="image/x-icon" th:href="@{images/gym_icon.ico}">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.2.2/css/bootstrap.min.css"
           integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
           crossorigin="anonymous">
-    <link type="text/css" rel="stylesheet" href="assets/style_default.css"/>
+    <link  rel="stylesheet" type="text/css" th:href="@{styles.css}"/>
 </head>
 <body>
 <div class="container">
@@ -18,7 +19,7 @@
         </div>
     </div>
     <div class="btn-back">
-        <a th:href="@{/}" class="btn">Go Back to the Main Page</a>
+        <a th:href="@{/}" class="btn btn-info">Go Back to the Main Page</a>
     </div>
 </div>
 </body>

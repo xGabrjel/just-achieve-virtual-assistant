@@ -15,8 +15,12 @@ import java.security.Principal;
 public class BmiController {
 
     private BmiCalculatorService bmiCalculatorService;
+
     @GetMapping
-    public String bmi(Model model, Principal principal) {
+    public String bmi(
+            Model model,
+            Principal principal
+    ) {
         String username = principal.getName();
         String bmi = bmiCalculatorService.calculateAndInterpretBMI(username);
 

@@ -16,9 +16,9 @@ public class GlobalExceptionHandler {
     public ModelAndView handleException(Exception ex) {
         String message = String.format("Other exception occurred: [%s]", ex.getMessage());
         log.error(message, ex);
-        ModelAndView modelAndView = new ModelAndView("error");
-        modelAndView.addObject("errorMessage", message);
-        return modelAndView;
+        ModelAndView modelView = new ModelAndView("error");
+        modelView.addObject("errorMessage", message);
+        return modelView;
     }
 
     @ExceptionHandler(NotFoundException.class)
