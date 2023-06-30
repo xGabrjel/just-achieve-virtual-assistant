@@ -1,7 +1,7 @@
 package com.appliaction.justAchieveVirtualAssistant.infrastructure.database.mapper;
 
 import com.appliaction.justAchieveVirtualAssistant.domain.User;
-import com.appliaction.justAchieveVirtualAssistant.security.UserEntity;
+import com.appliaction.justAchieveVirtualAssistant.security.user.UserEntity;
 import com.appliaction.justAchieveVirtualAssistant.util.EntityFixtures;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
@@ -27,6 +27,7 @@ class UserEntityMapperTest {
         assertEquals(User.class, domain.getClass());
         assertEquals(entity.getEmail(), domain.getEmail());
         assertEquals(entity.getUserId(), domain.getUserId());
+        assertEquals(entity.getUsername(), domain.getUsername());
         assertEquals(entity.getActive(), domain.getActive());
     }
 }

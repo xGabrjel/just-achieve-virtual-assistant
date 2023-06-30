@@ -24,9 +24,9 @@ public class DietGoalsEntity {
     @Column(name = "diet_goal", unique = true, nullable = false)
     private String dietGoal;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "dietGoal")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "dietGoal")
     private Set<UserProfileEntity> users;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "dietGoal")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "dietGoal")
     private Set<FitnessTipsEntity> tips;
 }

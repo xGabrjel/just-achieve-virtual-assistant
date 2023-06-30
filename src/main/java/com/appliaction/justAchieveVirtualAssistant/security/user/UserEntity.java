@@ -1,12 +1,13 @@
-package com.appliaction.justAchieveVirtualAssistant.security;
+package com.appliaction.justAchieveVirtualAssistant.security.user;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.NaturalId;
 
-import java.util.Set;
+import java.util.Collection;
 
 @Data
 @Entity
@@ -24,6 +25,7 @@ public class UserEntity {
     @Column(name = "username", unique = true, nullable = false)
     private String username;
 
+    @NaturalId(mutable = true)
     @Column(name = "email", unique = true, nullable = false)
     private String email;
 
@@ -31,14 +33,21 @@ public class UserEntity {
     private String password;
 
     @Column(name = "active", nullable = false)
-    private Boolean active;
+    private Boolean active = false;
 
-    @ManyToMany(cascade = CascadeType.MERGE)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             name = "app_user_role",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private Set<RoleEntity> roles;
+    private Collection<RoleEntity> roles;
+
+    public UserEntity(String username, String email, String password, Collection<RoleEntity> roles) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.roles = roles;
+    }
 }
 

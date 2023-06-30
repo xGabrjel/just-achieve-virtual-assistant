@@ -1,43 +1,15 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>JustAchieve! Virtual Assistant</title>
-    <link rel="icon" type="image/x-icon" th:href="@{images/gym_icon.ico}">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
-          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
-          crossorigin="anonymous">
-    <link  rel="stylesheet" type="text/css" th:href="@{styles.css}"/>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+>
+<head th:replace="~{fragments :: boots_trap}">
+    <meta charset="UTF-8">
 </head>
 <body>
-<div class="container">
-    <h1>JustAchieve! Virtual Assistant</h1>
-    <div class="btn-container">
-        <div class="btn-back">
-            <a th:href="@{/profile}" class="btn btn-info" role="button">View Profile</a>
-            <span class="btn-description">Explore your user profile</span>
-        </div>
-        <div class="btn-back">
-            <a th:href="@{/bmi}" class="btn btn-info" role="button">BMI Calculator</a>
-            <span class="btn-description">Calculate your Body Mass Index (BMI)</span>
-        </div>
-        <div class="btn-back">
-            <a th:href="@{/bmr}" class="btn btn-info" role="button">BMR Calculator</a>
-            <span class="btn-description">Calculate your Basal Metabolic Rate (BMR)</span>
-        </div>
-        <div class="btn-back">
-            <a th:href="@{/macronutrients}" class="btn btn-info" role="button">Macronutrients calculator</a>
-            <span class="btn-description">Calculate your daily macronutrient needs</span>
-        </div>
-        <div class="btn-back">
-            <a th:href="@{/tips}" class="btn btn-info" role="button">Fitness Tips</a>
-            <span class="btn-description">Discover useful fitness tips and advice</span>
-        </div>
-        <div class="btn-back">
-            <a th:href="@{/measurements}" class="btn btn-info" role="button">Body Measurements</a>
-            <span class="btn-description">Track your body measurements and progress</span>
-        </div>
-    </div>
+<div class="container col-md-offset-3 col-md-8 mt-lg-5">
+    <div th:replace="~{fragments :: nav_bar}"></div>
+
+
+
 </div>
 </body>
 </html>

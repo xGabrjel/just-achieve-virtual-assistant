@@ -24,14 +24,15 @@ public class ImagesService {
 
     @Transactional
     public String uploadImage(MultipartFile file) throws IOException {
-            jpaRepository.save(ImagesEntity.builder()
-                    .name(file.getOriginalFilename())
-                    .type(file.getContentType())
-                    .imageData(ImagesUtils.compressImage(file.getBytes())).build()
-            );
-            return "File uploaded successfully: [%s]".formatted(file.getOriginalFilename());
-        }
+        jpaRepository.save(ImagesEntity.builder()
+                .name(file.getOriginalFilename())
+                .type(file.getContentType())
+                .imageData(ImagesUtils.compressImage(file.getBytes())).build()
+        );
+        return "File uploaded successfully: [%s]".formatted(file.getOriginalFilename());
+    }
 
+    @Transactional
     public byte[] downloadImage(String fileName) {
         Optional<Images> bdImageData = repository.getImage(fileName);
         return bdImageData

@@ -1,16 +1,12 @@
-package com.appliaction.justAchieveVirtualAssistant.security;
+package com.appliaction.justAchieveVirtualAssistant.security.user;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @Entity
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "app_role")
 public class RoleEntity {
 
@@ -21,4 +17,8 @@ public class RoleEntity {
 
     @Column(name = "role", nullable = false)
     private String role;
+
+    public RoleEntity(String role) {
+        this.role = role;
+    }
 }

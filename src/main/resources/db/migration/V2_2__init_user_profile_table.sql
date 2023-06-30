@@ -15,7 +15,7 @@ CREATE TABLE user_profile
     UNIQUE(phone),
     CONSTRAINT fk_app_user_user_profile
     	FOREIGN KEY (user_id)
-            REFERENCES app_user (user_id),
+            REFERENCES app_user (user_id) ON DELETE CASCADE,
     CONSTRAINT fk_diet_goals_user_profile
         	FOREIGN KEY (diet_goal_id)
                 REFERENCES diet_goals (diet_goal_id)

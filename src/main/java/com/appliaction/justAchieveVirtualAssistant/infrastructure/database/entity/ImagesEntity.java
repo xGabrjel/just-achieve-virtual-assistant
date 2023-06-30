@@ -27,7 +27,7 @@ public class ImagesEntity {
     private String type;
 
     @Lob
-    @Column(name = "image_data", nullable = false)
+    @Column(name = "image_data", columnDefinition = "bytea", nullable = false)
     private byte[] imageData;
 
 }

@@ -14,5 +14,5 @@ CREATE TABLE body_measurements
     PRIMARY KEY (body_measurement_id),
     CONSTRAINT fk_profile_id_body_measurements
         FOREIGN KEY (profile_id)
-            REFERENCES user_profile (profile_id)
+            REFERENCES user_profile (profile_id) ON DELETE CASCADE
 );

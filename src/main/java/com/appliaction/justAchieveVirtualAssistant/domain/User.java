@@ -1,6 +1,6 @@
 package com.appliaction.justAchieveVirtualAssistant.domain;
 
-import com.appliaction.justAchieveVirtualAssistant.security.RoleEntity;
+import com.appliaction.justAchieveVirtualAssistant.security.user.RoleEntity;
 import lombok.*;
 
 import java.util.Set;

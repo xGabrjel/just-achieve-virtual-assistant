@@ -1,6 +1,6 @@
 package com.appliaction.justAchieveVirtualAssistant.infrastructure.database.entity;
 
-import com.appliaction.justAchieveVirtualAssistant.security.UserEntity;
+import com.appliaction.justAchieveVirtualAssistant.security.user.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
