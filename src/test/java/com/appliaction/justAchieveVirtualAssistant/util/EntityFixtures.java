@@ -27,13 +27,14 @@ public class EntityFixtures {
     }
 
     public static UserEntity someUserEntity() {
-        return UserEntity.builder()
-                .userId(1)
-                .username("test1")
-                .password("test1")
-                .email("test@test.pl")
-                .active(true)
-                .build();
+        UserEntity userEntity = new UserEntity();
+        userEntity.setUserId(1);
+        userEntity.setUsername("test1");
+        userEntity.setPassword("test1");
+        userEntity.setEmail("test@test.pl");
+        userEntity.setActive(true);
+
+        return userEntity;
     }
 
     public static UserProfileEntity someUserProfileEntity() {

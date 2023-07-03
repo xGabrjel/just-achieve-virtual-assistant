@@ -14,7 +14,7 @@ import java.util.Date;
 @Entity
 @NoArgsConstructor
 @Table(name = "password_reset_token")
-public class PasswordResetToken {
+public class PasswordResetTokenEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,7 +31,7 @@ public class PasswordResetToken {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
-    public PasswordResetToken(String token, UserEntity user) {
+    public PasswordResetTokenEntity(String token, UserEntity user) {
         this.token = token;
         this.user = user;
         this.expirationTime = TokenExpirationTime.getExpirationTime();

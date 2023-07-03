@@ -8,12 +8,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+
 @Getter
 @Setter
 @Entity
 @NoArgsConstructor
 @Table(name = "verification_token")
-public class VerificationToken {
+public class VerificationTokenEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,7 +31,7 @@ public class VerificationToken {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
-    public VerificationToken(String token, UserEntity user) {
+    public VerificationTokenEntity(String token, UserEntity user) {
         this.token = token;
         this.user = user;
         this.expirationTime = TokenExpirationTime.getExpirationTime();

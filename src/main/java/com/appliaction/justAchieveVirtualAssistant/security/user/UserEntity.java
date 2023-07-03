@@ -2,7 +2,6 @@ package com.appliaction.justAchieveVirtualAssistant.security.user;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.NaturalId;
@@ -11,7 +10,6 @@ import java.util.Collection;
 
 @Data
 @Entity
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "app_user")
@@ -33,7 +31,7 @@ public class UserEntity {
     private String password;
 
     @Column(name = "active", nullable = false)
-    private Boolean active = false;
+    private Boolean active;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(

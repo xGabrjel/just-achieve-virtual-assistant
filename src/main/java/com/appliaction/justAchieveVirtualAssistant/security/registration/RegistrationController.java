@@ -1,13 +1,14 @@
 package com.appliaction.justAchieveVirtualAssistant.security.registration;
 
+import com.appliaction.justAchieveVirtualAssistant.api.dto.mapper.UserMapper;
+import com.appliaction.justAchieveVirtualAssistant.domain.User;
+import com.appliaction.justAchieveVirtualAssistant.domain.VerificationToken;
 import com.appliaction.justAchieveVirtualAssistant.security.event.Listener.RegistrationCompleteEventListener;
 import com.appliaction.justAchieveVirtualAssistant.security.event.RegistrationCompleteEvent;
 import com.appliaction.justAchieveVirtualAssistant.security.registration.password.PasswordResetTokenService;
-import com.appliaction.justAchieveVirtualAssistant.security.registration.token.VerificationToken;
-import com.appliaction.justAchieveVirtualAssistant.security.registration.token.VerificationTokenServiceImpl;
+import com.appliaction.justAchieveVirtualAssistant.security.registration.token.VerificationTokenService;
 import com.appliaction.justAchieveVirtualAssistant.security.support.UrlUtil;
-import com.appliaction.justAchieveVirtualAssistant.security.user.UserEntity;
-import com.appliaction.justAchieveVirtualAssistant.security.user.UserServiceImpl;
+import com.appliaction.justAchieveVirtualAssistant.security.user.UserService;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -25,11 +26,12 @@ import java.util.UUID;
 @RequestMapping("/registration")
 public class RegistrationController {
 
-    private final UserServiceImpl userService;
+    private final UserService userService;
     private final ApplicationEventPublisher publisher;
-    private final VerificationTokenServiceImpl tokenService;
+    private final VerificationTokenService tokenService;
     private final PasswordResetTokenService passwordResetTokenService;
     private final RegistrationCompleteEventListener eventListener;
+    private final UserMapper userMapper;
 
     @GetMapping("/registration-form")
     public String showRegistrationForm(Model model) {
@@ -42,7 +44,7 @@ public class RegistrationController {
             @ModelAttribute("user") RegistrationRequest registration,
             HttpServletRequest request
     ) {
-        UserEntity user = userService.registerUser(registration);
+        User user = userService.registerUser(registration);
         publisher.publishEvent(new RegistrationCompleteEvent(user, UrlUtil.getApplicationUrl(request)));
         return "redirect:/registration/registration-form?success";
     }
@@ -73,14 +75,14 @@ public class RegistrationController {
             HttpServletRequest request, Model model
     ) {
         String email = request.getParameter("email");
-        Optional<UserEntity> user = userService.findByEmail(email);
+        Optional<User> user = userService.findByEmail(email);
         if (user.isEmpty()) {
             return "redirect:/registration/forgot-password-request?not_found";
         }
         String passwordResetToken = UUID.randomUUID().toString();
         passwordResetTokenService.createPasswordResetTokenForUser(user.get(), passwordResetToken);
 
-        String url = UrlUtil.getApplicationUrl(request) + "/registration/password-reset-form?token="+passwordResetToken;
+        String url = UrlUtil.getApplicationUrl(request) + "/registration/password-reset-form?token=" + passwordResetToken;
         try {
             eventListener.sendPasswordResetVerificationEmail(url);
         } catch (MessagingException | UnsupportedEncodingException e) {
@@ -108,7 +110,7 @@ public class RegistrationController {
         if (!tokenVerificationResult.equalsIgnoreCase("valid")) {
             return "redirect:/error?invalid_token";
         }
-        Optional<UserEntity> theUser = passwordResetTokenService.findUserByPasswordResetToken(theToken);
+        Optional<User> theUser = passwordResetTokenService.findUserByPasswordResetToken(theToken);
         if (theUser.isPresent()) {
             passwordResetTokenService.resetPassword(theUser.get(), password);
             return "redirect:/login?reset_success";

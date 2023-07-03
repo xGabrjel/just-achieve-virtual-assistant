@@ -16,7 +16,7 @@ public class ImagesUtils {
         deflater.finish();
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
-        byte[] tmp = new byte[4*1024];
+        byte[] tmp = new byte[4 * 1024];
         while (!deflater.finished()) {
             int size = deflater.deflate(tmp);
             outputStream.write(tmp, 0, size);
@@ -32,7 +32,7 @@ public class ImagesUtils {
         Inflater inflater = new Inflater();
         inflater.setInput(data);
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
-        byte[] tmp = new byte[4*1024];
+        byte[] tmp = new byte[4 * 1024];
         try {
             while (!inflater.finished()) {
                 int count = inflater.inflate(tmp);

@@ -24,13 +24,14 @@ public class DomainFixtures {
     }
 
     public static User someUser() {
-        return User.builder()
-                .userId(1)
-                .username("test1")
-                .password("test1")
-                .email("test@test.pl")
-                .active(true)
-                .build();
+        User user = new User();
+        user.setUserId(1);
+        user.setUsername("test1");
+        user.setPassword("test1");
+        user.setEmail("test@test.pl");
+        user.setActive(true);
+
+        return user;
     }
 
     public static DietGoals someDietGoals() {

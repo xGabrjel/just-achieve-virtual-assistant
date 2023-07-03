@@ -16,6 +16,6 @@ public interface UserProfileJpaRepository extends JpaRepository<UserProfileEntit
 
     @Transactional
     @Modifying
-    @Query("UPDATE UserProfileEntity user SET user.weight = :newWeight WHERE user.profileId = :profileId")
+    @Query("UPDATE UserProfileEntity u SET u.weight = :newWeight WHERE u.profileId = :profileId")
     void updateWeightByProfileId(Integer profileId, BigDecimal newWeight);
 }

@@ -41,7 +41,9 @@ public class JustAchieveSecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request ->
                         request
-                                .requestMatchers("/", "/error", "/users", "/defaultError", "/login", "/registration/**").permitAll()
+                                .requestMatchers("/", "/error", "/defaultError", "/login", "/registration/**", "images/**")
+                                .permitAll()
+                                .requestMatchers("/users").hasAnyAuthority("ADMIN")
                                 .anyRequest().authenticated()
                 )
                 .formLogin(formLogin ->

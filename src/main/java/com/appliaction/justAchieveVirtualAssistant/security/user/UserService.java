@@ -1,22 +1,63 @@
 package com.appliaction.justAchieveVirtualAssistant.security.user;
 
+import com.appliaction.justAchieveVirtualAssistant.domain.Role;
+import com.appliaction.justAchieveVirtualAssistant.domain.User;
+import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.mapper.UserEntityMapper;
 import com.appliaction.justAchieveVirtualAssistant.security.registration.RegistrationRequest;
+import com.appliaction.justAchieveVirtualAssistant.security.registration.token.VerificationTokenService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface UserService {
+@Service
+@RequiredArgsConstructor
+public class UserService {
 
-    List<UserEntity> getAllUsers();
+    private final UserJpaRepository userJpaRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final VerificationTokenService verificationTokenService;
+    private final UserEntityMapper userEntityMapper;
+    private final UserRepository userRepository;
 
-    UserEntity registerUser(RegistrationRequest registrationRequest);
+    public List<User> getAllUsers() {
+        return userJpaRepository.findAll().stream()
+                .map(userEntityMapper::mapFromEntity)
+                .toList();
+    }
 
-    Optional<UserEntity> findByEmail(String email);
+    public User registerUser(RegistrationRequest registration) {
+        User user = new User(
+                registration.getUsername(),
+                registration.getEmail(),
+                passwordEncoder.encode(registration.getPassword()),
+                List.of(new Role("USER")));
 
-    Optional<UserEntity> findById(int id);
-    Optional<UserEntity> findByUsername(String username);
+        return userRepository.save(user);
+    }
 
-    void updateUser(int id, String username, String email);
+    public Optional<User> findByEmail(String email) {
+        return Optional.ofNullable(userRepository.findByEmail(email))
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    }
 
-    void deleteUser(int id);
+    public Optional<User> findById(int id) {
+        return userRepository.findById(id);
+    }
+
+    @Transactional
+    public void updateUser(int id, String username, String email) {
+        userJpaRepository.update(username, email, id);
+    }
+
+    @Transactional
+    public void deleteUser(int id) {
+        Optional<User> theUser = userRepository.findById(id);
+        theUser.ifPresent(user -> verificationTokenService.deleteUserToken(user.getUserId()));
+        userJpaRepository.deleteById(id);
+    }
 }

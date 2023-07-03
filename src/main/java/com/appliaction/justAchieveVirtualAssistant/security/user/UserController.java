@@ -1,5 +1,7 @@
 package com.appliaction.justAchieveVirtualAssistant.security.user;
 
+import com.appliaction.justAchieveVirtualAssistant.api.dto.UserDTO;
+import com.appliaction.justAchieveVirtualAssistant.api.dto.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,30 +10,28 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.Optional;
-
 @Controller
 @RequestMapping("/users")
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserServiceImpl userService;
+    private final UserService userService;
+    private final UserMapper userMapper;
 
     @GetMapping
     public String getUsers(Model model) {
-        model.addAttribute("users", userService.getAllUsers());
+        model.addAttribute("users", userService.getAllUsers().stream().map(userMapper::map));
         return "users";
     }
 
     @GetMapping("/edit/{userId}")
     public String showUpdateForm(@PathVariable("userId") int userId, Model model) {
-        Optional<UserEntity> user = userService.findById(userId);
-        model.addAttribute("user", user.get());
+        model.addAttribute("user", userService.findById(userId).stream().map(userMapper::map).findFirst().get());
         return "update-user";
     }
 
     @PostMapping("/update/{userId}")
-    public String updateUser(@PathVariable("userId") int userId, UserEntity user) {
+    public String updateUser(@PathVariable("userId") int userId, UserDTO user) {
         userService.updateUser(userId, user.getUsername(), user.getEmail());
         return "redirect:/users?success";
     }

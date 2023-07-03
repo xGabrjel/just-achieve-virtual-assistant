@@ -1,10 +1,12 @@
 package com.appliaction.justAchieveVirtualAssistant.security.registration.password;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-public interface PasswordResetTokenJpaRepository extends JpaRepository<PasswordResetToken, Long> {
+@Repository
+public interface PasswordResetTokenJpaRepository extends JpaRepository<PasswordResetTokenEntity, Long> {
 
-    Optional<PasswordResetToken> findByToken(String theToken);
+    Optional<PasswordResetTokenEntity> findByToken(String theToken);
 }
