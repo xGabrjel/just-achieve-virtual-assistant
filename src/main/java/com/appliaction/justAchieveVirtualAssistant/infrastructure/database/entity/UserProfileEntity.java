@@ -47,7 +47,7 @@ public class UserProfileEntity {
     @Column(name = "height", nullable = false)
     private BigDecimal height;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "diet_goal_id")
     private DietGoalsEntity dietGoal;
 }

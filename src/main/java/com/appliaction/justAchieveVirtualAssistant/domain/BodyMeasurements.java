@@ -3,7 +3,7 @@ package com.appliaction.justAchieveVirtualAssistant.domain;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
+import java.time.LocalDate;
 
 @With
 @Value
@@ -14,7 +14,7 @@ public class BodyMeasurements {
 
     Integer bodyMeasurementId;
     UserProfile profileId;
-    OffsetDateTime date;
+    LocalDate date;
     BigDecimal currentWeight;
     BigDecimal calf;
     BigDecimal thigh;

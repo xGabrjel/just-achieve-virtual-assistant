@@ -8,7 +8,8 @@ import com.appliaction.justAchieveVirtualAssistant.security.user.UserEntity;
 import lombok.experimental.UtilityClass;
 
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
+import java.time.LocalDate;
+
 
 @UtilityClass
 public class EntityFixtures {
@@ -56,7 +57,7 @@ public class EntityFixtures {
         return BodyMeasurementsEntity.builder()
                 .bodyMeasurementId(1)
                 .profileId(someUserProfileEntity())
-                .date(OffsetDateTime.now())
+                .date(LocalDate.now())
                 .currentWeight(new BigDecimal("100.3"))
                 .calf(new BigDecimal("40.3"))
                 .thigh(new BigDecimal("70.2"))

@@ -38,9 +38,9 @@ class MacronutrientsCalculatorServiceTest {
 
         //then
         Assertions.assertNotNull(result);
-        Assertions.assertEquals(BigDecimal.valueOf(3500), result.get("BMR"));
-        Assertions.assertEquals(BigDecimal.valueOf(175.0), result.get("Protein"));
-        Assertions.assertEquals(BigDecimal.valueOf(437.5), result.get("Carbohydrates"));
-        Assertions.assertEquals(BigDecimal.valueOf(116.7), result.get("Fats"));
+        Assertions.assertEquals(BigDecimal.valueOf(3500), result.get("bmr"));
+        Assertions.assertEquals(BigDecimal.valueOf(175.0), result.get("protein"));
+        Assertions.assertEquals(BigDecimal.valueOf(437.5), result.get("carbohydrates"));
+        Assertions.assertEquals(BigDecimal.valueOf(116.7), result.get("fats"));
     }
 }

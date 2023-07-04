@@ -21,6 +21,7 @@ public class JustAchieveSecurityConfiguration {
 
     private final JustAchieveSecurityUserDetailsService justAchieveSecurityUserDetailsService;
 
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -37,13 +38,26 @@ public class JustAchieveSecurityConfiguration {
     @Bean
     @ConditionalOnProperty(value = "spring.security.enabled", havingValue = "true", matchIfMissing = true)
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        var admin = justAchieveSecurityUserDetailsService.loadUserByUsername("admin")
+                .getAuthorities()
+                .stream()
+                .toList()
+                .get(0);
+
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request ->
                         request
-                                .requestMatchers("/", "/error", "/defaultError", "/login", "/registration/**", "images/**")
+                                .requestMatchers(
+                                        "/",
+                                        "/error",
+                                        "/defaultError",
+                                        "/login",
+                                        "/registration/**",
+                                        "images/**"
+                                        )
                                 .permitAll()
-                                .requestMatchers("/users").hasAnyAuthority("ADMIN")
+                                .requestMatchers("/users").hasAnyAuthority(admin.getAuthority())
                                 .anyRequest().authenticated()
                 )
                 .formLogin(formLogin ->

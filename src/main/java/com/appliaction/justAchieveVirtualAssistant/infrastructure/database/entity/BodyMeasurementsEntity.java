@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -27,7 +27,7 @@ public class BodyMeasurementsEntity {
     private UserProfileEntity profileId;
 
     @Column(name = "date", nullable = false)
-    private OffsetDateTime date;
+    private LocalDate date;
 
     @Column(name = "current_weight", nullable = false)
     private BigDecimal currentWeight;

@@ -8,7 +8,6 @@ import com.appliaction.justAchieveVirtualAssistant.domain.BodyMeasurements;
 import com.appliaction.justAchieveVirtualAssistant.domain.UserProfile;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.mapper.BodyMeasurementsEntityMapper;
 import lombok.AllArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,9 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
 import java.security.Principal;
-import java.time.OffsetDateTime;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 @Controller
 @RequestMapping("/measurements")
@@ -41,18 +39,15 @@ public class BodyMeasurementsController {
     public String getMeasurements(
             Model model,
             Principal principal,
-            @RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") String date
+            @RequestParam("date") String date
     ) {
         String username = principal.getName();
-        OffsetDateTime offsetDateTime = OffsetDateTime.parse(date, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+        LocalDate parseResult = LocalDate.parse(date, DateTimeFormatter.ISO_LOCAL_DATE);
 
-        List<BodyMeasurementsDTO> list = bodyMeasurementsService
-                .findByDateAndProfileId(offsetDateTime, userProfileService.findByUsername(username)).stream()
-                .map(bodyMeasurementsEntityMapper::mapFromEntity)
-                .map(bodyMeasurementsMapper::map)
-                .toList();
+        BodyMeasurements list = bodyMeasurementsService.findByDateAndProfileId(parseResult, userProfileService.findByUsername(username));
+        BodyMeasurementsDTO bodyMeasurementsDTO = bodyMeasurementsMapper.map(list);
 
-        model.addAttribute("measurements", list);
+        model.addAttribute("measurements", bodyMeasurementsDTO);
         return "measurements";
     }
 
@@ -60,7 +55,7 @@ public class BodyMeasurementsController {
     public String postMeasurements(
             Model model,
             Principal principal,
-            @RequestParam(value = "date", required = true) @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") String date,
+            @RequestParam(value = "date", required = true) String date,
             @RequestParam(value = "currentWeight", required = true) BigDecimal currentWeight,
             @RequestParam(value = "calf", required = true) BigDecimal calf,
             @RequestParam(value = "thigh", required = true) BigDecimal thigh,
@@ -70,12 +65,12 @@ public class BodyMeasurementsController {
             @RequestParam(value = "measurementNote", required = false) String measurementNote
     ) {
         String username = principal.getName();
-        OffsetDateTime offsetDateTime = OffsetDateTime.parse(date, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+        LocalDate parseResult = LocalDate.parse(date, DateTimeFormatter.ISO_LOCAL_DATE);
         UserProfile userProfile = userProfileService.findByUsername(username);
 
         BodyMeasurements toSave = BodyMeasurements.builder()
                 .profileId(userProfile)
-                .date(offsetDateTime)
+                .date(parseResult)
                 .currentWeight(currentWeight)
                 .calf(calf)
                 .thigh(thigh)
@@ -86,6 +81,6 @@ public class BodyMeasurementsController {
                 .build();
 
         bodyMeasurementsService.saveBodyMeasurements(toSave);
-        return "measurements";
+        return "redirect:/measurements?success";
     }
 }

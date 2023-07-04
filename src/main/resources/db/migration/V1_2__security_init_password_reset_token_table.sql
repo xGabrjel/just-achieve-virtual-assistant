@@ -1,7 +1,7 @@
 CREATE TABLE password_reset_token
 (
     password_id         SERIAL                          NOT NULL,
-    token      VARCHAR(256)                    NOT NULL,
+    token               VARCHAR(256)                    NOT NULL,
     expiration_time     TIMESTAMP WITHOUT TIME ZONE     NOT NULL,
     user_id             INT                             NOT NULL,
 

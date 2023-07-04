@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
@@ -21,18 +22,24 @@ public class MacronutrientsCalculatorService {
 
         BigDecimal protein = (bmr.multiply(BigDecimal.valueOf(0.2)))
                 .divide(BigDecimal.valueOf(4.0),
-                        RoundingMode.HALF_UP);
+                        1 ,RoundingMode.HALF_UP);
         BigDecimal carbs = (bmr.multiply(BigDecimal.valueOf(0.5)))
                 .divide(BigDecimal.valueOf(4.0),
-                        RoundingMode.HALF_UP);
+                        1 ,RoundingMode.HALF_UP);
         BigDecimal fat = (bmr.multiply(BigDecimal.valueOf(0.3)))
                 .divide(BigDecimal.valueOf(9.0),
-                        RoundingMode.HALF_UP);
+                        1, RoundingMode.HALF_UP);
 
         log.info("Default macronutrients values for BMR [%s] kcal: Protein - [%s], Carbohydrates - [%s], Fat - [%s]"
                 .formatted(bmr, protein, carbs, fat));
 
-        return Map.of("BMR", bmr, "Protein", protein, "Carbohydrates", carbs, "Fats", fat);
+        Map<String, BigDecimal> result = new HashMap<>();
+        result.put("bmr", bmr);
+        result.put("protein", protein);
+        result.put("carbohydrates", carbs);
+        result.put("fats", fat);
+
+        return result;
     }
 }
 

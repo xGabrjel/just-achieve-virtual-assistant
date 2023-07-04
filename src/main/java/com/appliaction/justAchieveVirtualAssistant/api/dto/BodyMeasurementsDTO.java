@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
+import java.time.LocalDate;
 
 @Data
 @Builder
@@ -14,7 +14,7 @@ import java.time.OffsetDateTime;
 @AllArgsConstructor
 public class BodyMeasurementsDTO {
 
-    private OffsetDateTime date;
+    private LocalDate date;
     private BigDecimal currentWeight;
     private BigDecimal calf;
     private BigDecimal thigh;

@@ -3,8 +3,6 @@ package com.appliaction.justAchieveVirtualAssistant.infrastructure.database.enti
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Set;
-
 @Getter
 @Setter
 @Entity
@@ -23,10 +21,4 @@ public class DietGoalsEntity {
 
     @Column(name = "diet_goal", unique = true, nullable = false)
     private String dietGoal;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "dietGoal")
-    private Set<UserProfileEntity> users;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "dietGoal")
-    private Set<FitnessTipsEntity> tips;
 }

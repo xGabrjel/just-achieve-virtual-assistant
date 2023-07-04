@@ -2,7 +2,7 @@ CREATE TABLE body_measurements
 (
     body_measurement_id         SERIAL                               NOT NULL,
     profile_id                  INT                                  NOT NULL,
-    date                        TIMESTAMP WITH TIME ZONE             NOT NULL,
+    date                        DATE                                 NOT NULL,
     current_weight              NUMERIC(4, 1)                        NOT NULL,
     calf                        NUMERIC(4, 1)                        NOT NULL,
     thigh                       NUMERIC(4, 1)                        NOT NULL,

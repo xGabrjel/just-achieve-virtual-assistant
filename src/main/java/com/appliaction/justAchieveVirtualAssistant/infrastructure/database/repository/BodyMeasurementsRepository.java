@@ -2,6 +2,7 @@ package com.appliaction.justAchieveVirtualAssistant.infrastructure.database.repo
 
 import com.appliaction.justAchieveVirtualAssistant.domain.BodyMeasurements;
 import com.appliaction.justAchieveVirtualAssistant.domain.UserProfile;
+import com.appliaction.justAchieveVirtualAssistant.domain.exception.NotFoundException;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.entity.BodyMeasurementsEntity;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.entity.UserProfileEntity;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.mapper.BodyMeasurementsEntityMapper;
@@ -12,8 +13,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.OffsetDateTime;
-import java.util.List;
+import java.time.LocalDate;
 
 
 @Repository
@@ -37,8 +37,16 @@ public class BodyMeasurementsRepository {
         userProfileJpaRepository.updateWeightByProfileId(bodyMeasurements.getProfileId().getProfileId(), bodyMeasurements.getCurrentWeight());
     }
 
-    public List<BodyMeasurementsEntity> findByDateAndProfileId(OffsetDateTime offsetDateTime, UserProfile userProfile) {
+    public BodyMeasurements findByDateAndProfileId(LocalDate date, UserProfile userProfile) {
         UserProfileEntity userProfileEntity = userProfileEntityMapper.mapToEntity(userProfile);
-        return bodyMeasurementsJpaRepository.findByDateAndProfileId(offsetDateTime, userProfileEntity);
+        return bodyMeasurementsJpaRepository.findByDateAndProfileId(date, userProfileEntity).stream()
+                .map(bodyMeasurementsEntityMapper::mapFromEntity)
+                .findFirst()
+                .orElseThrow(() -> new NotFoundException("Could not find BodyMeasurements by this date: [%s]".formatted(date)));
+    }
+
+    public void delete(BodyMeasurements bodyMeasurements) {
+        BodyMeasurementsEntity entity = bodyMeasurementsEntityMapper.mapToEntity(bodyMeasurements);
+        bodyMeasurementsJpaRepository.delete(entity);
     }
 }

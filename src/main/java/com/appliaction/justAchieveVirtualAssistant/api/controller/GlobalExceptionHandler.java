@@ -16,7 +16,7 @@ public class GlobalExceptionHandler {
     public ModelAndView handleException(Exception ex) {
         String message = String.format("Other exception occurred: [%s]", ex.getMessage());
         log.error(message, ex);
-        ModelAndView modelView = new ModelAndView("defaultError");
+        ModelAndView modelView = new ModelAndView("default-error");
         modelView.addObject("errorMessage", message);
         return modelView;
     }
@@ -26,7 +26,7 @@ public class GlobalExceptionHandler {
     public ModelAndView handleNoResourceFound(NotFoundException ex) {
         String message = String.format("Could not find a resource: [%s]", ex.getMessage());
         log.error(message, ex);
-        ModelAndView modelView = new ModelAndView("defaultError");
+        ModelAndView modelView = new ModelAndView("default-error");
         modelView.addObject("errorMessage", message);
         return modelView;
     }

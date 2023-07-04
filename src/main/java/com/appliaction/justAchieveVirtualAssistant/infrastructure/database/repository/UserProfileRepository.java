@@ -2,6 +2,7 @@ package com.appliaction.justAchieveVirtualAssistant.infrastructure.database.repo
 
 import com.appliaction.justAchieveVirtualAssistant.domain.UserProfile;
 import com.appliaction.justAchieveVirtualAssistant.domain.exception.NotFoundException;
+import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.entity.UserProfileEntity;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.mapper.UserProfileEntityMapper;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.repository.jpa.UserProfileJpaRepository;
 import lombok.AllArgsConstructor;
@@ -20,5 +21,15 @@ public class UserProfileRepository {
                 .map(userProfileEntityMapper::mapFromEntity)
                 .findFirst()
                 .orElseThrow(() -> new NotFoundException("Could not find UserProfile by this username: [%s]".formatted(username)));
+    }
+
+    public void saveUserProfileData(UserProfile userProfile) {
+        UserProfileEntity userProfileEntity = userProfileEntityMapper.mapToEntity(userProfile);
+        userProfileJpaRepository.save(userProfileEntity);
+    }
+
+    public void delete(UserProfile userProfile) {
+        UserProfileEntity userProfileEntity = userProfileEntityMapper.mapToEntity(userProfile);
+        userProfileJpaRepository.delete(userProfileEntity);
     }
 }

@@ -5,10 +5,10 @@ import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.entit
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.time.OffsetDateTime;
-import java.util.List;
+import java.time.LocalDate;
+import java.util.Optional;
 
 @Repository
 public interface BodyMeasurementsJpaRepository extends JpaRepository<BodyMeasurementsEntity, Integer> {
-    List<BodyMeasurementsEntity> findByDateAndProfileId(OffsetDateTime offsetDateTime, UserProfileEntity userProfileEntity);
+    Optional<BodyMeasurementsEntity> findByDateAndProfileId(LocalDate date, UserProfileEntity userProfileEntity);
 }

@@ -2,7 +2,6 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
 >
 <head th:replace="~{fragments :: boots_trap}">
-    <meta charset="UTF-8">
     <title>User Login</title>
 </head>
 <body>
@@ -15,7 +14,8 @@
         </div>
 
         <div th:if="${param.reset_success}" class="col-sm-8">
-            <p class="alert alert-info alert-dismissible fade show" role="alert">You have successfully reset your password, please log in here.</p>
+            <p class="alert alert-info alert-dismissible fade show" role="alert">
+                You have successfully reset your password, please log in here and complete the user profile data.</p>
         </div>
 
         <div th:if="${param.verified}" class="col-sm-8">

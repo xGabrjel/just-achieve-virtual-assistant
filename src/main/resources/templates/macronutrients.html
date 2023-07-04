@@ -1,15 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+>
+<head th:replace="~{fragments :: boots_trap}">
     <title>Macronutrients Calculator</title>
-    <link rel="icon" type="image/x-icon" th:href="@{images/gym_icon.ico}">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
-          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
-          crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" th:href="@{styles.css}"/>
 </head>
 <body>
+<div class="container col-md-offset-3 col-md-8 mt-lg-5">
+    <div th:replace="~{fragments :: nav_bar}"></div>
 <div class="container">
     <h1>Macronutrients Calculator</h1>
     <div class="card">
@@ -36,13 +33,15 @@
             <ul class="macro-list">
                 <li><strong>Protein:</strong> <span th:text="${macro.protein}"></span></li>
                 <li><strong>Carbohydrates:</strong> <span th:text="${macro.carbohydrates}"></span></li>
-                <li><strong>Fat:</strong> <span th:text="${macro.fat}"></span></li>
+                <li><strong>Fat:</strong> <span th:text="${macro.fats}"></span></li>
+                <li><strong>Total kcal of macronutrients: </strong> <span th:text="${macro.bmr}"></span></li>
             </ul>
         </div>
     </div>
     <div class="btn-back">
         <a th:href="@{/}" class="btn btn-info">Go Back to the Main Page</a>
     </div>
+</div>
 </div>
 </body>
 </html>
