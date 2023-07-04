@@ -28,12 +28,9 @@ public class FitnessTipsController {
         String username = principal.getName();
         FitnessTips randomTipForDietGoal = fitnessTipsGeneratorService.getRandomTipForDietGoal(username);
         FitnessTipsDTO tipsDTO = fitnessTipsMapper.map(randomTipForDietGoal);
-        String dietGoal = tipsDTO.getDietGoal().getDietGoal();
-        String tip = tipsDTO.getTip();
 
-        model.addAttribute("dietGoal", dietGoal);
-        model.addAttribute("tip", tip);
+        model.addAttribute("dietGoal", tipsDTO.getDietGoal().getDietGoal());
+        model.addAttribute("tip", tipsDTO.getTip());
         return "tips";
     }
-
 }

@@ -31,7 +31,7 @@ public class PasswordResetTokenService {
     }
 
     public Optional<User> findUserByPasswordResetToken(String theToken) {
-        return Optional.ofNullable(passwordResetTokenRepository.findByToken(theToken).get().getUser());
+        return Optional.ofNullable(passwordResetTokenRepository.findByToken(theToken).orElseThrow().getUser());
     }
 
     public void resetPassword(User theUser, String newPassword) {
@@ -43,5 +43,4 @@ public class PasswordResetTokenService {
         PasswordResetToken resetToken = new PasswordResetToken(passwordResetToken, user);
         passwordResetTokenRepository.save(resetToken);
     }
-
 }

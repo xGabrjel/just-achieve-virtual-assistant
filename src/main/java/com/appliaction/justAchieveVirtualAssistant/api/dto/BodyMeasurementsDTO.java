@@ -1,5 +1,6 @@
 package com.appliaction.justAchieveVirtualAssistant.api.dto;
 
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,5 +22,6 @@ public class BodyMeasurementsDTO {
     private BigDecimal waist;
     private BigDecimal chest;
     private BigDecimal arm;
+    @Size(max = 500)
     private String measurementNote;
 }

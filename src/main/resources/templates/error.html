@@ -7,7 +7,6 @@
 <body>
 <div class="container col-md-offset-3 col-md-8 mt-lg-5">
     <div th:replace="~{fragments :: nav_bar}"></div>
-    <!-- show errors if any . -->
 
     <div class="row mt-2">
         <div th:if="${param.invalid}" class="col-sm-8">
@@ -18,7 +17,7 @@
             <p class="alert alert-info">This verification link has already expired.</p>
         </div>
     </div>
-    <a href="#" th:href="@{/}">Go to home page</a>
+    <a href="#" th:href="@{/}">Go back to the main page</a>
 </div>
 
 </body>

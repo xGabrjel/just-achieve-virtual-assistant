@@ -49,6 +49,10 @@ public class UserService {
         return userRepository.findById(id);
     }
 
+    public Optional<User> findByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
     @Transactional
     public void updateUser(int id, String username, String email) {
         userJpaRepository.update(username, email, id);

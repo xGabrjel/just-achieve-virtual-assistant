@@ -27,6 +27,8 @@ public class UserProfileDTO {
     private Integer age;
     private String sex;
     private BigDecimal weight;
+    @Min(1)
+    @Max(3)
     private BigDecimal height;
     private DietGoalsDTO dietGoal;
 }

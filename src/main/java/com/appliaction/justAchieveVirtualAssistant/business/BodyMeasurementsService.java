@@ -46,5 +46,4 @@ public class BodyMeasurementsService {
 
         return bodyMeasurementsRepository.findByDateAndProfileId(date, userProfile);
     }
-
 }

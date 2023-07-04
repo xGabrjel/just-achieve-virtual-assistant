@@ -2,17 +2,21 @@ package com.appliaction.justAchieveVirtualAssistant.api.controller;
 
 import com.appliaction.justAchieveVirtualAssistant.api.dto.UserProfileDTO;
 import com.appliaction.justAchieveVirtualAssistant.api.dto.mapper.UserProfileMapper;
+import com.appliaction.justAchieveVirtualAssistant.business.DietGoalsService;
 import com.appliaction.justAchieveVirtualAssistant.business.UserProfileService;
+import com.appliaction.justAchieveVirtualAssistant.domain.DietGoals;
+import com.appliaction.justAchieveVirtualAssistant.domain.User;
 import com.appliaction.justAchieveVirtualAssistant.domain.UserProfile;
+import com.appliaction.justAchieveVirtualAssistant.security.user.UserService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import java.math.BigDecimal;
 import java.security.Principal;
 
 
@@ -23,6 +27,8 @@ public class UserProfileController {
 
     private UserProfileService userProfileService;
     private UserProfileMapper userProfileMapper;
+    private DietGoalsService dietGoalsService;
+    private UserService userService;
 
     @GetMapping
     public String homeProfilePage() {
@@ -46,18 +52,26 @@ public class UserProfileController {
     public String submitProfileData(
             Model model,
             Principal principal,
-            @RequestParam(value = "name", required = true) String name,
-            @RequestParam(value = "surname", required = true) String surname,
-            @RequestParam(value = "phone", required = true) String phone,
-            @RequestParam(value = "age", required = true) Integer age,
-            @RequestParam(value = "sex", required = true) String sex,
-            @RequestParam(value = "weight", required = true) BigDecimal weight,
-            @RequestParam(value = "height", required = true) BigDecimal height,
-            @RequestParam(value = "dietGoalsId", required = true) Integer dietGoalsId
+            Integer dietGoalId,
+            @Valid @ModelAttribute("userProfileDTO") UserProfileDTO userProfileDTO
     ) {
         String username = principal.getName();
-        userProfileService.saveUserProfileData(username, name, surname, phone, age, sex, weight, height, dietGoalsId);
+        User user = userService.findByUsername(username).orElseThrow();
+        DietGoals dietGoals = dietGoalsService.findById(dietGoalId).orElseThrow();
+
+        UserProfile userProfile = UserProfile.builder()
+                .user(user)
+                .name(userProfileDTO.getName())
+                .surname(userProfileDTO.getSurname())
+                .phone(userProfileDTO.getPhone())
+                .age(userProfileDTO.getAge())
+                .sex(userProfileDTO.getSex())
+                .weight(userProfileDTO.getWeight())
+                .height(userProfileDTO.getHeight())
+                .dietGoal(dietGoals)
+                .build();
+
+        userProfileService.saveUserProfileData(username, userProfile);
         return "redirect:/user-profile?success";
     }
-
 }

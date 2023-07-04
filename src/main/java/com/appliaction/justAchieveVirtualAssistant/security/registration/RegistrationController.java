@@ -34,7 +34,9 @@ public class RegistrationController {
     private final UserMapper userMapper;
 
     @GetMapping("/registration-form")
-    public String showRegistrationForm(Model model) {
+    public String showRegistrationForm(
+            Model model
+    ) {
         model.addAttribute("user", new RegistrationRequest());
         return "registration";
     }
@@ -72,7 +74,8 @@ public class RegistrationController {
 
     @PostMapping("/forgot-password")
     public String resetPasswordRequest(
-            HttpServletRequest request, Model model
+            HttpServletRequest request,
+            Model model
     ) {
         String email = request.getParameter("email");
         Optional<User> user = userService.findByEmail(email);

@@ -32,4 +32,9 @@ public class UserRepository {
                 .findFirst();
     }
 
+    public Optional<User> findByUsername(String username) {
+        return userJpaRepository.findByUsername(username).stream()
+                .map(userEntityMapper::mapFromEntity)
+                .findFirst();
+    }
 }

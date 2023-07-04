@@ -19,25 +19,36 @@ public class UserController {
     private final UserMapper userMapper;
 
     @GetMapping
-    public String getUsers(Model model) {
+    public String getUsers(
+            Model model
+    ) {
         model.addAttribute("users", userService.getAllUsers().stream().map(userMapper::map));
         return "users";
     }
 
     @GetMapping("/edit/{userId}")
-    public String showUpdateForm(@PathVariable("userId") int userId, Model model) {
-        model.addAttribute("user", userService.findById(userId).stream().map(userMapper::map).findFirst().get());
+    public String showUpdateForm(
+            @PathVariable("userId") int userId,
+            Model model
+    ) {
+        UserDTO userDTO = userService.findById(userId).stream().map(userMapper::map).findFirst().orElseThrow();
+        model.addAttribute("user", userDTO);
         return "update-user";
     }
 
     @PostMapping("/update/{userId}")
-    public String updateUser(@PathVariable("userId") int userId, UserDTO user) {
+    public String updateUser(
+            @PathVariable("userId") int userId,
+            UserDTO user
+    ) {
         userService.updateUser(userId, user.getUsername(), user.getEmail());
         return "redirect:/users?success";
     }
 
     @GetMapping("/delete/{userId}")
-    public String deleteUser(@PathVariable("userId") int userId) {
+    public String deleteUser(
+            @PathVariable("userId") int userId
+    ) {
         userService.deleteUser(userId);
         return "redirect:/users?delete_success";
     }
