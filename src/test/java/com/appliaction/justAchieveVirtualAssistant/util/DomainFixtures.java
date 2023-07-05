@@ -4,7 +4,7 @@ import com.appliaction.justAchieveVirtualAssistant.domain.*;
 import lombok.experimental.UtilityClass;
 
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
+import java.time.LocalDate;
 
 @UtilityClass
 public class DomainFixtures {
@@ -45,7 +45,7 @@ public class DomainFixtures {
         return BodyMeasurements.builder()
                 .bodyMeasurementId(1)
                 .profileId(someUserProfile())
-                .date(OffsetDateTime.now())
+                .date(LocalDate.now())
                 .currentWeight(new BigDecimal("100.3"))
                 .calf(new BigDecimal("40.3"))
                 .thigh(new BigDecimal("70.2"))

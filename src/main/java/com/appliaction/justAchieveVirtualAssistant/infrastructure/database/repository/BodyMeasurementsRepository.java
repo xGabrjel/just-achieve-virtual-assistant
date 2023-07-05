@@ -28,7 +28,7 @@ public class BodyMeasurementsRepository {
     @Transactional
     public void saveBodyMeasurements(BodyMeasurements bodyMeasurements) {
         BodyMeasurementsEntity toSave = bodyMeasurementsEntityMapper.mapToEntity(bodyMeasurements);
-        bodyMeasurementsJpaRepository.save(toSave);
+        bodyMeasurementsJpaRepository.saveAndFlush(toSave);
         updateUserProfileWeight(bodyMeasurements);
     }
 

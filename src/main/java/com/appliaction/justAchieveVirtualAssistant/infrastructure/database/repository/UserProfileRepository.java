@@ -25,7 +25,7 @@ public class UserProfileRepository {
 
     public void saveUserProfileData(UserProfile userProfile) {
         UserProfileEntity userProfileEntity = userProfileEntityMapper.mapToEntity(userProfile);
-        userProfileJpaRepository.save(userProfileEntity);
+        userProfileJpaRepository.saveAndFlush(userProfileEntity);
     }
 
     public void delete(UserProfile userProfile) {
