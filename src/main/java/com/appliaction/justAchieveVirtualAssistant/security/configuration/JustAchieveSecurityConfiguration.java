@@ -79,7 +79,7 @@ public class JustAchieveSecurityConfiguration {
 
     @Bean
     @ConditionalOnProperty(value = "spring.security.enabled", havingValue = "false")
-    SecurityFilterChain securityDisabled(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityDisabled(HttpSecurity http) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request.anyRequest().permitAll())

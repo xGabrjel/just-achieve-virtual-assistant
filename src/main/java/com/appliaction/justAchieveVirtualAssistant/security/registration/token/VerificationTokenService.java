@@ -32,7 +32,7 @@ public class VerificationTokenService {
     }
 
     public void saveVerificationTokenForUser(User user, String token) {
-        var verificationToken = new VerificationToken(token, user);
+        VerificationToken verificationToken = new VerificationToken(token, user);
         tokenRepository.save(verificationToken);
     }
 

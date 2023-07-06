@@ -13,7 +13,7 @@ import org.hibernate.validator.constraints.Length;
 @AllArgsConstructor
 public class UserDTO {
 
-    private String userId;
+    private Integer userId;
     @Length(min = 5, max = 25)
     private String username;
     @Email

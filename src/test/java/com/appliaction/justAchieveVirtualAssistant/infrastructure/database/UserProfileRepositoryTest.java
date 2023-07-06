@@ -1,64 +1,89 @@
 package com.appliaction.justAchieveVirtualAssistant.infrastructure.database;
 
+import com.appliaction.justAchieveVirtualAssistant.configuration.AbstractIT;
 import com.appliaction.justAchieveVirtualAssistant.domain.UserProfile;
 import com.appliaction.justAchieveVirtualAssistant.domain.exception.NotFoundException;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.entity.UserProfileEntity;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.mapper.UserProfileEntityMapper;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.repository.UserProfileRepository;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.repository.jpa.UserProfileJpaRepository;
-import com.appliaction.justAchieveVirtualAssistant.util.DomainFixtures;
+import com.appliaction.justAchieveVirtualAssistant.security.user.UserEntity;
+import com.appliaction.justAchieveVirtualAssistant.security.user.UserJpaRepository;
 import com.appliaction.justAchieveVirtualAssistant.util.EntityFixtures;
+import lombok.AllArgsConstructor;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Optional;
+import java.util.UUID;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
-class UserProfileRepositoryTest {
+@AllArgsConstructor(onConstructor = @__(@Autowired))
+class UserProfileRepositoryTest extends AbstractIT {
 
-    @InjectMocks
-    private UserProfileRepository userProfileRepository;
-
-    @Mock
-    private UserProfileJpaRepository userProfileJpaRepository;
-
-    @Mock
-    private UserProfileEntityMapper userProfileEntityMapper;
+    private final UserProfileRepository userProfileRepository;
+    private final UserJpaRepository userJpaRepository;
+    private final UserProfileJpaRepository userProfileJpaRepository;
+    private final UserProfileEntityMapper userProfileEntityMapper;
 
     @Test
-    void getUserProfileWorksCorrectly() {
+    void findByUserUsernameWorksCorrectly() {
         //given
-        UserProfileEntity userProfileEntity = EntityFixtures.someUserProfileEntity();
-        UserProfile userProfile = DomainFixtures.someUserProfile();
-
-        when(userProfileJpaRepository.findByUserUsername(userProfileEntity.getUser().getUsername())).thenReturn(Optional.of(userProfileEntity));
-        when(userProfileEntityMapper.mapFromEntity(userProfileEntity)).thenReturn(userProfile);
+        String adminUsername = "admin";
 
         //when
-        UserProfile result = userProfileRepository.findByUserUsername(userProfileEntity.getUser().getUsername());
+        UserProfile result = userProfileRepository.findByUserUsername(adminUsername);
 
         //then
         assertNotNull(result);
-        verify(userProfileJpaRepository, times(1)).findByUserUsername(userProfileEntity.getUser().getUsername());
-        verify(userProfileEntityMapper, times(1)).mapFromEntity(userProfileEntity);
+        assertEquals(adminUsername, result.getUser().getUsername());
     }
 
     @Test
-    void getUserProfileExceptionThrowingWorksCorrectly() {
+    void findByUserUsernameThrowsExceptionWorksCorrectly() {
         //given
-        String username = "test1";
-
-        when(userProfileJpaRepository.findByUserUsername(username)).thenReturn(Optional.empty());
+        String username = UUID.randomUUID()
+                .toString()
+                .substring(0, 6);
 
         //when, then
-        assertThrows(NotFoundException.class, () -> userProfileRepository.findByUserUsername(username));
-        verify(userProfileJpaRepository, times(1)).findByUserUsername(username);
+        assertThatThrownBy(() ->
+                userProfileRepository.findByUserUsername(username))
+                .isInstanceOf(NotFoundException.class);
+    }
+
+    @Test
+    void saveUserProfileDataWorksCorrectly() {
+        //given
+        String adminUsername = "admin";
+        UserProfile adminProfile = userProfileRepository.findByUserUsername(adminUsername);
+        adminProfile.setAge(40);
+
+        //when
+        userProfileRepository.saveUserProfileData(adminProfile);
+
+        //then
+        assertEquals(userProfileRepository.findByUserUsername(adminUsername).getAge(), 40);
+    }
+
+    @Test
+    void deleteWorksCorrectly() {
+        //given
+        UserEntity userEntity = EntityFixtures.someUserEntity();
+        UserProfileEntity userProfileEntity = EntityFixtures.someUserProfileEntity();
+        UserProfile userProfile = userProfileEntityMapper.mapFromEntity(userProfileEntity);
+
+        userJpaRepository.saveAndFlush(userEntity);
+        userProfileJpaRepository.saveAndFlush(userProfileEntity);
+
+        //when
+        userProfileRepository.delete(userProfile);
+
+        //then
+        assertThatThrownBy(() ->
+                userProfileRepository.findByUserUsername(userProfileEntity.getUser().getUsername()))
+                .isInstanceOf(NotFoundException.class);
     }
 }

@@ -6,6 +6,7 @@ import com.appliaction.justAchieveVirtualAssistant.security.registration.token.V
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.context.ApplicationListener;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -15,6 +16,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.UUID;
 
 @Component
+@Setter
 @RequiredArgsConstructor
 public class RegistrationCompleteEventListener implements ApplicationListener<RegistrationCompleteEvent> {
 
