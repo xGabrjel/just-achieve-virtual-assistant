@@ -133,5 +133,14 @@ public class UserServiceITTest extends AbstractIT {
         userService.deleteUser(user.getUserId());
         assertEquals(Optional.empty(), userService.findById(user.getUserId()));
     }
+
+    @Test
+    void userEntityCustomConstructorWorksCorrectly() {
+        //given
+        UserEntity user = new UserEntity("username", "email@o2.pl", "password", List.of(new RoleEntity("USER")));
+
+        //when, then
+        assertNotNull(user);
+    }
 }
 

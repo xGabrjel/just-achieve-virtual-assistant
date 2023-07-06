@@ -1,7 +1,6 @@
 package com.appliaction.justAchieveVirtualAssistant.security.configuration;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -36,7 +35,6 @@ public class JustAchieveSecurityConfiguration {
     }
 
     @Bean
-    @ConditionalOnProperty(value = "spring.security.enabled", havingValue = "true", matchIfMissing = true)
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         var admin = justAchieveSecurityUserDetailsService.loadUserByUsername("admin")
                 .getAuthorities()
@@ -74,15 +72,6 @@ public class JustAchieveSecurityConfiguration {
                                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                                 .logoutSuccessUrl("/")
                 )
-                .build();
-    }
-
-    @Bean
-    @ConditionalOnProperty(value = "spring.security.enabled", havingValue = "false")
-    public SecurityFilterChain securityDisabled(HttpSecurity http) throws Exception {
-        return http
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(request -> request.anyRequest().permitAll())
                 .build();
     }
 }

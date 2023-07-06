@@ -7,8 +7,7 @@ import com.appliaction.justAchieveVirtualAssistant.util.EntityFixtures;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 class BodyMeasurementsEntityMapperTest {
 
@@ -35,6 +34,7 @@ class BodyMeasurementsEntityMapperTest {
         assertEquals(entity.getCurrentWeight(), domain.getCurrentWeight());
         assertEquals(entity.getMeasurementNote(), domain.getMeasurementNote());
         assertEquals(entity.getBodyMeasurementId(), domain.getBodyMeasurementId());
+        assertNotEquals(entity.getProfileId().getUser().getRoles().toArray(), domain.getProfileId().getUser().getRoles().toArray());
     }
 
     @Test
@@ -58,5 +58,6 @@ class BodyMeasurementsEntityMapperTest {
         assertEquals(domain.getCurrentWeight(), entity.getCurrentWeight());
         assertEquals(domain.getMeasurementNote(), entity.getMeasurementNote());
         assertEquals(domain.getBodyMeasurementId(), entity.getBodyMeasurementId());
+        assertNotEquals(domain.getProfileId().getUser().getRoles().toArray(), entity.getProfileId().getUser().getRoles().toArray());
     }
 }

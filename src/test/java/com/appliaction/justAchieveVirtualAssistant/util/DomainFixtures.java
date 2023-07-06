@@ -5,6 +5,7 @@ import lombok.experimental.UtilityClass;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @UtilityClass
 public class DomainFixtures {
@@ -27,9 +28,10 @@ public class DomainFixtures {
         User user = new User();
         user.setUserId(1);
         user.setUsername("test1");
-        user.setPassword("test1");
         user.setEmail("test@test.pl");
+        user.setPassword("test1");
         user.setActive(true);
+        user.setRoles(List.of(new Role("USER")));
 
         return user;
     }

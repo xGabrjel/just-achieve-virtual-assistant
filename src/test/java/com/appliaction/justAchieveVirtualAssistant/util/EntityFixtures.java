@@ -4,11 +4,13 @@ import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.entit
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.entity.DietGoalsEntity;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.entity.FitnessTipsEntity;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.entity.UserProfileEntity;
+import com.appliaction.justAchieveVirtualAssistant.security.user.RoleEntity;
 import com.appliaction.justAchieveVirtualAssistant.security.user.UserEntity;
 import lombok.experimental.UtilityClass;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 
 @UtilityClass
@@ -34,6 +36,7 @@ public class EntityFixtures {
         userEntity.setPassword("test1");
         userEntity.setEmail("test@test.pl");
         userEntity.setActive(true);
+        userEntity.setRoles(List.of(new RoleEntity("USER")));
 
         return userEntity;
     }
