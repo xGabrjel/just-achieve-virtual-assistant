@@ -1,5 +1,7 @@
 package com.appliaction.justAchieveVirtualAssistant.api.dto;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,6 +18,8 @@ import java.time.LocalDate;
 public class BodyMeasurementsDTO {
 
     private LocalDate date;
+    @Min(1)
+    @Max(200)
     private BigDecimal currentWeight;
     private BigDecimal calf;
     private BigDecimal thigh;

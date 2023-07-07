@@ -32,7 +32,12 @@ public class UserController {
             @PathVariable("userId") int userId,
             Model model
     ) {
-        UserDTO userDTO = userService.findById(userId).stream().map(userMapper::map).findFirst().orElseThrow();
+        UserDTO userDTO = userService.findById(userId)
+                .stream()
+                .map(userMapper::map)
+                .findFirst()
+                .orElseThrow();
+
         model.addAttribute("user", userDTO);
         return "update-user";
     }
