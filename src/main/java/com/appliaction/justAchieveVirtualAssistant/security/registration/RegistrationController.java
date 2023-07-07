@@ -1,6 +1,5 @@
 package com.appliaction.justAchieveVirtualAssistant.security.registration;
 
-import com.appliaction.justAchieveVirtualAssistant.api.dto.mapper.UserMapper;
 import com.appliaction.justAchieveVirtualAssistant.domain.User;
 import com.appliaction.justAchieveVirtualAssistant.domain.VerificationToken;
 import com.appliaction.justAchieveVirtualAssistant.security.event.Listener.RegistrationCompleteEventListener;
@@ -11,7 +10,7 @@ import com.appliaction.justAchieveVirtualAssistant.security.support.UrlUtil;
 import com.appliaction.justAchieveVirtualAssistant.security.user.UserService;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,7 +21,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Controller
-@RequiredArgsConstructor
+@AllArgsConstructor
 @RequestMapping("/registration")
 public class RegistrationController {
 
@@ -31,7 +30,6 @@ public class RegistrationController {
     private final VerificationTokenService tokenService;
     private final PasswordResetTokenService passwordResetTokenService;
     private final RegistrationCompleteEventListener eventListener;
-    private final UserMapper userMapper;
 
     @GetMapping("/registration-form")
     public String showRegistrationForm(

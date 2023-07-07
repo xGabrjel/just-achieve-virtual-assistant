@@ -10,12 +10,13 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.Optional;
 
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(UserController.class)
 @AutoConfigureMockMvc(addFilters = false)
@@ -31,10 +32,10 @@ class UserControllerTest {
     @Test
     void getUsersPageWorksCorrectly() throws Exception {
         //given, when, then
-        mockMvc.perform(MockMvcRequestBuilders.get("/users"))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.model().attributeExists("users"))
-                .andExpect(MockMvcResultMatchers.view().name("users"));
+        mockMvc.perform(get("/users"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("users"))
+                .andExpect(view().name("users"));
     }
 
     @Test
@@ -48,7 +49,6 @@ class UserControllerTest {
         user.setEmail("test@o2.pl");
         user.setActive(true);
 
-
         UserDTO userDTO = new UserDTO();
         userDTO.setUserId(1);
         userDTO.setUsername("test");
@@ -59,11 +59,11 @@ class UserControllerTest {
         when(userMapper.map(user)).thenReturn(userDTO);
 
         //when, then
-        mockMvc.perform(MockMvcRequestBuilders.get("/users/edit/{userId}", userId))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.model().attributeExists("user"))
-                .andExpect(MockMvcResultMatchers.model().attribute("user", userDTO))
-                .andExpect(MockMvcResultMatchers.view().name("update-user"));
+        mockMvc.perform(get("/users/edit/{userId}", userId))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("user"))
+                .andExpect(model().attribute("user", userDTO))
+                .andExpect(view().name("update-user"));
     }
 
     @Test
@@ -72,9 +72,9 @@ class UserControllerTest {
         int userId = 1;
 
         //when, then
-        mockMvc.perform(MockMvcRequestBuilders.post("/users/update/{userId}", userId))
-                .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
-                .andExpect(MockMvcResultMatchers.view().name("redirect:/users?success"));
+        mockMvc.perform(post("/users/update/{userId}", userId))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/users?success"));
     }
 
     @Test
@@ -83,8 +83,8 @@ class UserControllerTest {
         int userId = 1;
 
         //when, then
-        mockMvc.perform(MockMvcRequestBuilders.get("/users/delete/{userId}", userId))
-                .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
-                .andExpect(MockMvcResultMatchers.redirectedUrl("/users?delete_success"));
+        mockMvc.perform(get("/users/delete/{userId}", userId))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/users?delete_success"));
     }
 }
