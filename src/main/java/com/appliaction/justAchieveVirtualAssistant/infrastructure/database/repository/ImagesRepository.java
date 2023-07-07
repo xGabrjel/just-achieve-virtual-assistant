@@ -1,10 +1,13 @@
 package com.appliaction.justAchieveVirtualAssistant.infrastructure.database.repository;
 
 import com.appliaction.justAchieveVirtualAssistant.domain.Images;
+import com.appliaction.justAchieveVirtualAssistant.domain.exception.NotFoundException;
+import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.entity.ImagesEntity;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.mapper.ImagesEntityMapper;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.repository.jpa.ImagesJpaRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -20,5 +23,13 @@ public class ImagesRepository {
                 .stream()
                 .map(imagesEntityMapper::mapFromEntity)
                 .findFirst();
+    }
+
+    @Transactional
+    public void deleteImage(String fileName) {
+        ImagesEntity imagesEntity = imagesJpaRepository.findByName(fileName)
+                .orElseThrow(() -> new NotFoundException("Image [%s] does not exist!".formatted(fileName)));
+
+        imagesJpaRepository.delete(imagesEntity);
     }
 }

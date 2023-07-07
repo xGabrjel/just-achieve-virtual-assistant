@@ -10,5 +10,5 @@ public interface UserEntityMapper {
 
     User mapFromEntity(UserEntity entity);
 
-    UserEntity mapToEntity(User entity);
+    UserEntity mapToEntity(User domain);
 }

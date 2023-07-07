@@ -10,5 +10,5 @@ public interface RoleEntityMapper {
 
     Role mapFromEntity(RoleEntity entity);
 
-    RoleEntity mapToEntity(Role entity);
+    RoleEntity mapToEntity(Role domain);
 }

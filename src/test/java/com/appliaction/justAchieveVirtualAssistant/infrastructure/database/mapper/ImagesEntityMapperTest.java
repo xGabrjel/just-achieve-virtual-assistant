@@ -32,4 +32,25 @@ class ImagesEntityMapperTest {
         assertEquals(entity.getType(), domain.getType());
         assertArrayEquals(entity.getImageData(), domain.getImageData());
     }
+    @Test
+    void imagesMapToEntityWorksCorrectly() {
+        //given
+        Images domain = Images.builder()
+                .id(1L)
+                .name("Test Image")
+                .type("PNG")
+                .imageData(new byte[]{1, 2, 3})
+                .build();
+
+        //when
+        ImagesEntity entity = imagesEntityMapper.mapToEntity(domain);
+        ImagesEntity nullMapping = imagesEntityMapper.mapToEntity(null);
+
+        //then
+        assertNull(nullMapping);
+        assertEquals(domain.getId(), entity.getId());
+        assertEquals(domain.getName(), entity.getName());
+        assertEquals(domain.getType(), entity.getType());
+        assertArrayEquals(domain.getImageData(), entity.getImageData());
+    }
 }
