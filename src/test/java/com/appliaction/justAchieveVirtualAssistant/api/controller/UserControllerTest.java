@@ -1,8 +1,9 @@
-package com.appliaction.justAchieveVirtualAssistant.security.user;
+package com.appliaction.justAchieveVirtualAssistant.api.controller;
 
 import com.appliaction.justAchieveVirtualAssistant.api.dto.UserDTO;
 import com.appliaction.justAchieveVirtualAssistant.api.dto.mapper.UserMapper;
 import com.appliaction.justAchieveVirtualAssistant.domain.User;
+import com.appliaction.justAchieveVirtualAssistant.security.user.UserService;
 import lombok.AllArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

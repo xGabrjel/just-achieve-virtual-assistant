@@ -1,7 +1,10 @@
-package com.appliaction.justAchieveVirtualAssistant.security.registration;
+package com.appliaction.justAchieveVirtualAssistant.api.controller;
 
 import com.appliaction.justAchieveVirtualAssistant.domain.User;
 import com.appliaction.justAchieveVirtualAssistant.domain.VerificationToken;
+import com.appliaction.justAchieveVirtualAssistant.security.event.Listener.RegistrationCompleteEventListener;
+import com.appliaction.justAchieveVirtualAssistant.security.registration.RegistrationController;
+import com.appliaction.justAchieveVirtualAssistant.security.registration.RegistrationRequest;
 import com.appliaction.justAchieveVirtualAssistant.security.registration.password.PasswordResetTokenService;
 import com.appliaction.justAchieveVirtualAssistant.security.registration.token.VerificationTokenService;
 import com.appliaction.justAchieveVirtualAssistant.security.user.UserService;
@@ -33,6 +36,8 @@ class RegistrationControllerTest {
     private VerificationTokenService tokenService;
     @MockBean
     private PasswordResetTokenService passwordResetTokenService;
+    @MockBean
+    private final RegistrationCompleteEventListener eventListener;
 
     @Test
     void showRegistrationFormWorksCorrectly() throws Exception {
