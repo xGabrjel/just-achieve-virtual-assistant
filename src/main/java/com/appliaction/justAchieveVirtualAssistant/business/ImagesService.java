@@ -48,14 +48,15 @@ public class ImagesService {
     }
 
     @Transactional
-    public void deleteImage(String fileName) {
+    public String deleteImage(String fileName) {
         log.info("Deleting file [%s]".formatted(fileName));
 
         repository.deleteImage(fileName);
+        return "File deleted successfully: [%s]".formatted(fileName);
     }
 
     @Transactional
-    public void updateImage(String fileName, MultipartFile file) throws IOException {
+    public String updateImage(String fileName, MultipartFile file) throws IOException {
         log.info("The file [%s] will be replaced with new file: [%s]".formatted(fileName, file.getOriginalFilename()));
 
         Images existingImage = repository.getImage(fileName)
@@ -67,5 +68,6 @@ public class ImagesService {
         imageEntity.setImageData(ImagesUtils.compressImage(file.getBytes()));
 
         jpaRepository.save(imageEntity);
+        return "File updated successfully: [%s]".formatted(file.getOriginalFilename());
     }
 }

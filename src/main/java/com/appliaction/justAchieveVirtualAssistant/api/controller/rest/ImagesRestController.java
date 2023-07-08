@@ -18,7 +18,7 @@ public class ImagesRestController {
 
     private ImagesService service;
 
-    @GetMapping("{fileName}")
+    @GetMapping("/download/{fileName}")
     public ResponseEntity<?> downloadImage(@PathVariable String fileName) {
         byte[] imageData = service.downloadImage(fileName);
         return ResponseEntity.status(HttpStatus.OK)
@@ -26,20 +26,19 @@ public class ImagesRestController {
                 .body(imageData);
     }
 
-    @PostMapping
+    @PostMapping("/upload")
     public ResponseEntity<?> uploadImage(@RequestParam("image") MultipartFile file) throws IOException {
         String uploadImage = service.uploadImage(file);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(uploadImage);
     }
 
-    @DeleteMapping("{fileName}")
+    @DeleteMapping("/delete/{fileName}")
     public ResponseEntity<?> deleteImage(@PathVariable String fileName) {
         try {
             service.downloadImage(fileName);
             service.deleteImage(fileName);
-            return ResponseEntity.status(HttpStatus.OK)
-                    .body(("Image [%s] deleted successfully.".formatted(fileName)));
+            return ResponseEntity.ok("Image [%s] deleted successfully.".formatted(fileName));
 
         } catch (NotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -47,7 +46,7 @@ public class ImagesRestController {
         }
     }
 
-    @PutMapping("{fileName}")
+    @PutMapping("/update/{fileName}")
     public ResponseEntity<?> updateImage(
             @PathVariable String fileName,
             @RequestParam("image")
@@ -56,8 +55,8 @@ public class ImagesRestController {
 
         try {
             service.downloadImage(fileName);
-            service.updateImage(fileName, file);
-            return ResponseEntity.ok("Image [%s] updated successfully.".formatted(fileName));
+            String updateImage = service.updateImage(fileName, file);
+            return ResponseEntity.ok(updateImage);
 
         } catch (NotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)

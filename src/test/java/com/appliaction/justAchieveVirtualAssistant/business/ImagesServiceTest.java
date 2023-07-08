@@ -96,21 +96,25 @@ class ImagesServiceTest {
 
     @Test
     public void deleteImageExistingImageWorksCorrectly() {
+        //given
         String fileName = "example.jpg";
 
         doNothing().when(imagesRepository).deleteImage(fileName);
 
+        //when, then
         assertDoesNotThrow(() -> imagesService.deleteImage(fileName));
 
         verify(imagesRepository, times(1)).deleteImage(fileName);
     }
 
     @Test
-    public void deleteNonExistingImageWorksCorrectly() {
-        String fileName = "nonexistent.jpg";
+    public void deleteNonExistingImageThrowsNotFoundExceptionCorrectly() {
+        // given
+        String fileName = "example.jpg";
 
         doThrow(NotFoundException.class).when(imagesRepository).deleteImage(fileName);
 
+        // when, then
         assertThrows(NotFoundException.class, () -> imagesService.deleteImage(fileName));
 
         verify(imagesRepository, times(1)).deleteImage(fileName);
@@ -118,6 +122,7 @@ class ImagesServiceTest {
 
     @Test
     public void updateExistingImageWorksCorrectly() throws IOException {
+        //given
         String fileName = "example.jpg";
         MultipartFile file = mock(MultipartFile.class);
         Images existingImage = mock(Images.class);
@@ -128,7 +133,9 @@ class ImagesServiceTest {
         when(file.getOriginalFilename()).thenReturn("newfile.jpg");
         when(file.getContentType()).thenReturn("image/jpeg");
         when(file.getBytes()).thenReturn(new byte[0]);
+        when(imagesJpaRepository.save(imageEntity)).thenReturn(imageEntity);
 
+        //when, then
         assertDoesNotThrow(() -> imagesService.updateImage(fileName, file));
 
         verify(imagesRepository, times(1)).getImage(fileName);
@@ -140,12 +147,14 @@ class ImagesServiceTest {
     }
 
     @Test
-    public void updateNonExistingImageThrowsNotFoundExceptionCorrectly() throws IOException {
+    public void updateNonExistingImageThrowsNotFoundException() throws IOException {
+        //given
         String fileName = "nonexistent.jpg";
         MultipartFile file = mock(MultipartFile.class);
 
         when(imagesRepository.getImage(fileName)).thenReturn(Optional.empty());
 
+        //when, then
         assertThrows(NotFoundException.class, () -> imagesService.updateImage(fileName, file));
 
         verify(imagesRepository, times(1)).getImage(fileName);
