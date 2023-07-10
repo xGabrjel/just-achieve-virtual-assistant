@@ -3,7 +3,6 @@ package com.appliaction.justAchieveVirtualAssistant.business;
 import com.appliaction.justAchieveVirtualAssistant.business.support.ImagesUtils;
 import com.appliaction.justAchieveVirtualAssistant.domain.Images;
 import com.appliaction.justAchieveVirtualAssistant.domain.exception.NotFoundException;
-import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.entity.ImagesEntity;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.mapper.ImagesEntityMapper;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.repository.ImagesRepository;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.repository.jpa.ImagesJpaRepository;
@@ -29,11 +28,14 @@ public class ImagesService {
     public String uploadImage(MultipartFile file) throws IOException {
         log.info("Uploading file [%s]".formatted(file.getOriginalFilename()));
 
-        jpaRepository.save(ImagesEntity.builder()
+        Images image = Images.builder()
                 .name(file.getOriginalFilename())
                 .type(file.getContentType())
-                .imageData(ImagesUtils.compressImage(file.getBytes())).build()
-        );
+                .imageData(ImagesUtils.compressImage(file.getBytes()))
+                .build();
+
+        repository.save(image);
+
         return "File uploaded successfully: [%s]".formatted(file.getOriginalFilename());
     }
 
@@ -43,7 +45,7 @@ public class ImagesService {
 
         Optional<Images> bdImageData = repository.getImage(fileName);
         return bdImageData
-                .map(imageEntity -> ImagesUtils.decompressImage(imageEntity.getImageData()))
+                .map(image -> ImagesUtils.decompressImage(image.getImageData()))
                 .orElseThrow(() -> new NotFoundException("File: [%s] not found".formatted(fileName)));
     }
 
@@ -59,15 +61,18 @@ public class ImagesService {
     public String updateImage(String fileName, MultipartFile file) throws IOException {
         log.info("The file [%s] will be replaced with new file: [%s]".formatted(fileName, file.getOriginalFilename()));
 
-        Images existingImage = repository.getImage(fileName)
-                .orElseThrow(() -> new NotFoundException("File: [%s] not found".formatted(fileName)));
+        if (repository.getImage(fileName).isEmpty()) {
+            throw new NotFoundException("File: [%s] not found".formatted(fileName));
+        }
 
-        ImagesEntity imageEntity = imagesEntityMapper.mapToEntity(existingImage);
-        imageEntity.setName(file.getOriginalFilename());
-        imageEntity.setType(file.getContentType());
-        imageEntity.setImageData(ImagesUtils.compressImage(file.getBytes()));
+        Images image = Images.builder()
+                .name(file.getOriginalFilename())
+                .type(file.getContentType())
+                .imageData(ImagesUtils.compressImage(file.getBytes()))
+                .build();
 
-        jpaRepository.save(imageEntity);
+        repository.save(image);
+
         return "File updated successfully: [%s]".formatted(file.getOriginalFilename());
     }
 }

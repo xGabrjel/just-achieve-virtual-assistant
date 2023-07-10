@@ -32,4 +32,9 @@ public class ImagesRepository {
 
         imagesJpaRepository.delete(imagesEntity);
     }
+
+    public void save(Images image) {
+        ImagesEntity imagesEntity = imagesEntityMapper.mapToEntity(image);
+        imagesJpaRepository.save(imagesEntity);
+    }
 }

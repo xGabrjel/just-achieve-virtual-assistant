@@ -26,8 +26,8 @@ public class ImagesRestController {
                 .body(imageData);
     }
 
-    @PostMapping("/upload")
-    public ResponseEntity<?> uploadImage(@RequestParam("image") MultipartFile file) throws IOException {
+    @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> uploadImage(@RequestPart("image") MultipartFile file) throws IOException {
         String uploadImage = service.uploadImage(file);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(uploadImage);
@@ -46,10 +46,10 @@ public class ImagesRestController {
         }
     }
 
-    @PutMapping("/update/{fileName}")
+    @PutMapping(value ="/update/{fileName}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> updateImage(
             @PathVariable String fileName,
-            @RequestParam("image")
+            @RequestPart("image")
             MultipartFile file
     ) throws IOException {
 

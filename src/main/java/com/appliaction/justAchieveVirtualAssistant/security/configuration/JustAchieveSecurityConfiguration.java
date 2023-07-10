@@ -52,7 +52,15 @@ public class JustAchieveSecurityConfiguration {
                                         "/defaultError",
                                         "/login",
                                         "/registration/**",
-                                        "images/**"
+                                        "image/**"
+                                        )
+                                .permitAll()
+                                .requestMatchers(
+                                        "/v3/api-docs/**",
+                                        "/swagger-ui/**",
+                                        "/api/v1/auth/**",
+                                        "/v3/api-docs.yaml",
+                                        "/swagger-ui.html"
                                         )
                                 .permitAll()
                                 .requestMatchers("/users").hasAnyAuthority(admin.getAuthority())

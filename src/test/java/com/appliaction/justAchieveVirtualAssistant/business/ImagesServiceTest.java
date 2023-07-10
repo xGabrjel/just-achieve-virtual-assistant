@@ -3,7 +3,6 @@ package com.appliaction.justAchieveVirtualAssistant.business;
 import com.appliaction.justAchieveVirtualAssistant.business.support.ImagesUtils;
 import com.appliaction.justAchieveVirtualAssistant.domain.Images;
 import com.appliaction.justAchieveVirtualAssistant.domain.exception.NotFoundException;
-import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.entity.ImagesEntity;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.mapper.ImagesEntityMapper;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.repository.ImagesRepository;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.repository.jpa.ImagesJpaRepository;
@@ -43,13 +42,6 @@ class ImagesServiceTest {
         String contentType = "image/jpeg";
         byte[] imageData = "Test image data".getBytes();
         MultipartFile file = new MockMultipartFile(fileName, fileName, contentType, imageData);
-        ImagesEntity savedEntity = ImagesEntity.builder()
-                .name(fileName)
-                .type(contentType)
-                .imageData(ImagesUtils.compressImage(imageData))
-                .build();
-
-        when(imagesJpaRepository.save(any(ImagesEntity.class))).thenReturn(savedEntity);
 
         // when
         String result = imagesService.uploadImage(file);
@@ -57,7 +49,6 @@ class ImagesServiceTest {
         // then
         assertNotNull(result);
         assertTrue(result.contains("File uploaded successfully"));
-        verify(imagesJpaRepository, times(1)).save(any(ImagesEntity.class));
     }
 
     @Test
@@ -123,27 +114,23 @@ class ImagesServiceTest {
     @Test
     public void updateExistingImageWorksCorrectly() throws IOException {
         //given
-        String fileName = "example.jpg";
-        MultipartFile file = mock(MultipartFile.class);
-        Images existingImage = mock(Images.class);
-        ImagesEntity imageEntity = mock(ImagesEntity.class);
+        String fileName = "existing_image.jpg";
+        MultipartFile file = new MockMultipartFile("new_image.jpg", new byte[]{});
+
+        Images existingImage = Images.builder()
+                .name(fileName)
+                .type("image/jpeg")
+                .imageData(new byte[]{})
+                .build();
 
         when(imagesRepository.getImage(fileName)).thenReturn(Optional.of(existingImage));
-        when(imagesEntityMapper.mapToEntity(existingImage)).thenReturn(imageEntity);
-        when(file.getOriginalFilename()).thenReturn("newfile.jpg");
-        when(file.getContentType()).thenReturn("image/jpeg");
-        when(file.getBytes()).thenReturn(new byte[0]);
-        when(imagesJpaRepository.save(imageEntity)).thenReturn(imageEntity);
 
-        //when, then
-        assertDoesNotThrow(() -> imagesService.updateImage(fileName, file));
+        //when
+        String result = imagesService.updateImage(fileName, file);
 
-        verify(imagesRepository, times(1)).getImage(fileName);
-        verify(imagesEntityMapper, times(1)).mapToEntity(existingImage);
-        verify(imageEntity, times(1)).setName("newfile.jpg");
-        verify(imageEntity, times(1)).setType("image/jpeg");
-        verify(imageEntity, times(1)).setImageData(any(byte[].class));
-        verify(imagesJpaRepository, times(1)).save(imageEntity);
+        //then
+        verify(imagesRepository, times(1)).save(any(Images.class));
+        assertEquals("File updated successfully: []", result);
     }
 
     @Test
