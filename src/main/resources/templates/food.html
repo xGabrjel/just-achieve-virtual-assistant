@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: boots_trap}">
+    <title>Food Search</title>
+</head>
+<body>
+<div class="container col-md-offset-3 col-md-8 mt-lg-5">
+    <div th:replace="~{fragments :: nav_bar}"></div>
+    <div class="row mt-2">
+        <div th:if="${param.error}" class=" alert alert-info">
+            Your product was not found, please try again!
+        </div>
+    </div>
+    <div class="container">
+        <h1>Food Search</h1>
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Search for Food</h5>
+                        <form method="GET" th:action="@{/food/details}">
+                            <div class="form-group">
+                                <label for="query">Example: 150g of Lays chips</label>
+                                <input type="text" id="query" name="query" required class="form-control">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Search</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Food Details</h5>
+                        <div th:if="${foodDTO}">
+                            <strong>Name:</strong> <span th:text="${foodDTO.name}"></span><br>
+                            <strong>Serving Size:</strong> <span th:text="${foodDTO.servingSizeG}"></span><br>
+                            <strong>Calories:</strong> <span th:text="${foodDTO.calories}"></span><br>
+                            <strong>Protein:</strong> <span th:text="${foodDTO.proteinG}"></span><br>
+                            <strong>Carbohydrates:</strong> <span th:text="${foodDTO.carbohydratesTotalG}"></span><br>
+                            <strong>Fat:</strong> <span th:text="${foodDTO.fatTotalG}"></span><br>
+                            <strong> </strong> <span> </span><br>
+                            <strong>Fiber:</strong> <span th:text="${foodDTO.fiberG}"></span><br>
+                            <strong>Sugar:</strong> <span th:text="${foodDTO.sugarG}"></span><br>
+                            <strong>Saturated Fat:</strong> <span th:text="${foodDTO.fatSaturatedG}"></span><br>
+                            <strong>Cholesterol:</strong> <span th:text="${foodDTO.cholesterolMg}"></span><br>
+                            <strong>Sodium:</strong> <span th:text="${foodDTO.sodiumMg}"></span><br>
+                            <strong>Potassium:</strong> <span th:text="${foodDTO.potassiumMg}"></span><br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="btn-back">
+            <a th:href="@{/}" class="btn btn-info">Go Back to the Main Page</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

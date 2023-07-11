@@ -6,6 +6,7 @@ import io.netty.handler.timeout.ReadTimeoutHandler;
 import io.netty.handler.timeout.WriteTimeoutHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.http.codec.json.Jackson2JsonDecoder;
@@ -21,7 +22,8 @@ import java.util.concurrent.TimeUnit;
 public class WebClientConfiguration {
 
     public static final String CALORIE_NINJA = "https://api.calorieninjas.com/v1/";
-    public static final int TIMEOUT = 5000;
+    public static final int TIMEOUT = 50000;
+    public static final String X_API_KEY = "ePG30Bb+I8ZV7ofgX3IuVQ==AzS73ZdQAPXxKonk";
 
     @Bean
     public WebClient webClient(final ObjectMapper objectMapper) {
@@ -45,6 +47,8 @@ public class WebClientConfiguration {
         return WebClient.builder()
                 .baseUrl(CALORIE_NINJA)
                 .exchangeStrategies(exchangeStrategies)
+                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .defaultHeader("X-Api-Key", X_API_KEY)
                 .clientConnector(new ReactorClientHttpConnector(httpClient))
                 .build();
     }
