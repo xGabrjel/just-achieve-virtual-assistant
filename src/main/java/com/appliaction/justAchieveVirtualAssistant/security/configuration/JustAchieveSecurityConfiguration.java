@@ -61,7 +61,9 @@ public class JustAchieveSecurityConfiguration {
                                         "/swagger-ui/**",
                                         "/api/v1/auth/**",
                                         "/v3/api-docs.yaml",
-                                        "/swagger-ui.html"
+                                        "/swagger-ui.html",
+                                        "food-manager/**",
+                                        "image-manager/**"
                                         )
                                 .permitAll()
                                 .requestMatchers("/users").hasAnyAuthority(admin.getAuthority())

@@ -13,7 +13,7 @@ import java.io.IOException;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/image")
+@RequestMapping("/image-manager")
 public class ImagesRestController {
 
     private ImagesService service;
@@ -49,8 +49,7 @@ public class ImagesRestController {
     @PutMapping(value ="/update/{fileName}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> updateImage(
             @PathVariable String fileName,
-            @RequestPart("image")
-            MultipartFile file
+            @RequestPart("image") MultipartFile file
     ) throws IOException {
 
         try {

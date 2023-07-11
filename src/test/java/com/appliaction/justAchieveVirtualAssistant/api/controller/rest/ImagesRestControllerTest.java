@@ -35,7 +35,7 @@ class ImagesRestControllerTest {
         when(service.downloadImage(fileName)).thenReturn(imageData);
 
         //when, then
-        mockMvc.perform(MockMvcRequestBuilders.get("/image/download/{fileName}", fileName))
+        mockMvc.perform(MockMvcRequestBuilders.get("/image-manager/download/{fileName}", fileName))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType(MediaType.IMAGE_PNG))
                 .andExpect(MockMvcResultMatchers.content().bytes(imageData));
@@ -51,7 +51,7 @@ class ImagesRestControllerTest {
         when(service.uploadImage(file)).thenReturn(uploadImage);
 
         //when, then
-        mockMvc.perform(MockMvcRequestBuilders.multipart("/image/upload")
+        mockMvc.perform(MockMvcRequestBuilders.multipart("/image-manager/upload")
                         .file(file))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().string(uploadImage));
@@ -67,7 +67,7 @@ class ImagesRestControllerTest {
         when(service.downloadImage(fileName)).thenReturn(new byte[]{1, 2, 3});
 
         //when, then
-        mockMvc.perform(MockMvcRequestBuilders.delete("/image/delete/{fileName}", fileName))
+        mockMvc.perform(MockMvcRequestBuilders.delete("/image-manager/delete/{fileName}", fileName))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().string(expectedMessage));
 
@@ -83,7 +83,7 @@ class ImagesRestControllerTest {
         when(service.downloadImage(fileName)).thenThrow(exception);
 
         //when, then
-        mockMvc.perform(MockMvcRequestBuilders.delete("/image/delete/{fileName}", fileName))
+        mockMvc.perform(MockMvcRequestBuilders.delete("/image-manager/delete/{fileName}", fileName))
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
                 .andExpect(MockMvcResultMatchers.content().string(exception.getMessage()));
 
@@ -101,7 +101,7 @@ class ImagesRestControllerTest {
         when(service.updateImage(fileName, file)).thenReturn(updateImage);
 
         //when, then
-        mockMvc.perform(MockMvcRequestBuilders.multipart("/image/update/{fileName}", fileName)
+        mockMvc.perform(MockMvcRequestBuilders.multipart("/image-manager/update/{fileName}", fileName)
                         .file(file)
                         .with(request -> {
                             request.setMethod("PUT");
@@ -123,7 +123,7 @@ class ImagesRestControllerTest {
         when(service.downloadImage(fileName)).thenThrow(exception);
 
         //when, then
-        mockMvc.perform(MockMvcRequestBuilders.multipart("/image/update/{fileName}", fileName)
+        mockMvc.perform(MockMvcRequestBuilders.multipart("/image-manager/update/{fileName}", fileName)
                         .file(file)
                         .with(request -> {
                             request.setMethod("PUT");
