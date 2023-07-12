@@ -1,6 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments :: boots_trap}">
     <title>Error Page!</title>
 </head>
@@ -11,7 +10,7 @@
         <span th:if="${errorMessage}" th:text="${errorMessage}" class="error-message">Error</span>
     </b>
     <div>
-        <img th:src="@{/images/error_png.png}" alt="error_png"/>
+        <img th:src="@{/images/error_png.png}" alt="error_png" src=""/>
     </div>
     <div>
         <p class="btn-back">

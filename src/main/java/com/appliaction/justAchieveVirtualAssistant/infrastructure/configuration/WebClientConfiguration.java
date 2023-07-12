@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.netty.channel.ChannelOption;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 import io.netty.handler.timeout.WriteTimeoutHandler;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
@@ -21,9 +22,13 @@ import java.util.concurrent.TimeUnit;
 @Configuration
 public class WebClientConfiguration {
 
-    public static final String CALORIE_NINJA = "https://api.calorieninjas.com/v1/";
-    public static final int TIMEOUT = 50000;
-    public static final String X_API_KEY = "ePG30Bb+I8ZV7ofgX3IuVQ==AzS73ZdQAPXxKonk";
+    @Value("${api.calorieninja.url}")
+    private String calorieNinjaUrl;
+
+    @Value("${api.calorieninja.key}")
+    private String xApiKey;
+
+    public static final int TIMEOUT = 5000;
 
     @Bean
     public WebClient webClient(final ObjectMapper objectMapper) {
@@ -45,10 +50,10 @@ public class WebClientConfiguration {
                 }).build();
 
         return WebClient.builder()
-                .baseUrl(CALORIE_NINJA)
+                .baseUrl(calorieNinjaUrl)
                 .exchangeStrategies(exchangeStrategies)
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                .defaultHeader("X-Api-Key", X_API_KEY)
+                .defaultHeader("X-Api-Key", xApiKey)
                 .clientConnector(new ReactorClientHttpConnector(httpClient))
                 .build();
     }

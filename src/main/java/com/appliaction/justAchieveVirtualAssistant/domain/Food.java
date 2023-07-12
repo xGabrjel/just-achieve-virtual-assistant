@@ -1,14 +1,11 @@
 package com.appliaction.justAchieveVirtualAssistant.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -32,7 +29,6 @@ import java.util.Map;
 @NoArgsConstructor
 public class Food {
 
-    private Integer id;
     @JsonProperty("name")
     private String name;
     @JsonProperty("calories")
@@ -57,6 +53,4 @@ public class Food {
     private BigDecimal fiberG;
     @JsonProperty("sugar_g")
     private BigDecimal sugarG;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new LinkedHashMap<>();
 }

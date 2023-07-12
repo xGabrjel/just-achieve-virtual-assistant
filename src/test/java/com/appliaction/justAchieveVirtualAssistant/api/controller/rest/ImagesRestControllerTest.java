@@ -18,8 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 import static org.mockito.Mockito.*;
 
 @WebMvcTest(ImagesRestController.class)
-@AllArgsConstructor(onConstructor = @__(@Autowired))
 @AutoConfigureMockMvc(addFilters = false)
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 class ImagesRestControllerTest {
 
     private final MockMvc mockMvc;

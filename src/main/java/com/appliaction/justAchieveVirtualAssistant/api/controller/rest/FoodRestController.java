@@ -19,11 +19,11 @@ public class FoodRestController {
 
     private FoodService foodService;
 
-    @GetMapping("/get/{foodName}")
-    public ResponseEntity<FoodDTO> getFood(@PathVariable String foodName) {
+    @GetMapping("/get/{foodQuantityAndName}")
+    public ResponseEntity<FoodDTO> getFood(@PathVariable String foodQuantityAndName) {
 
-        var result = foodService.findByQuery(foodName)
-                .orElseThrow(() -> new NotFoundException("Food: [%s] not found".formatted(foodName)));
+        var result = foodService.findByQuery(foodQuantityAndName)
+                .orElseThrow(() -> new NotFoundException("Food: [%s] not found".formatted(foodQuantityAndName)));
 
         FoodDTO foodDTO = FoodDTO.builder()
                 .name(result.getFoods().get(0).getName().toUpperCase())

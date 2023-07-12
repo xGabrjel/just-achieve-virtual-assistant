@@ -2,3 +2,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
+
+api:
+  calorieninja:
+    url: http://localhost:9999

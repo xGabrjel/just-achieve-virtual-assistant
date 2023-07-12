@@ -3,6 +3,11 @@ server:
   servlet:
     context-path: /justAchieveVirtualAssistant
 
+api:
+  calorieninja:
+    url: https://api.calorieninjas.com/v1/
+    key: ePG30Bb+I8ZV7ofgX3IuVQ==AzS73ZdQAPXxKonk
+
 spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
