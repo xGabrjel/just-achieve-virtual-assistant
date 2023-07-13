@@ -1,5 +1,6 @@
 package com.appliaction.justAchieveVirtualAssistant.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -27,8 +28,14 @@ import java.math.BigDecimal;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(of = "foodId")
+@ToString(of = {"foodId", "name", "servingSizeG"})
 public class Food {
 
+    @JsonIgnore
+    private Integer foodId;
+    @JsonIgnore
+    private User userId;
     @JsonProperty("name")
     private String name;
     @JsonProperty("calories")
