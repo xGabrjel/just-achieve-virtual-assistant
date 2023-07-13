@@ -10,16 +10,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.math.BigDecimal;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(FoodController.class)
 @AutoConfigureMockMvc(addFilters = false)
@@ -33,9 +37,29 @@ class FoodControllerTest  {
 
     @Test
     void foodHomePageWorksCorrectly() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/food"))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("food"));
+        mockMvc.perform(get("/food"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("food"));
+    }
+
+    @Test
+    @WithMockUser
+    void saveProductWorksCorrectly() throws Exception {
+        //given
+        FoodDTO foodDTO = new FoodDTO();
+        foodDTO.setName("Apple");
+
+        String username = "admin";
+        Principal principal = () -> username;
+
+        //when, then
+        mockMvc.perform(post("/food/save")
+                .flashAttr("foodDTO", foodDTO)
+                .principal(principal))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/food?success"));
+
+        verify(foodService, times(1)).saveProduct(foodDTO, "admin");
     }
 
     @Test
@@ -77,12 +101,12 @@ class FoodControllerTest  {
         when(foodService.findByQuery(query)).thenReturn(Optional.of(new Item(foods)));
 
         //when, then
-        mockMvc.perform(MockMvcRequestBuilders.get("/food/details")
+        mockMvc.perform(get("/food/details")
                         .param("query", query))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("food"))
-                .andExpect(MockMvcResultMatchers.model().attributeExists("foodDTO"))
-                .andExpect(MockMvcResultMatchers.model().attribute("foodDTO", foodDTO));
+                .andExpect(status().isOk())
+                .andExpect(view().name("food"))
+                .andExpect(model().attributeExists("foodDTO"))
+                .andExpect(model().attribute("foodDTO", foodDTO));
 
 
         verify(foodService, times(1)).findByQuery(query);
@@ -96,13 +120,101 @@ class FoodControllerTest  {
         when(foodService.findByQuery(query)).thenReturn(Optional.empty());
 
         //when, then
-        mockMvc.perform(MockMvcRequestBuilders.get("/food/details")
+        mockMvc.perform(get("/food/details")
                         .param("query", query))
-                .andExpect(MockMvcResultMatchers.status().isNotFound())
-                .andExpect(MockMvcResultMatchers.handler().handlerType(FoodController.class))
-                .andExpect(MockMvcResultMatchers.handler().methodName("getFoodDetails"))
-                .andExpect(MockMvcResultMatchers.view().name("default-error"));
+                .andExpect(status().isNotFound())
+                .andExpect(handler().handlerType(FoodController.class))
+                .andExpect(handler().methodName("getFoodDetails"))
+                .andExpect(view().name("default-error"));
 
         verify(foodService, times(1)).findByQuery(query);
+    }
+
+    @Test
+    @WithMockUser
+    public void loadAllProductsWorksCorrectly() throws Exception {
+        //given
+        String username = "admin";
+        Principal principal = () -> username;
+
+        List<Food> listOfFoods = new ArrayList<>();
+
+        Food food1 = Food.builder()
+                .name("Food 1")
+                .calories(BigDecimal.valueOf(100))
+                .servingSizeG(50)
+                .fatTotalG(BigDecimal.valueOf(5))
+                .fatSaturatedG(BigDecimal.valueOf(2))
+                .proteinG(BigDecimal.valueOf(10))
+                .sodiumMg(BigDecimal.valueOf(100))
+                .potassiumMg(BigDecimal.valueOf(200))
+                .cholesterolMg(BigDecimal.valueOf(20))
+                .carbohydratesTotalG(BigDecimal.valueOf(30))
+                .fiberG(BigDecimal.valueOf(5))
+                .sugarG(BigDecimal.valueOf(10))
+                .build();
+
+        Food food2 = Food.builder()
+                .name("Food 2")
+                .calories(BigDecimal.valueOf(200))
+                .servingSizeG(100)
+                .fatTotalG(BigDecimal.valueOf(8))
+                .fatSaturatedG(BigDecimal.valueOf(4))
+                .proteinG(BigDecimal.valueOf(20))
+                .sodiumMg(BigDecimal.valueOf(150))
+                .potassiumMg(BigDecimal.valueOf(300))
+                .cholesterolMg(BigDecimal.valueOf(30))
+                .carbohydratesTotalG(BigDecimal.valueOf(40))
+                .fiberG(BigDecimal.valueOf(8))
+                .sugarG(BigDecimal.valueOf(15))
+                .build();
+
+        listOfFoods.add(food1);
+        listOfFoods.add(food2);
+
+        when(foodService.findAllByUsername(username)).thenReturn(listOfFoods);
+
+        //when, then
+        mockMvc.perform(get("/food/load")
+                .principal(principal))
+                .andExpect(status().isOk())
+                .andExpect(view().name("food"))
+                .andExpect(model().attributeExists("allProducts"))
+                .andExpect(model().attribute("allProducts", hasSize(2)))
+                .andExpect(model().attributeExists("totalServingSize"))
+                .andExpect(model().attribute("totalServingSize", 150))
+                .andExpect(model().attributeExists("totalCalories"))
+                .andExpect(model().attribute("totalCalories", BigDecimal.valueOf(300)))
+                .andExpect(model().attributeExists("totalFatTotal"))
+                .andExpect(model().attribute("totalFatTotal", BigDecimal.valueOf(13)))
+                .andExpect(model().attributeExists("totalFatSaturated"))
+                .andExpect(model().attribute("totalFatSaturated", BigDecimal.valueOf(6)))
+                .andExpect(model().attributeExists("totalProtein"))
+                .andExpect(model().attribute("totalProtein", BigDecimal.valueOf(30)))
+                .andExpect(model().attributeExists("totalSodium"))
+                .andExpect(model().attribute("totalSodium", BigDecimal.valueOf(250)))
+                .andExpect(model().attributeExists("totalPotassium"))
+                .andExpect(model().attribute("totalPotassium", BigDecimal.valueOf(500)))
+                .andExpect(model().attributeExists("totalCholesterol"))
+                .andExpect(model().attribute("totalCholesterol", BigDecimal.valueOf(50)))
+                .andExpect(model().attributeExists("totalCarbohydrates"))
+                .andExpect(model().attribute("totalCarbohydrates", BigDecimal.valueOf(70)))
+                .andExpect(model().attributeExists("totalFiber"))
+                .andExpect(model().attribute("totalFiber", BigDecimal.valueOf(13)))
+                .andExpect(model().attributeExists("totalSugar"))
+                .andExpect(model().attribute("totalSugar", BigDecimal.valueOf(25)));
+
+        verify(foodService, times(1)).findAllByUsername(anyString());
+    }
+
+    @Test
+    @WithMockUser
+    public void deleteAllProductsWorksCorrectly() throws Exception {
+        //given, when, then
+        mockMvc.perform(get("/food/delete"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/food?success"));
+
+        verify(foodService, times(1)).deleteAll();
     }
 }

@@ -26,6 +26,7 @@ public class EntityFixtures {
         return FitnessTipsEntity.builder()
                 .tipId(1)
                 .tip("Eat a lot of protein!")
+                .dietGoal(someDietGoalsEntity())
                 .build();
     }
 

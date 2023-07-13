@@ -22,7 +22,7 @@ public class FoodRepository {
 
     public void saveIntoDatabase(Food food) {
         FoodEntity foodEntity = foodEntityMapper.mapToEntity(food);
-        foodJpaRepository.save(foodEntity);
+        foodJpaRepository.saveAndFlush(foodEntity);
     }
 
     public List<FoodEntity> findAllProducts(String username) {

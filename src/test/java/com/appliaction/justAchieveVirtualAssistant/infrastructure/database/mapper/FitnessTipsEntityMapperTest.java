@@ -24,8 +24,10 @@ class FitnessTipsEntityMapperTest {
 
         //then
         assertNull(nullMapping);
-        assertEquals(entity.getTip(), domain.getTip());
         assertEquals(FitnessTips.class, domain.getClass());
+        assertEquals(entity.getTip(), domain.getTip());
         assertEquals(entity.getTipId(), domain.getTipId());
+        assertEquals(entity.getDietGoal().getDietGoalId(), domain.getDietGoal().getDietGoalId());
+        assertEquals(entity.getDietGoal().getDietGoal(), domain.getDietGoal().getDietGoal());
     }
 }
