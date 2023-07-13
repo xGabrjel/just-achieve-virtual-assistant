@@ -65,13 +65,11 @@ public class ImagesService {
             throw new NotFoundException("File: [%s] not found".formatted(fileName));
         }
 
-        Images image = Images.builder()
-                .name(file.getOriginalFilename())
-                .type(file.getContentType())
-                .imageData(ImagesUtils.compressImage(file.getBytes()))
-                .build();
-
-        repository.save(image);
+        Images image1 = repository.getImage(fileName).orElseThrow();
+        image1.setName(file.getOriginalFilename());
+        image1.setType(file.getContentType());
+        image1.setImageData(ImagesUtils.compressImage(file.getBytes()));
+        repository.save(image1);
 
         return "File updated successfully: [%s]".formatted(file.getOriginalFilename());
     }
