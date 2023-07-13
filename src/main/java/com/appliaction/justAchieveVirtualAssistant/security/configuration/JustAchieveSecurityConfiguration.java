@@ -52,8 +52,8 @@ public class JustAchieveSecurityConfiguration {
                                         "/defaultError",
                                         "/login",
                                         "/registration/**",
-                                        "images/**",
-                                        "food/**"
+                                        "/images/**",
+                                        "/food/**"
                                         )
                                 .permitAll()
                                 .requestMatchers(
@@ -62,8 +62,8 @@ public class JustAchieveSecurityConfiguration {
                                         "/api/v1/auth/**",
                                         "/v3/api-docs.yaml",
                                         "/swagger-ui.html",
-                                        "food-manager/**",
-                                        "image-manager/**"
+                                        "/food-manager/**",
+                                        "/image-manager/**"
                                         )
                                 .permitAll()
                                 .requestMatchers("/users").hasAnyAuthority(admin.getAuthority())
