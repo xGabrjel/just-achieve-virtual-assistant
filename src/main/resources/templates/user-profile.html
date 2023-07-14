@@ -11,13 +11,12 @@
             Saving new data successful!
         </div>
     </div>
-
     <div class="container">
         <h2>User Profile</h2>
         <form th:action="@{/user-profile/get-data}" method="get" id="getUserDataForm">
             <button type="submit" class="btn btn-primary">Get Profile</button>
+            <br>
         </form>
-
         <div th:if="${userProfile}">
             <p><strong>Name:</strong> <span th:text="${userProfile.name}"></span></p>
             <p><strong>Surname:</strong> <span th:text="${userProfile.surname}"></span></p>
@@ -28,41 +27,40 @@
             <p><strong>Height:</strong> <span th:text="${userProfile.height}"></span></p>
             <p><strong>Diet Goals:</strong> <span th:text="${userProfile.dietGoal.dietGoal}"></span></p>
         </div>
-
         <form th:action="@{/user-profile/submit-user-profile-data}" method="post" id="userProfileForm">
             <div class="form-group">
-                <label for="name">Name:</label>
+                <label for="name"><strong>Name:</strong></label>
                 <input type="text" class="form-control" id="name" name="name">
             </div>
             <div class="form-group">
-                <label for="surname">Surname:</label>
+                <label for="surname"><strong>Surname:</strong></label>
                 <input type="text" class="form-control" id="surname" name="surname">
             </div>
             <div class="form-group">
-                <label for="phone">Phone Number (Pattern: +xx xxx xxx xxx):</label>
+                <label for="phone"><strong>Phone Number</strong> (Pattern: +xx xxx xxx xxx):</label>
                 <input type="text" class="form-control" id="phone" name="phone">
             </div>
             <div class="form-group">
-                <label for="age">Age:</label>
+                <label for="age"><strong>Age:</strong></label>
                 <input type="number" class="form-control" id="age" name="age">
             </div>
             <div class="form-group">
-                <label for="sex">Sex:</label>
+                <label for="sex"><strong>Sex:</strong></label>
                 <select class="form-control" id="sex" name="sex">
                     <option value="MALE" >MALE</option>
                     <option value="FEMALE" >FEMALE</option>
                 </select>
             </div>
             <div class="form-group">
-                <label for="weight">Weight (in kilograms):</label>
+                <label for="weight"><strong>Weight (</strong>in kilograms):</label>
                 <input type="number" step="0.1" class="form-control" id="weight" name="weight">
             </div>
             <div class="form-group">
-                <label for="height">Height (in meters):</label>
+                <label for="height"><strong>Height (</strong>in meters):</label>
                 <input type="number" step="0.01" class="form-control" id="height" name="height">
             </div>
             <div class="form-group">
-                <label for="dietGoalId">Diet Goals:</label>
+                <label for="dietGoalId"><strong>Diet Goals</strong>:</label>
                 <select class="form-control" id="dietGoalId" name="dietGoalId">
                     <option value="1" >MUSCLE BUILDING</option>
                     <option value="2" >FAT LOSS</option>
@@ -70,6 +68,7 @@
                 </select>
 
             </div>
+            <br>
             <button type="submit" class="btn btn-primary">Save</button>
         </form>
         <div class="btn-back">

@@ -15,17 +15,18 @@
         </div>
     </div>
     <div class="container">
-        <h1>Food Search</h1>
+        <h1><strong>Food Search</strong></h1>
         <div class="row">
             <div class="col">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Search for Food</h5>
+                        <h5 class="card-title"><strong>Search for Food</strong></h5>
                         <form method="GET" th:action="@{/food/details}">
                             <div class="form-group">
                                 <label for="query">Example: 150g of Lays</label>
                                 <input type="text" id="query" name="query" required class="form-control">
                             </div>
+                            <br>
                             <button type="submit" class="btn btn-primary">Search</button>
                         </form>
                     </div>
@@ -72,7 +73,7 @@
                                 <input type="hidden" th:value="${foodDTO.carbohydratesTotalG}" name="carbohydratesTotalG"/>
                                 <input type="hidden" th:value="${foodDTO.fiberG}" name="fiberG"/>
                                 <input type="hidden" th:value="${foodDTO.sugarG}" name="sugarG"/>
-
+                                <br>
                                 <button type="submit" class="btn btn-success">Save Product</button>
                             </form>
                         </div>

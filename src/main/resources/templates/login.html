@@ -1,13 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments :: boots_trap}">
     <title>User Login</title>
 </head>
 <body>
 <div class="container col-md-offset-3 col-md-8 mt-lg-5">
     <div th:replace="~{fragments :: nav_bar}"></div>
-
     <div class="row mt-4">
         <div th:if="${param.error}" class="col-sm-8">
             <p class="alert alert-danger alert-dismissible fade show" role="alert">Invalid username or password</p>
@@ -30,7 +28,6 @@
             <p class="alert alert-warning">You have been logged out.</p>
         </div>
     </div>
-
     <form th:action="@{/login}" method="post" class="px-4">
         <h2 class="mb-4">User Login Form </h2>
         <div class="mb-3 row">
@@ -40,7 +37,6 @@
                        required autofocus="autofocus">
             </div>
         </div>
-
         <div class="mb-3 row">
             <label for="password" class="col-sm-2 col-form-label">Password</label>
             <div class="col-sm-6">
@@ -48,7 +44,6 @@
                        autofocus="autofocus">
             </div>
         </div>
-
         <div class="mb-3">
             <button type="submit" name="login" id="login" class="btn btn-success"> Login</button>
             <span> Not registered yet? <a href="#" th:href="@{/registration/registration-form}">Register.</a> </span>

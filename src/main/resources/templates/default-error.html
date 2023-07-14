@@ -1,7 +1,59 @@
 <!DOCTYPE HTML>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments :: boots_trap}">
+<head>
     <title>Error Page!</title>
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 100px;
+            text-align: center;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+        h1 {
+            color: black;
+            font-size: 36px;
+        }
+        b {
+            font-size: 20px;
+        }
+        b span {
+            display: inline-block;
+            padding: 5px 10px;
+            color: #fff;
+            border-radius: 3px;
+        }
+        img {
+            margin-top: 30px;
+            max-width: 100%;
+            height: auto;
+        }
+        .btn-back {
+            margin-top: 30px;
+        }
+        .btn-back .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            animation: pulse 1s infinite;
+            background-color: #733d9e;
+            border-color: #733d9e;
+            border-radius: 5px;
+            color: #fff;
+        }
+        .btn-back .btn:hover {
+            background-color: purple;
+            border-color: purple;
+        }
+        .error-message {
+        color: black;
+        font-weight: bold;
+        font-size: 20px;
+    }
+    </style>
 </head>
 <body>
 <div class="container">

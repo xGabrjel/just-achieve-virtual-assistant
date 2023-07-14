@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments :: boots_trap}">
     <title>Fitness Tips</title>
 </head>
@@ -8,12 +7,12 @@
 <div class="container col-md-offset-3 col-md-8 mt-lg-5">
     <div th:replace="~{fragments :: nav_bar}"></div>
 <div class="container">
-    <h1>Fitness Tips</h1>
+    <h1><strong>Fitness Tips</strong></h1>
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">Diet goal:</h5>
+            <h5 class="card-title"><strong>Diet goal:</strong></h5>
             <p th:text="${dietGoal}"></p>
-            <h5 class="card-title">Tip:</h5>
+            <h5 class="card-title"><strong>Tip:</strong></h5>
             <p th:text="${tip}"></p>
         </div>
     </div>

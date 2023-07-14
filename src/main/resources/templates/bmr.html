@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
->
-
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments :: boots_trap}">
     <title>BMR Calculator</title>
 </head>
@@ -9,10 +7,10 @@
 <div class="container col-md-offset-3 col-md-8 mt-lg-5">
     <div th:replace="~{fragments :: nav_bar}"></div>
 <div class="container">
-    <h1>BMR Calculator</h1>
+    <h1><strong>BMR Calculator</strong></h1>
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">Calculate BMR</h5>
+            <h5 class="card-title"><strong>Calculate BMR</strong></h5>
             <form method="GET" th:action="@{/bmr/calculate/{activityLevel}}" th:object="${activityLevel}">
                 <div class="form-group">
                     <label for="activityLevel">Activity Level:</label>
@@ -24,6 +22,7 @@
                         <option th:value="VERY_ACTIVE">Very Active</option>
                     </select>
                 </div>
+                <br>
                 <button type="submit" class="btn btn-primary">Calculate</button>
             </form>
         </div>
