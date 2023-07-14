@@ -37,13 +37,11 @@ public class BodyMeasurementsService {
     public void updateUserProfileWeight(BodyMeasurements bodyMeasurements) {
         log.info("UserProfile current weight: [%s] is updating with new weight: [%s]"
                 .formatted(bodyMeasurements.getProfileId().getWeight(), bodyMeasurements.getCurrentWeight()));
-
         bodyMeasurementsRepository.updateUserProfileWeight(bodyMeasurements);
     }
 
     public BodyMeasurements findByDateAndProfileId(LocalDate date, UserProfile userProfile) {
         log.info("Finding body measurements by: Date: [%s], UserProfile: [%s]".formatted(date, userProfile));
-
         return bodyMeasurementsRepository.findByDateAndProfileId(date, userProfile);
     }
 }

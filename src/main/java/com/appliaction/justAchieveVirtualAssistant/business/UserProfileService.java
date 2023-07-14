@@ -21,6 +21,8 @@ public class UserProfileService {
     }
 
     public void saveUserProfileData(String username, UserProfile userProfile) {
+        log.info("Saving profile data of user: [%s]".formatted(username));
+
         if (userProfileJpaRepository.findByUserUsername(username).isPresent()) {
             userProfileRepository.delete(findByUsername(username));
         }

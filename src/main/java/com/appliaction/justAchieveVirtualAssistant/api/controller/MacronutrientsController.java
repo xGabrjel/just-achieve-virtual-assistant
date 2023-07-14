@@ -14,8 +14,8 @@ import java.security.Principal;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/macronutrients")
 @AllArgsConstructor
+@RequestMapping("/macronutrients")
 public class MacronutrientsController {
 
     private MacronutrientsCalculatorService macronutrientsCalculatorService;

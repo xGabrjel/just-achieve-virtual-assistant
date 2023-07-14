@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.security.Principal;
 
 @Controller
-@RequestMapping("/tips")
 @AllArgsConstructor
+@RequestMapping("/tips")
 public class FitnessTipsController {
 
     private FitnessTipsGeneratorService fitnessTipsGeneratorService;

@@ -21,8 +21,8 @@ import java.security.Principal;
 
 
 @Controller
-@RequestMapping("/user-profile")
 @AllArgsConstructor
+@RequestMapping("/user-profile")
 public class UserProfileController {
 
     private UserProfileService userProfileService;

@@ -38,7 +38,6 @@ public class MacronutrientsCalculatorService {
         result.put("protein", protein);
         result.put("carbohydrates", carbs);
         result.put("fats", fat);
-
         return result;
     }
 }

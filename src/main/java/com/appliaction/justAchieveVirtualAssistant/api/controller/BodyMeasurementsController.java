@@ -17,8 +17,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 @Controller
-@RequestMapping("/measurements")
 @AllArgsConstructor
+@RequestMapping("/measurements")
 public class BodyMeasurementsController {
 
     private BodyMeasurementsService bodyMeasurementsService;

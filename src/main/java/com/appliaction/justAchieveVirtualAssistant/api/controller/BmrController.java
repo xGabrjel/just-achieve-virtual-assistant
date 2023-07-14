@@ -13,8 +13,8 @@ import java.math.BigDecimal;
 import java.security.Principal;
 
 @Controller
-@RequestMapping("/bmr")
 @AllArgsConstructor
+@RequestMapping("/bmr")
 public class BmrController {
 
     private BmrCalculatorService bmrCalculatorService;

@@ -27,6 +27,8 @@ public class FoodService {
     private final UserRepository userRepository;
 
     public Optional<Item> findByQuery(String query) {
+        log.info("Query input: [%s]".formatted(query));
+
         try {
             var result = webClient.get()
                     .uri("/nutrition?query=" + query)
@@ -57,7 +59,6 @@ public class FoodService {
                 .fiberG(foodDTO.getFiberG())
                 .sugarG(foodDTO.getSugarG())
                 .build();
-
         foodRepository.saveIntoDatabase(food);
     }
 

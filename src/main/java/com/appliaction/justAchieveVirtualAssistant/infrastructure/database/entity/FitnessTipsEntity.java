@@ -9,9 +9,9 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(of = {"tip"})
 @Table(name = "fitness_tips")
 @EqualsAndHashCode(of = "tipId")
-@ToString(of = {"tip"})
 public class FitnessTipsEntity {
 
     @Id

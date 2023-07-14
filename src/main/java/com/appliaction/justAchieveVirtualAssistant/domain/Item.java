@@ -14,10 +14,10 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
         "items"
 })
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Item {
 
     @JsonProperty("items")

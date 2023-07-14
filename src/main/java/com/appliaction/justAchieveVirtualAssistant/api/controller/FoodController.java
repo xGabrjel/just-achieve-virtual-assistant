@@ -142,7 +142,6 @@ public class FoodController {
         model.addAttribute("totalCarbohydrates", totalCarbohydrates);
         model.addAttribute("totalFiber", totalFiber);
         model.addAttribute("totalSugar", totalSugar);
-
         return "food";
     }
 

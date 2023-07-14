@@ -3,9 +3,7 @@ package com.appliaction.justAchieveVirtualAssistant.business;
 import com.appliaction.justAchieveVirtualAssistant.business.support.ImagesUtils;
 import com.appliaction.justAchieveVirtualAssistant.domain.Images;
 import com.appliaction.justAchieveVirtualAssistant.domain.exception.NotFoundException;
-import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.mapper.ImagesEntityMapper;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.repository.ImagesRepository;
-import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.repository.jpa.ImagesJpaRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,8 +19,6 @@ import java.util.Optional;
 public class ImagesService {
 
     private final ImagesRepository repository;
-    private final ImagesJpaRepository jpaRepository;
-    private final ImagesEntityMapper imagesEntityMapper;
 
     @Transactional
     public String uploadImage(MultipartFile file) throws IOException {
@@ -35,7 +31,6 @@ public class ImagesService {
                 .build();
 
         repository.save(image);
-
         return "File uploaded successfully: [%s]".formatted(file.getOriginalFilename());
     }
 
@@ -44,6 +39,7 @@ public class ImagesService {
         log.info("Downloading file [%s]".formatted(fileName));
 
         Optional<Images> bdImageData = repository.getImage(fileName);
+
         return bdImageData
                 .map(image -> ImagesUtils.decompressImage(image.getImageData()))
                 .orElseThrow(() -> new NotFoundException("File: [%s] not found".formatted(fileName)));
