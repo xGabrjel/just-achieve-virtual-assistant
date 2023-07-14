@@ -25,13 +25,10 @@ class ImagesServiceTest {
 
     @InjectMocks
     private ImagesService imagesService;
-
     @Mock
     private ImagesJpaRepository imagesJpaRepository;
-
     @Mock
     private ImagesRepository imagesRepository;
-
     @Mock
     private ImagesEntityMapper imagesEntityMapper;
 
@@ -62,7 +59,8 @@ class ImagesServiceTest {
                 .imageData(ImagesUtils.compressImage(imageData))
                 .build();
 
-        when(imagesRepository.getImage(fileName)).thenReturn(Optional.of(image));
+        when(imagesRepository.getImage(fileName))
+                .thenReturn(Optional.of(image));
 
         // when
         byte[] result = imagesService.downloadImage(fileName);
@@ -74,11 +72,12 @@ class ImagesServiceTest {
     }
 
     @Test
-    void downloadImageFileNotFound() {
+    void downloadImageFileNotFoundWorksCorrectly() {
         // given
         String fileName = "nonexistent.jpg";
 
-        when(imagesRepository.getImage(fileName)).thenReturn(Optional.empty());
+        when(imagesRepository.getImage(fileName))
+                .thenReturn(Optional.empty());
 
         // when, then
         assertThrows(NotFoundException.class, () -> imagesService.downloadImage(fileName));
@@ -99,7 +98,7 @@ class ImagesServiceTest {
     }
 
     @Test
-    public void deleteNonExistingImageThrowsNotFoundExceptionCorrectly() {
+    public void deleteNonExistingImageThrowsNotFoundExceptionWorksCorrectly() {
         // given
         String fileName = "example.jpg";
 
@@ -123,7 +122,8 @@ class ImagesServiceTest {
                 .imageData(new byte[]{})
                 .build();
 
-        when(imagesRepository.getImage(fileName)).thenReturn(Optional.of(existingImage));
+        when(imagesRepository.getImage(fileName))
+                .thenReturn(Optional.of(existingImage));
 
         //when
         String result = imagesService.updateImage(fileName, file);
@@ -134,12 +134,13 @@ class ImagesServiceTest {
     }
 
     @Test
-    public void updateNonExistingImageThrowsNotFoundException() throws IOException {
+    public void updateNonExistingImageThrowsNotFoundExceptionWorksCorrectly() {
         //given
         String fileName = "nonexistent.jpg";
         MultipartFile file = mock(MultipartFile.class);
 
-        when(imagesRepository.getImage(fileName)).thenReturn(Optional.empty());
+        when(imagesRepository.getImage(fileName))
+                .thenReturn(Optional.empty());
 
         //when, then
         assertThrows(NotFoundException.class, () -> imagesService.updateImage(fileName, file));

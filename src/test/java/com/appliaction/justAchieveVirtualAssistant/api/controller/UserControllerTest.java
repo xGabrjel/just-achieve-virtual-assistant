@@ -56,8 +56,10 @@ class UserControllerTest {
         userDTO.setEmail("test@o2.pl");
         userDTO.setActive(true);
 
-        when(userService.findById(userDTO.getUserId())).thenReturn(Optional.of(user));
-        when(userMapper.map(user)).thenReturn(userDTO);
+        when(userService.findById(userDTO.getUserId()))
+                .thenReturn(Optional.of(user));
+        when(userMapper.map(user))
+                .thenReturn(userDTO);
 
         //when, then
         mockMvc.perform(get("/users/edit/{userId}", userId))

@@ -32,7 +32,8 @@ class VerificationTokenServiceTest {
         VerificationToken verificationToken = new VerificationToken(token, new User());
         Optional<VerificationToken> optionalToken = Optional.of(verificationToken);
 
-        when(tokenRepository.findByToken(token)).thenReturn(optionalToken);
+        when(tokenRepository.findByToken(token))
+                .thenReturn(optionalToken);
 
         //when
         String result = tokenService.validateToken(token);
@@ -50,7 +51,8 @@ class VerificationTokenServiceTest {
         String token = "invalid-token";
         Optional<VerificationToken> optionalToken = Optional.empty();
 
-        when(tokenRepository.findByToken(token)).thenReturn(optionalToken);
+        when(tokenRepository.findByToken(token))
+                .thenReturn(optionalToken);
 
         //when
         String result = tokenService.validateToken(token);
@@ -71,7 +73,8 @@ class VerificationTokenServiceTest {
         verificationToken.setExpirationTime(calendar.getTime());
         Optional<VerificationToken> optionalToken = Optional.of(verificationToken);
 
-        when(tokenRepository.findByToken(token)).thenReturn(optionalToken);
+        when(tokenRepository.findByToken(token))
+                .thenReturn(optionalToken);
 
         //when
         String result = tokenService.validateToken(token);
@@ -104,7 +107,8 @@ class VerificationTokenServiceTest {
         VerificationToken verificationToken = new VerificationToken(token, new User());
         Optional<VerificationToken> optionalToken = Optional.of(verificationToken);
 
-        when(tokenRepository.findByToken(token)).thenReturn(optionalToken);
+        when(tokenRepository.findByToken(token))
+                .thenReturn(optionalToken);
 
         //when
         Optional<VerificationToken> result = tokenService.findByToken(token);

@@ -21,7 +21,6 @@ class BmrCalculatorServiceTest {
 
     @InjectMocks
     private BmrCalculatorService bmrCalculatorService;
-
     @Mock
     private UserProfileRepository userProfileRepository;
 
@@ -56,7 +55,7 @@ class BmrCalculatorServiceTest {
     }
 
     @Test
-    void activityExcludedBmrCalculatorWorksCorrectlyForMale() {
+    void activityExcludedBmrCalculatorForMaleWorksCorrectly() {
         //given
         UserProfile user = DomainFixtures.someUserProfile()
                 .withUser(DomainFixtures.someUser().withUsername("test1"))
@@ -65,7 +64,8 @@ class BmrCalculatorServiceTest {
                 .withWeight(BigDecimal.valueOf(80))
                 .withSex("MALE");
 
-        when(userProfileRepository.findByUserUsername(user.getUser().getUsername())).thenReturn(user);
+        when(userProfileRepository.findByUserUsername(user.getUser().getUsername()))
+                .thenReturn(user);
 
         //when
         BigDecimal result = bmrCalculatorService.calculateActivityExcludedBMR(user.getUser().getUsername());
@@ -77,7 +77,7 @@ class BmrCalculatorServiceTest {
     }
 
     @Test
-    void activityExcludedBmrCalculatorWorksCorrectlyForFemale() {
+    void activityExcludedBmrCalculatorForFemaleWorksCorrectly() {
         //given
         UserProfile user = DomainFixtures.someUserProfile()
                 .withUser(DomainFixtures.someUser().withUsername("test2"))
@@ -86,7 +86,8 @@ class BmrCalculatorServiceTest {
                 .withWeight(BigDecimal.valueOf(69))
                 .withSex("FEMALE");
 
-        when(userProfileRepository.findByUserUsername(user.getUser().getUsername())).thenReturn(user);
+        when(userProfileRepository.findByUserUsername(user.getUser().getUsername()))
+                .thenReturn(user);
 
         //when
         BigDecimal result = bmrCalculatorService.calculateActivityExcludedBMR(user.getUser().getUsername());
@@ -107,7 +108,8 @@ class BmrCalculatorServiceTest {
                 .withWeight(BigDecimal.valueOf(69))
                 .withSex("FEMALE");
 
-        when(userProfileRepository.findByUserUsername(user.getUser().getUsername())).thenReturn(user);
+        when(userProfileRepository.findByUserUsername(user.getUser().getUsername()))
+                .thenReturn(user);
 
         //when
         BigDecimal result1 = bmrCalculatorService.calculateActivityIncludedBMR(user.getUser().getUsername(), ActivityLevel.SEDENTARY);

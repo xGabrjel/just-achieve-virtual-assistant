@@ -37,8 +37,10 @@ class PasswordResetTokenRepositoryTest {
         PasswordResetToken passwordResetToken = new PasswordResetToken(token, user);
         Optional<PasswordResetTokenEntity> optionalEntity = Optional.of(passwordResetTokenEntity);
 
-        when(passwordResetTokenJpaRepository.findByToken(token)).thenReturn(optionalEntity);
-        when(passwordResetTokenEntityMapper.mapFromEntity(passwordResetTokenEntity)).thenReturn(passwordResetToken);
+        when(passwordResetTokenJpaRepository.findByToken(token))
+                .thenReturn(optionalEntity);
+        when(passwordResetTokenEntityMapper.mapFromEntity(passwordResetTokenEntity))
+                .thenReturn(passwordResetToken);
 
         //when
         Optional<PasswordResetToken> result = tokenRepository.findByToken(token);
@@ -54,7 +56,9 @@ class PasswordResetTokenRepositoryTest {
         //given
         String token = "non-existing-token";
         Optional<PasswordResetTokenEntity> optionalEntity = Optional.empty();
-        when(passwordResetTokenJpaRepository.findByToken(token)).thenReturn(optionalEntity);
+
+        when(passwordResetTokenJpaRepository.findByToken(token))
+                .thenReturn(optionalEntity);
 
         //when
         Optional<PasswordResetToken> result = tokenRepository.findByToken(token);
@@ -71,7 +75,9 @@ class PasswordResetTokenRepositoryTest {
         User user = DomainFixtures.someUser();
         PasswordResetToken passwordResetToken = new PasswordResetToken(token, user);
         PasswordResetTokenEntity passwordResetTokenEntity = new PasswordResetTokenEntity();
-        when(passwordResetTokenEntityMapper.mapToEntity(passwordResetToken)).thenReturn(passwordResetTokenEntity);
+
+        when(passwordResetTokenEntityMapper.mapToEntity(passwordResetToken))
+                .thenReturn(passwordResetTokenEntity);
 
         //when
         tokenRepository.save(passwordResetToken);

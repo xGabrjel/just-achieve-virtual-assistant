@@ -3,6 +3,8 @@ package com.appliaction.justAchieveVirtualAssistant.api.controller.rest;
 import com.appliaction.justAchieveVirtualAssistant.api.dto.FoodDTO;
 import com.appliaction.justAchieveVirtualAssistant.business.FoodService;
 import com.appliaction.justAchieveVirtualAssistant.domain.exception.NotFoundException;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,8 +21,12 @@ public class FoodRestController {
 
     private FoodService foodService;
 
+    @Operation(summary = "Get the nutritional value of your meal!")
     @GetMapping("/get/{foodQuantityAndName}")
-    public ResponseEntity<FoodDTO> getFood(@PathVariable String foodQuantityAndName) {
+    public ResponseEntity<FoodDTO> getFood(
+            @Parameter(description = "Quantity of products and its name - example: 150g of Lays")
+            @PathVariable String foodQuantityAndName
+    ) {
 
         var result = foodService.findByQuery(foodQuantityAndName)
                 .orElseThrow(() -> new NotFoundException("Food: [%s] not found".formatted(foodQuantityAndName)));

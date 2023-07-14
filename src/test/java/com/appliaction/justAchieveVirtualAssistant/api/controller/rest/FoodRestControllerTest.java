@@ -6,7 +6,6 @@ import com.appliaction.justAchieveVirtualAssistant.configuration.support.Calorie
 import com.appliaction.justAchieveVirtualAssistant.configuration.support.WireMockTestSupport;
 import com.appliaction.justAchieveVirtualAssistant.domain.Item;
 import io.restassured.response.Response;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 
@@ -28,9 +27,9 @@ public class FoodRestControllerTest extends RestAssureConfigurationTestBase impl
         FoodDTO foodDetails1 = getFoodDetails(query1);
 
         //then
-        Assertions.assertThat(foodDetails1).isNotNull();
-        Assertions.assertThat(foodDetails1).hasFieldOrPropertyWithValue("servingSizeG", 100);
-        Assertions.assertThat(foodDetails1).hasFieldOrPropertyWithValue("name", "APPLE");
+        assertThat(foodDetails1).isNotNull();
+        assertThat(foodDetails1).hasFieldOrPropertyWithValue("servingSizeG", 100);
+        assertThat(foodDetails1).hasFieldOrPropertyWithValue("name", "APPLE");
     }
 
     @Test

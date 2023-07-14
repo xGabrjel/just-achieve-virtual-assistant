@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @AllArgsConstructor(onConstructor = @__(@Autowired))
-class UserProfileRepositoryTest extends AbstractIT {
+class UserProfileITTest extends AbstractIT {
 
     private final UserProfileRepository userProfileRepository;
     private final UserJpaRepository userJpaRepository;

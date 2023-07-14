@@ -10,16 +10,13 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.math.BigDecimal;
 import java.security.Principal;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(BmrController.class)
 @AutoConfigureMockMvc(addFilters = false)
@@ -27,7 +24,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class BmrControllerTest {
 
     private final MockMvc mockMvc;
-
     @MockBean
     private final BmrCalculatorService bmrCalculatorService;
 
@@ -41,7 +37,7 @@ class BmrControllerTest {
 
     @Test
     @WithMockUser
-    void bmrReturnsBmrViewWithBmrAttributeCorrectly() throws Exception {
+    void returnBmrViewWithBmrAttributeWorksCorrectly() throws Exception {
         // given
         String username = "testUser";
         ActivityLevel activityLevel = ActivityLevel.MODERATELY_ACTIVE;
@@ -49,35 +45,37 @@ class BmrControllerTest {
 
         Principal principal = () -> username;
 
-        when(bmrCalculatorService.calculateActivityIncludedBMR(username, activityLevel)).thenReturn(bmrValue);
+        when(bmrCalculatorService.calculateActivityIncludedBMR(username, activityLevel))
+                .thenReturn(bmrValue);
 
         // when, then
-        mockMvc.perform(MockMvcRequestBuilders.get("/bmr/calculate/{activityLevel}", activityLevel)
+        mockMvc.perform(get("/bmr/calculate/{activityLevel}", activityLevel)
                 .param("activityLevel", activityLevel.toString())
                 .principal(principal))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("bmr"))
-                .andExpect(MockMvcResultMatchers.model().attributeExists("bmr"))
-                .andExpect(MockMvcResultMatchers.model().attribute("bmr", bmrValue));
+                .andExpect(status().isOk())
+                .andExpect(view().name("bmr"))
+                .andExpect(model().attributeExists("bmr"))
+                .andExpect(model().attribute("bmr", bmrValue));
     }
 
     @Test
     @WithMockUser
-    void bmrReturnsBmrViewWithNoBmrAttributeWhenCalculationFailsCorrectly() throws Exception {
+    void returnBmrViewWithNoBmrAttributeWhenCalculationFailsWorksCorrectly() throws Exception {
         // given
         String username = "testUser";
         ActivityLevel activityLevel = ActivityLevel.MODERATELY_ACTIVE;
 
         Principal principal = () -> username;
 
-        when(bmrCalculatorService.calculateActivityIncludedBMR(username, activityLevel)).thenReturn(null);
+        when(bmrCalculatorService.calculateActivityIncludedBMR(username, activityLevel))
+                .thenReturn(null);
 
         // when, then
-        mockMvc.perform(MockMvcRequestBuilders.get("/bmr/calculate/{activityLevel}", activityLevel)
+        mockMvc.perform(get("/bmr/calculate/{activityLevel}", activityLevel)
                 .param("activityLevel", activityLevel.toString())
                 .principal(principal))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("bmr"))
-                .andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("bmr"));
+                .andExpect(status().isOk())
+                .andExpect(view().name("bmr"))
+                .andExpect(model().attributeDoesNotExist("bmr"));
     }
 }

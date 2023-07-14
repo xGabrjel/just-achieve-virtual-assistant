@@ -53,6 +53,7 @@ class RegistrationControllerTest {
         //given
         User user = new User();
         RegistrationRequest registration = new RegistrationRequest();
+
         when(userService.registerUser(registration)).thenReturn(user);
 
         //when, then
@@ -63,13 +64,14 @@ class RegistrationControllerTest {
     }
 
     @Test
-    void verifyEmailRedirectsToLoginWhenTokenValidAndUserActiveWorksCorrectly() throws Exception {
+    void verifyEmailRedirectToLoginWhenTokenValidAndUserActiveWorksCorrectly() throws Exception {
         // given
         String validToken = "valid";
         User activeUser = DomainFixtures.someUser();
         VerificationToken verificationToken = new VerificationToken(validToken, activeUser);
 
-        when(tokenService.findByToken(validToken)).thenReturn(Optional.of(verificationToken));
+        when(tokenService.findByToken(validToken))
+                .thenReturn(Optional.of(verificationToken));
 
         // when, then
         mockMvc.perform(get("/registration/verifyEmail")
@@ -79,14 +81,16 @@ class RegistrationControllerTest {
     }
 
     @Test
-    void verifyEmailRedirectsToErrorWhenTokenExpiredWorksCorrectly() throws Exception {
+    void verifyEmailRedirectToErrorWhenTokenExpiredWorksCorrectly() throws Exception {
         // given
         String expiredToken = "expired-token";
         User user = DomainFixtures.someUser().withActive(false);
         VerificationToken verificationToken = new VerificationToken(expiredToken, user);
 
-        when(tokenService.findByToken(expiredToken)).thenReturn(Optional.of(verificationToken));
-        when(tokenService.validateToken(expiredToken)).thenReturn("expired");
+        when(tokenService.findByToken(expiredToken))
+                .thenReturn(Optional.of(verificationToken));
+        when(tokenService.validateToken(expiredToken))
+                .thenReturn("expired");
 
         // when, then
         mockMvc.perform(get("/registration/verifyEmail")
@@ -96,14 +100,16 @@ class RegistrationControllerTest {
     }
 
     @Test
-    void verifyEmailRedirectsToLoginWhenTokenValidWorksCorrectly() throws Exception {
+    void verifyEmailRedirectToLoginWhenTokenValidWorksCorrectly() throws Exception {
         // given
         String validToken = "valid-token";
         User user = DomainFixtures.someUser().withActive(false);
         VerificationToken verificationToken = new VerificationToken(validToken, user);
 
-        when(tokenService.findByToken(validToken)).thenReturn(Optional.of(verificationToken));
-        when(tokenService.validateToken(validToken)).thenReturn("valid");
+        when(tokenService.findByToken(validToken))
+                .thenReturn(Optional.of(verificationToken));
+        when(tokenService.validateToken(validToken))
+                .thenReturn("valid");
 
         // when, then
         mockMvc.perform(get("/registration/verifyEmail")
@@ -113,14 +119,15 @@ class RegistrationControllerTest {
     }
 
     @Test
-    void verifyEmailRedirectsToErrorWhenTokenInvalidWorksCorrectly() throws Exception {
+    void verifyEmailRedirectToErrorWhenTokenInvalidWorksCorrectly() throws Exception {
         // given
         String invalidToken = "invalid-token";
         User user = DomainFixtures.someUser().withActive(false);
-        VerificationToken verificationToken = new VerificationToken(invalidToken, user);
 
-        when(tokenService.validateToken(invalidToken)).thenReturn("");
-        when(tokenService.findByToken(invalidToken)).thenReturn(Optional.empty());
+        when(tokenService.validateToken(invalidToken))
+                .thenReturn("");
+        when(tokenService.findByToken(invalidToken))
+                .thenReturn(Optional.empty());
 
         // when, then
         mockMvc.perform(get("/registration/verifyEmail")
@@ -138,11 +145,12 @@ class RegistrationControllerTest {
     }
 
     @Test
-    void resetPasswordRequestRedirectsToNotFoundWhenEmailNotFoundWorksCorrectly() throws Exception {
+    void resetPasswordRequestRedirectToNotFoundWhenEmailNotFoundWorksCorrectly() throws Exception {
         // given
         String notFoundEmail = "notfound@example.com";
 
-        when(userService.findByEmail(notFoundEmail)).thenReturn(Optional.empty());
+        when(userService.findByEmail(notFoundEmail))
+                .thenReturn(Optional.empty());
 
         // when, then
         mockMvc.perform(post("/registration/forgot-password")
@@ -152,11 +160,12 @@ class RegistrationControllerTest {
     }
 
     @Test
-    void resetPasswordRequestRedirectsToSuccessWhenEmailFoundWorksCorrectly() throws Exception {
+    void resetPasswordRequestRedirectToSuccessWhenEmailFoundWorksCorrectly() throws Exception {
         // given
         User user = DomainFixtures.someUser();
 
-        when(userService.findByEmail(user.getEmail())).thenReturn(Optional.of(user));
+        when(userService.findByEmail(user.getEmail()))
+                .thenReturn(Optional.of(user));
 
         // when, then
         mockMvc.perform(post("/registration/forgot-password")
@@ -166,7 +175,7 @@ class RegistrationControllerTest {
     }
 
     @Test
-    void passwordResetFormReturnsPasswordResetFormViewWorksCorrectly() throws Exception {
+    void passwordResetFormReturnPasswordResetFormViewWorksCorrectly() throws Exception {
         // given
         String token = "testToken";
 
@@ -180,13 +189,14 @@ class RegistrationControllerTest {
     }
 
     @Test
-    void resetPasswordReturnsErrorWhenTokenInvalidWorksCorrectly() throws Exception {
+    void resetPasswordReturnErrorWhenTokenInvalidWorksCorrectly() throws Exception {
         // given
         String invalidToken = "invalid-token";
         String password = "newPassword";
         String tokenVerificationResult = "invalid";
 
-        when(passwordResetTokenService.validatePasswordResetToken(invalidToken)).thenReturn(tokenVerificationResult);
+        when(passwordResetTokenService.validatePasswordResetToken(invalidToken))
+                .thenReturn(tokenVerificationResult);
 
         // when, then
         mockMvc.perform(post("/registration/reset-password")
@@ -197,14 +207,16 @@ class RegistrationControllerTest {
     }
 
     @Test
-    void resetPasswordReturnsSuccessWhenTokenValidWorksCorrectly() throws Exception {
+    void resetPasswordReturnSuccessWhenTokenValidWorksCorrectly() throws Exception {
         // given
         String validToken = "valid-token";
         String password = "newPassword";
         Optional<User> user = Optional.of(DomainFixtures.someUser());
 
-        when(passwordResetTokenService.validatePasswordResetToken(validToken)).thenReturn("valid");
-        when(passwordResetTokenService.findUserByPasswordResetToken(validToken)).thenReturn(user);
+        when(passwordResetTokenService.validatePasswordResetToken(validToken))
+                .thenReturn("valid");
+        when(passwordResetTokenService.findUserByPasswordResetToken(validToken))
+                .thenReturn(user);
 
         // when, then
         mockMvc.perform(post("/registration/reset-password")
@@ -215,14 +227,16 @@ class RegistrationControllerTest {
     }
 
     @Test
-    void resetPasswordReturnsErrorWhenUserNotFoundWorksCorrectly() throws Exception {
+    void resetPasswordReturnErrorWhenUserNotFoundWorksCorrectly() throws Exception {
         // given
         String validToken = "valid-token";
         String password = "newPassword";
         Optional<User> user = Optional.empty();
 
-        when(passwordResetTokenService.validatePasswordResetToken(validToken)).thenReturn("valid");
-        when(passwordResetTokenService.findUserByPasswordResetToken(validToken)).thenReturn(user);
+        when(passwordResetTokenService.validatePasswordResetToken(validToken))
+                .thenReturn("valid");
+        when(passwordResetTokenService.findUserByPasswordResetToken(validToken))
+                .thenReturn(user);
 
         // when, then
         mockMvc.perform(post("/registration/reset-password")

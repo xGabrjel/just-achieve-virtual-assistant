@@ -19,7 +19,6 @@ class MacronutrientsCalculatorServiceTest {
 
     @InjectMocks
     private MacronutrientsCalculatorService macronutrientsCalculatorService;
-
     @Mock
     private BmrCalculatorService bmrCalculatorService;
 

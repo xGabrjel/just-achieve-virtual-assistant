@@ -36,22 +36,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class UserProfileControllerTest {
 
     private MockMvc mockMvc;
-
     @MockBean
     private UserProfileService userProfileService;
-
     @MockBean
     private UserProfileMapper userProfileMapper;
-
     @MockBean
     private DietGoalsService dietGoalsService;
-
     @MockBean
     private UserService userService;
 
     @Test
     @WithMockUser
     void homeProfilePageWorksCorrectly() throws Exception {
+        //given, when, then
         mockMvc.perform(get("/user-profile"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("user-profile"));
@@ -59,7 +56,7 @@ class UserProfileControllerTest {
 
     @Test
     @WithMockUser
-    void profilePageReturnsUserProfileViewWithUserProfileAttribute() throws Exception {
+    void profilePageReturnUserProfileViewWithUserProfileAttributeWorksCorrectly() throws Exception {
         // given
         User user = DomainFixtures.someUser();
         String username = user.getUsername();
@@ -68,8 +65,10 @@ class UserProfileControllerTest {
 
         Principal principal = () -> username;
 
-        when(userProfileService.findByUsername(username)).thenReturn(userProfile);
-        when(userProfileMapper.map(userProfile)).thenReturn(userProfileDTO);
+        when(userProfileService.findByUsername(username))
+                .thenReturn(userProfile);
+        when(userProfileMapper.map(userProfile))
+                .thenReturn(userProfileDTO);
 
         // when, then
         mockMvc.perform(get("/user-profile/get-data")
@@ -80,12 +79,13 @@ class UserProfileControllerTest {
     }
     @Test
     @WithMockUser
-    void profilePageReturnsUserProfileViewWithoutUserProfileAttribute() throws Exception {
+    void profilePageReturnUserProfileViewWithoutUserProfileAttributeWorksCorrectly() throws Exception {
         // given
         String username = "testUser";
         Principal principal = () -> username;
 
-        when(userProfileService.findByUsername(username)).thenReturn(null);
+        when(userProfileService.findByUsername(username))
+                .thenReturn(null);
 
         // when, then
         mockMvc.perform(get("/user-profile/get-data")
@@ -97,7 +97,7 @@ class UserProfileControllerTest {
 
     @Test
     @WithMockUser
-    void submitProfileDataRedirectsToUserProfileWithSuccessParameter() throws Exception {
+    void submitProfileDataRedirectToUserProfileWithSuccessParameterWorksCorrectly() throws Exception {
         // given
         String username = "testUser";
         UserProfileDTO userProfileDTO = new UserProfileDTO();
@@ -107,8 +107,10 @@ class UserProfileControllerTest {
         User user = new User().withUsername(username);
         DietGoals dietGoals = DomainFixtures.someDietGoals();
 
-        when(userService.findByUsername(username)).thenReturn(Optional.of(user));
-        when(dietGoalsService.findById(dietGoalId)).thenReturn(Optional.of(dietGoals));
+        when(userService.findByUsername(username))
+                .thenReturn(Optional.of(user));
+        when(dietGoalsService.findById(dietGoalId))
+                .thenReturn(Optional.of(dietGoals));
 
         // when, then
         mockMvc.perform(post("/user-profile/submit-user-profile-data")
@@ -131,10 +133,13 @@ class UserProfileControllerTest {
         User user = new User().withUsername(username);
         Principal principal = () -> username;
 
-        DietGoals dietGoals = DomainFixtures.someDietGoals().withDietGoalId(1);
+        DietGoals dietGoals = DomainFixtures.someDietGoals()
+                .withDietGoalId(1);
 
-        when(userService.findByUsername(username)).thenReturn(Optional.of(user));
-        when(dietGoalsService.findById(1)).thenReturn(Optional.of(dietGoals));
+        when(userService.findByUsername(username))
+                .thenReturn(Optional.of(user));
+        when(dietGoalsService.findById(1))
+                .thenReturn(Optional.of(dietGoals));
 
         //when, then
         if (expectedResult) {

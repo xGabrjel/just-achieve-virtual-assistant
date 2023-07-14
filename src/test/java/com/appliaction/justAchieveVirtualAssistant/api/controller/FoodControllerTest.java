@@ -31,12 +31,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class FoodControllerTest  {
 
     private MockMvc mockMvc;
-
     @MockBean
     private FoodService foodService;
 
     @Test
     void foodHomePageWorksCorrectly() throws Exception {
+        //given, when, then
         mockMvc.perform(get("/food"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("food"));
@@ -98,7 +98,8 @@ class FoodControllerTest  {
                 .sugarG(new BigDecimal("10.3"))
                 .build();
 
-        when(foodService.findByQuery(query)).thenReturn(Optional.of(new Item(foods)));
+        when(foodService.findByQuery(query))
+                .thenReturn(Optional.of(new Item(foods)));
 
         //when, then
         mockMvc.perform(get("/food/details")
@@ -113,7 +114,7 @@ class FoodControllerTest  {
     }
 
     @Test
-    void getFoodDetailsWorksCorrectlyWhenFoodNotFound() throws Exception {
+    void getFoodDetailsWhenFoodNotFoundWorksCorrectly() throws Exception {
         //given
         String query = "nonexistent-food";
 
@@ -172,7 +173,8 @@ class FoodControllerTest  {
         listOfFoods.add(food1);
         listOfFoods.add(food2);
 
-        when(foodService.findAllByUsername(username)).thenReturn(listOfFoods);
+        when(foodService.findAllByUsername(username))
+                .thenReturn(listOfFoods);
 
         //when, then
         mockMvc.perform(get("/food/load")

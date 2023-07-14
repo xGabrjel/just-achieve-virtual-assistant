@@ -36,7 +36,8 @@ class PasswordResetTokenServiceTest {
         PasswordResetToken passwordResetToken = new PasswordResetToken(token, new User());
         Optional<PasswordResetToken> optionalToken = Optional.of(passwordResetToken);
 
-        when(tokenRepository.findByToken(token)).thenReturn(optionalToken);
+        when(tokenRepository.findByToken(token))
+                .thenReturn(optionalToken);
 
         //when
         String result = tokenService.validatePasswordResetToken(token);
@@ -52,7 +53,8 @@ class PasswordResetTokenServiceTest {
         String token = "invalid-token";
         Optional<PasswordResetToken> optionalToken = Optional.empty();
 
-        when(tokenRepository.findByToken(token)).thenReturn(optionalToken);
+        when(tokenRepository.findByToken(token))
+                .thenReturn(optionalToken);
 
         //when
         String result = tokenService.validatePasswordResetToken(token);
@@ -72,7 +74,8 @@ class PasswordResetTokenServiceTest {
         passwordResetToken.setExpirationTime(calendar.getTime());
         Optional<PasswordResetToken> optionalToken = Optional.of(passwordResetToken);
 
-        when(tokenRepository.findByToken(token)).thenReturn(optionalToken);
+        when(tokenRepository.findByToken(token))
+                .thenReturn(optionalToken);
 
         //when
         String result = tokenService.validatePasswordResetToken(token);
@@ -89,7 +92,9 @@ class PasswordResetTokenServiceTest {
         User user = new User();
         PasswordResetToken passwordResetToken = new PasswordResetToken(token, user);
         Optional<PasswordResetToken> optionalToken = Optional.of(passwordResetToken);
-        when(tokenRepository.findByToken(token)).thenReturn(optionalToken);
+
+        when(tokenRepository.findByToken(token))
+                .thenReturn(optionalToken);
 
         //when
         Optional<User> result = tokenService.findUserByPasswordResetToken(token);
@@ -107,7 +112,8 @@ class PasswordResetTokenServiceTest {
         String newPassword = "new-password";
         String encodedPassword = "encoded-password";
 
-        when(passwordEncoder.encode(newPassword)).thenReturn(encodedPassword);
+        when(passwordEncoder.encode(newPassword))
+                .thenReturn(encodedPassword);
 
         //when
         tokenService.resetPassword(user, newPassword);
@@ -136,7 +142,9 @@ class PasswordResetTokenServiceTest {
         //given
         String token = "non-existing-token";
         Optional<PasswordResetToken> optionalToken = Optional.empty();
-        when(tokenRepository.findByToken(token)).thenReturn(optionalToken);
+
+        when(tokenRepository.findByToken(token))
+                .thenReturn(optionalToken);
 
         //when, then
         assertThrows(NoSuchElementException.class, () -> tokenService.findUserByPasswordResetToken(token));

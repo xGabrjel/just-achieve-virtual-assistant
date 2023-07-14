@@ -76,7 +76,8 @@ class BodyMeasurementsITTest extends AbstractIT {
         bodyMeasurementsService.updateUserProfileWeight(bodyMeasurements);
 
         //when
-        UserProfileEntity updatedUserProfileEntity = userProfileJpaRepository.findById(bodyMeasurements.getProfileId().getProfileId()).orElse(null);
+        UserProfileEntity updatedUserProfileEntity = userProfileJpaRepository
+                .findById(bodyMeasurements.getProfileId().getProfileId()).orElse(null);
 
         //then
         assertThat(bodyMeasurements.getCurrentWeight()).isEqualTo(Objects.requireNonNull(updatedUserProfileEntity).getWeight());

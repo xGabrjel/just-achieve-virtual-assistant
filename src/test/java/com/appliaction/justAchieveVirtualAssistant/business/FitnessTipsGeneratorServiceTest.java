@@ -26,13 +26,10 @@ class FitnessTipsGeneratorServiceTest {
 
     @InjectMocks
     private FitnessTipsGeneratorService fitnessTipsGeneratorService;
-
     @Mock
     private FitnessTipsJpaRepository fitnessTipsJpaRepository;
-
     @Mock
     private FitnessTipsEntityMapper fitnessTipsEntityMapper;
-
     @Mock
     private UserProfileRepository userProfileRepository;
 
@@ -49,8 +46,10 @@ class FitnessTipsGeneratorServiceTest {
                         .dietGoal("MUSCLE BUILDING")
                         .build(), "Tip 1"));
 
-        when(userProfileRepository.findByUserUsername(user.getUser().getUsername())).thenReturn(user);
-        when(fitnessTipsJpaRepository.findByDietGoalDietGoalId(user.getDietGoal().getDietGoalId())).thenReturn(fitnessTipsEntities);
+        when(userProfileRepository.findByUserUsername(user.getUser().getUsername()))
+                .thenReturn(user);
+        when(fitnessTipsJpaRepository.findByDietGoalDietGoalId(user.getDietGoal().getDietGoalId()))
+                .thenReturn(fitnessTipsEntities);
         when(fitnessTipsEntityMapper.mapFromEntity(any(FitnessTipsEntity.class)))
                 .thenReturn(new FitnessTips(
                         1, DietGoals

@@ -24,7 +24,7 @@ class FitnessTipsMapperTest {
 
         //then
         assertNull(nullMapping);
-        assertEquals(FitnessTipsDTO.class, dto.getClass());
         assertEquals(domain.getTip(), dto.getTip());
+        assertEquals(FitnessTipsDTO.class, dto.getClass());
     }
 }

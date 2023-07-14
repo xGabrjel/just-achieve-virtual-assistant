@@ -37,8 +37,10 @@ class VerificationTokenRepositoryTest {
         VerificationToken verificationToken = new VerificationToken(token, user);
         Optional<VerificationTokenEntity> optionalEntity = Optional.of(verificationTokenEntity);
 
-        when(verificationTokenJpaRepository.findByToken(token)).thenReturn(optionalEntity);
-        when(verificationTokenEntityMapper.mapFromEntity(verificationTokenEntity)).thenReturn(verificationToken);
+        when(verificationTokenJpaRepository.findByToken(token))
+                .thenReturn(optionalEntity);
+        when(verificationTokenEntityMapper.mapFromEntity(verificationTokenEntity))
+                .thenReturn(verificationToken);
 
         //when
         Optional<VerificationToken> result = tokenRepository.findByToken(token);
@@ -54,7 +56,9 @@ class VerificationTokenRepositoryTest {
         //given
         String token = "non-existing-token";
         Optional<VerificationTokenEntity> optionalEntity = Optional.empty();
-        when(verificationTokenJpaRepository.findByToken(token)).thenReturn(optionalEntity);
+
+        when(verificationTokenJpaRepository.findByToken(token))
+                .thenReturn(optionalEntity);
 
         //when
         Optional<VerificationToken> result = tokenRepository.findByToken(token);
@@ -71,8 +75,11 @@ class VerificationTokenRepositoryTest {
         User user = DomainFixtures.someUser();
         VerificationToken verificationToken = new VerificationToken(token, user);
         VerificationTokenEntity verificationTokenEntity = new VerificationTokenEntity();
-        when(verificationTokenEntityMapper.mapToEntity(verificationToken)).thenReturn(verificationTokenEntity);
-        when(verificationTokenJpaRepository.save(verificationTokenEntity)).thenReturn(verificationTokenEntity);
+
+        when(verificationTokenEntityMapper.mapToEntity(verificationToken))
+                .thenReturn(verificationTokenEntity);
+        when(verificationTokenJpaRepository.save(verificationTokenEntity))
+                .thenReturn(verificationTokenEntity);
 
         //when
         VerificationTokenEntity result = tokenRepository.save(verificationToken);

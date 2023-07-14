@@ -11,7 +11,7 @@ class ImagesUtilsTest {
     @Test
     void compressImageWorksCorrectly() {
         // given
-        byte[] input = "Hello, World!".getBytes();
+        byte[] input = "Hello World!".getBytes();
 
         // when
         byte[] compressed = ImagesUtils.compressImage(input);
@@ -24,7 +24,7 @@ class ImagesUtilsTest {
     @Test
     void decompressImageWorksCorrectly() {
         // given
-        byte[] input = "Hello, World!".getBytes();
+        byte[] input = "Hello World!".getBytes();
         byte[] compressed = ImagesUtils.compressImage(input);
 
         // when

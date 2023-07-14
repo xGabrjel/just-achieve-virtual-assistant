@@ -19,9 +19,12 @@ class TokenExpirationTimeTest {
         Date currentDate = new Date();
         Date expectedExpirationTime = new Date(currentDate.getTime() + expirationTimeMinutes * 60 * 1000);
 
-        when(calendar.getTime()).thenReturn(currentDate);
-        when(calendar.getTimeInMillis()).thenReturn(currentDate.getTime());
-        when(calendar.getTimeInMillis() + Calendar.MINUTE * expirationTimeMinutes).thenReturn(expectedExpirationTime.getTime());
+        when(calendar.getTime())
+                .thenReturn(currentDate);
+        when(calendar.getTimeInMillis())
+                .thenReturn(currentDate.getTime());
+        when(calendar.getTimeInMillis() + Calendar.MINUTE * expirationTimeMinutes)
+                .thenReturn(expectedExpirationTime.getTime());
 
         //when
         Date expirationTime = TokenExpirationTime.getExpirationTime();

@@ -23,10 +23,8 @@ class UserProfileServiceTest {
 
     @InjectMocks
     private UserProfileService userProfileService;
-
     @Mock
     private UserProfileRepository userProfileRepository;
-
     @Mock
     private UserProfileJpaRepository userProfileJpaRepository;
 
@@ -35,7 +33,9 @@ class UserProfileServiceTest {
         //given
         UserProfile userProfile = DomainFixtures.someUserProfile();
 
-        when(userProfileRepository.findByUserUsername(userProfile.getUser().getUsername())).thenReturn(userProfile);
+        when(userProfileRepository.findByUserUsername(userProfile.getUser().getUsername()))
+                .thenReturn(userProfile);
+
         //when
         UserProfile result = userProfileService.findByUsername(userProfile.getUser().getUsername());
 
@@ -45,12 +45,14 @@ class UserProfileServiceTest {
     }
 
     @Test
-    void saveUserProfileDataIsPresent() {
+    void saveUserProfileDataIsPresentWorksCorrectly() {
         UserProfile userProfile = DomainFixtures.someUserProfile();
         UserProfileEntity userProfileEntity = EntityFixtures.someUserProfileEntity();
 
-        when(userProfileJpaRepository.findByUserUsername(userProfile.getUser().getUsername())).thenReturn(Optional.of(userProfileEntity));
-        when(userProfileRepository.findByUserUsername(userProfile.getUser().getUsername())).thenReturn(userProfile);
+        when(userProfileJpaRepository.findByUserUsername(userProfile.getUser().getUsername()))
+                .thenReturn(Optional.of(userProfileEntity));
+        when(userProfileRepository.findByUserUsername(userProfile.getUser().getUsername()))
+                .thenReturn(userProfile);
 
         //when
         userProfileService.saveUserProfileData(userProfile.getUser().getUsername(), userProfile);
@@ -60,11 +62,12 @@ class UserProfileServiceTest {
         verify(userProfileRepository, times(1)).saveUserProfileData(userProfile);
     }
     @Test
-    void saveUserProfileDataIsNotPresent() {
+    void saveUserProfileDataIsNotPresentWorksCorrectly() {
         //given
         UserProfile userProfile = DomainFixtures.someUserProfile();
 
-        when(userProfileJpaRepository.findByUserUsername(userProfile.getUser().getUsername())).thenReturn(Optional.empty());
+        when(userProfileJpaRepository.findByUserUsername(userProfile.getUser().getUsername()))
+                .thenReturn(Optional.empty());
 
         //when
         userProfileService.saveUserProfileData(userProfile.getUser().getUsername(), userProfile);

@@ -26,13 +26,12 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 class MacronutrientsControllerTest {
 
     private final MockMvc mockMvc;
-
     @MockBean
     private MacronutrientsCalculatorService macronutrientsCalculatorService;
 
     @Test
     @WithMockUser
-    void pageReturnsMacronutrientsViewCorrectly() throws Exception {
+    void returnMacronutrientsHomePageViewCorrectly() throws Exception {
         //given, when, then
         mockMvc.perform(get("/macronutrients"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -41,7 +40,7 @@ class MacronutrientsControllerTest {
 
     @Test
     @WithMockUser
-    void macronutrientsReturnsMacronutrientsViewCorrectly() throws Exception {
+    void returnMacronutrientsViewCorrectly() throws Exception {
         // given
         String username = "testUser";
         ActivityLevel activityLevel = ActivityLevel.MODERATELY_ACTIVE;

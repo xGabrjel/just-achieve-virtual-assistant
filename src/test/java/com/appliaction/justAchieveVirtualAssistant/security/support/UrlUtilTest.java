@@ -17,14 +17,18 @@ class UrlUtilTest {
     private UrlUtil urlUtil;
     @Mock
     private HttpServletRequest request;
+
     @Test
     void getApplicationUrlWorksCorrectly() {
         //given
         String requestUrl = "http://localhost:8080";
         String servletPath = "/servlet";
         String expectedBaseUrl = "http://localhost:8080";
-        when(request.getRequestURL()).thenReturn(new StringBuffer(requestUrl));
-        when(request.getServletPath()).thenReturn(servletPath);
+
+        when(request.getRequestURL())
+                .thenReturn(new StringBuffer(requestUrl));
+        when(request.getServletPath())
+                .thenReturn(servletPath);
 
         //when
         String result = UrlUtil.getApplicationUrl(request);

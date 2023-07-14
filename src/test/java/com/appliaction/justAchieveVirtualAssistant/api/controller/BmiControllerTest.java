@@ -22,20 +22,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class BmiControllerTest {
 
     private final MockMvc mockMvc;
-
     @MockBean
     private BmiCalculatorService bmiCalculatorService;
 
     @Test
     @WithMockUser
-    void bmiReturnsBmiViewWithBmiAttributeCorrectly() throws Exception {
+    void returnBmiViewWithBmiAttributeWorksCorrectly() throws Exception {
         // given
         String username = "testUser";
         String bmiValue = "22.5";
 
         Principal principal = () -> username;
 
-        when(bmiCalculatorService.calculateAndInterpretBMI(username)).thenReturn(bmiValue);
+        when(bmiCalculatorService.calculateAndInterpretBMI(username))
+                .thenReturn(bmiValue);
 
         // when, then
         mockMvc.perform(get("/bmi")
@@ -48,13 +48,14 @@ class BmiControllerTest {
 
     @Test
     @WithMockUser
-    void bmiReturnsBmiViewWithNoBmiAttributeWhenCalculationFailsCorrectly() throws Exception {
+    void returnBmiViewWithNoBmiAttributeWhenCalculationFailsWorksCorrectly() throws Exception {
         // given
         String username = "testUser";
 
         Principal principal = () -> username;
 
-        when(bmiCalculatorService.calculateAndInterpretBMI(username)).thenReturn(null);
+        when(bmiCalculatorService.calculateAndInterpretBMI(username))
+                .thenReturn(null);
 
         // when, then
         mockMvc.perform(get("/bmi")

@@ -27,25 +27,24 @@ class FoodRepositoryTest {
 
     @InjectMocks
     private FoodRepository foodRepository;
-
     @Mock
     private FoodJpaRepository foodJpaRepository;
-
     @Mock
     private FoodEntityMapper foodEntityMapper;
-
     @Mock
     private UserJpaRepository userJpaRepository;
 
     @Test
-    void findAllProductsShouldReturnListOfFoodEntities() {
+    void findAllProductsShouldReturnListOfFoodEntitiesWorksCorrectly() {
         // given
         String username = "testUser";
         UserEntity userEntity = new UserEntity();
-        when(userJpaRepository.findByUsername(username)).thenReturn(Optional.of(userEntity));
-
         List<FoodEntity> foodEntities = new ArrayList<>();
-        when(foodJpaRepository.findAllByUserId(userEntity)).thenReturn(foodEntities);
+
+        when(userJpaRepository.findByUsername(username))
+                .thenReturn(Optional.of(userEntity));
+        when(foodJpaRepository.findAllByUserId(userEntity))
+                .thenReturn(foodEntities);
 
         // when
         List<FoodEntity> result = foodRepository.findAllProducts(username);
@@ -57,15 +56,15 @@ class FoodRepositoryTest {
     }
 
     @Test
-    void saveIntoDbWorksCorrectly() {
+    void saveIntoDatabaseWorksCorrectly() {
         //given
         Food food = new Food();
         food.setName("Apple");
-
         FoodEntity foodEntity = new FoodEntity();
         foodEntity.setName("Apple");
 
-        when(foodEntityMapper.mapToEntity(food)).thenReturn(foodEntity);
+        when(foodEntityMapper.mapToEntity(food))
+                .thenReturn(foodEntity);
 
         //when
         foodRepository.saveIntoDatabase(food);
@@ -76,7 +75,7 @@ class FoodRepositoryTest {
     }
 
     @Test
-    void findAllProductsThrowsNotFoundExceptionWhenUserNotFound() {
+    void findAllProductsThrowsNotFoundExceptionWhenUserNotFoundWorksCorrectly() {
         //given
         String username = "nonExistingUser";
 

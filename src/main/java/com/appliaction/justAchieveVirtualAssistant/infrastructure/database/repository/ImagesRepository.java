@@ -35,6 +35,6 @@ public class ImagesRepository {
 
     public void save(Images image) {
         ImagesEntity imagesEntity = imagesEntityMapper.mapToEntity(image);
-        imagesJpaRepository.save(imagesEntity);
+        imagesJpaRepository.saveAndFlush(imagesEntity);
     }
 }

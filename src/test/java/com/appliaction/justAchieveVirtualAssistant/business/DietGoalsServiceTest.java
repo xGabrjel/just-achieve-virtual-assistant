@@ -34,8 +34,10 @@ class DietGoalsServiceTest {
         DietGoalsEntity dietGoalsEntity = EntityFixtures.someDietGoalsEntity();
         DietGoals dietGoals = DomainFixtures.someDietGoals();
 
-        when(dietGoalsJpaRepository.findById(dietGoalsEntity.getDietGoalId())).thenReturn(Optional.of(dietGoalsEntity));
-        when(dietGoalsEntityMapper.mapFromEntity(dietGoalsEntity)).thenReturn(dietGoals);
+        when(dietGoalsJpaRepository.findById(dietGoalsEntity.getDietGoalId()))
+                .thenReturn(Optional.of(dietGoalsEntity));
+        when(dietGoalsEntityMapper.mapFromEntity(dietGoalsEntity))
+                .thenReturn(dietGoals);
 
         //when
         Optional<DietGoals> result = dietGoalsService.findById(dietGoalsEntity.getDietGoalId());

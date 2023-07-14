@@ -15,8 +15,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.math.BigDecimal;
 import java.security.Principal;
@@ -25,21 +23,19 @@ import java.time.format.DateTimeFormatter;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(BodyMeasurementsController.class)
 @AutoConfigureMockMvc(addFilters = false)
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 class BodyMeasurementsControllerTest {
 
-    @Autowired
     private MockMvc mockMvc;
-
     @MockBean
     private BodyMeasurementsService bodyMeasurementsService;
-
     @MockBean
     private BodyMeasurementsMapper bodyMeasurementsMapper;
-
     @MockBean
     private UserProfileService userProfileService;
 
@@ -48,12 +44,12 @@ class BodyMeasurementsControllerTest {
     void bodyMeasurementsHomePageWorksCorrectly() throws Exception {
         //given, when, then
         mockMvc.perform(get("/measurements"))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("measurements"));
+                .andExpect(status().isOk())
+                .andExpect(view().name("measurements"));
     }
     @Test
     @WithMockUser
-    void getMeasurementsReturnsMeasurementsViewWorksCorrectly() throws Exception {
+    void returnMeasurementsViewWorksCorrectly() throws Exception {
         // given
         String username = "testUser";
         String date = "2022-01-01";
@@ -64,23 +60,26 @@ class BodyMeasurementsControllerTest {
 
         Principal principal = () -> username;
 
-        when(userProfileService.findByUsername(username)).thenReturn(new UserProfile());
-        when(bodyMeasurementsService.findByDateAndProfileId(parseResult, new UserProfile())).thenReturn(bodyMeasurements);
-        when(bodyMeasurementsMapper.map(bodyMeasurements)).thenReturn(bodyMeasurementsDTO);
+        when(userProfileService.findByUsername(username))
+                .thenReturn(new UserProfile());
+        when(bodyMeasurementsService.findByDateAndProfileId(parseResult, new UserProfile()))
+                .thenReturn(bodyMeasurements);
+        when(bodyMeasurementsMapper.map(bodyMeasurements))
+                .thenReturn(bodyMeasurementsDTO);
 
         // when, then
-        mockMvc.perform(MockMvcRequestBuilders.get("/measurements/get")
+        mockMvc.perform(get("/measurements/get")
                 .param("date", date)
                 .principal(principal))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("measurements"))
-                .andExpect(MockMvcResultMatchers.model().attributeExists("measurements"))
-                .andExpect(MockMvcResultMatchers.model().attribute("measurements", bodyMeasurementsDTO));
+                .andExpect(status().isOk())
+                .andExpect(view().name("measurements"))
+                .andExpect(model().attributeExists("measurements"))
+                .andExpect(model().attribute("measurements", bodyMeasurementsDTO));
     }
 
     @Test
     @WithMockUser
-    void postMeasurementsRedirectsToMeasurementsWithSuccessParamWhenValidWorksCorrectly() throws Exception {
+    void redirectToMeasurementsWithSuccessParamWhenValidWorksCorrectly() throws Exception {
         // given
         String username = "testUser";
         BodyMeasurementsDTO bodyMeasurementsDTO = new BodyMeasurementsDTO();
@@ -88,19 +87,20 @@ class BodyMeasurementsControllerTest {
 
         Principal principal = () -> username;
 
-        when(userProfileService.findByUsername(username)).thenReturn(userProfile);
+        when(userProfileService.findByUsername(username))
+                .thenReturn(userProfile);
 
         // when, then
-        mockMvc.perform(MockMvcRequestBuilders.post("/measurements/add")
+        mockMvc.perform(post("/measurements/add")
                 .flashAttr("bodyMeasurementsDTO", bodyMeasurementsDTO)
                 .principal(principal))
-                .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
-                .andExpect(MockMvcResultMatchers.redirectedUrl("/measurements?success"));
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/measurements?success"));
     }
 
     @Test
     @WithMockUser
-    void postMeasurementsReturnsMeasurementsViewWithErrorsWhenInvalidWorksCorrectly() throws Exception {
+    void returnMeasurementsViewWithErrorsWhenInvalidWorksCorrectly() throws Exception {
         // given
         String username = "testUser";
         BodyMeasurementsDTO bodyMeasurementsDTO = new BodyMeasurementsDTO();
@@ -109,13 +109,14 @@ class BodyMeasurementsControllerTest {
 
         Principal principal = () -> username;
 
-        when(userProfileService.findByUsername(username)).thenReturn(userProfile);
+        when(userProfileService.findByUsername(username))
+                .thenReturn(userProfile);
 
         // when, then
-        mockMvc.perform(MockMvcRequestBuilders.post("/measurements/add")
+        mockMvc.perform(post("/measurements/add")
                 .flashAttr("bodyMeasurementsDTO", bodyMeasurementsDTO)
                 .principal(principal))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.view().name("default-error"));
+                .andExpect(status().isBadRequest())
+                .andExpect(view().name("default-error"));
     }
 }

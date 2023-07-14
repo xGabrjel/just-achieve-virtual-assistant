@@ -22,25 +22,21 @@ class ImagesRepositoryTest {
 
     @InjectMocks
     private ImagesRepository imagesRepository;
-
     @Mock
     private ImagesJpaRepository imagesJpaRepository;
-
     @Mock
     private ImagesEntityMapper imagesEntityMapper;
 
     @Test
-    void getImageReturnsOptionalOfImages() {
+    void getImageReturnsOptionalOfImagesWorksCorrectly() {
         // given
         String fileName = "test.png";
-
         ImagesEntity imagesEntity = ImagesEntity.builder()
                 .id(1L)
                 .name(fileName)
                 .type("PNG")
                 .imageData(new byte[]{1, 2, 3})
                 .build();
-
         Images images = Images.builder()
                 .id(1L)
                 .name(fileName)
@@ -48,8 +44,10 @@ class ImagesRepositoryTest {
                 .imageData(new byte[]{1, 2, 3})
                 .build();
 
-        when(imagesJpaRepository.findByName(fileName)).thenReturn(Optional.ofNullable(imagesEntity));
-        when(imagesEntityMapper.mapFromEntity(imagesEntity)).thenReturn(images);
+        when(imagesJpaRepository.findByName(fileName))
+                .thenReturn(Optional.ofNullable(imagesEntity));
+        when(imagesEntityMapper.mapFromEntity(imagesEntity))
+                .thenReturn(images);
 
         ImagesRepository imagesRepository = new ImagesRepository(imagesJpaRepository, imagesEntityMapper);
 
@@ -62,11 +60,12 @@ class ImagesRepositoryTest {
     }
 
     @Test
-    void getImageThrowsNotFoundExceptionWhenImageNotFound() {
+    void getImageThrowsNotFoundExceptionWhenImageNotFoundWorksCorrectly() {
         // given
         String fileName = "test.png";
 
-        when(imagesJpaRepository.findByName(fileName)).thenReturn(Optional.empty());
+        when(imagesJpaRepository.findByName(fileName))
+                .thenReturn(Optional.empty());
 
         // when
         Optional<Images> result = imagesRepository.getImage(fileName);
@@ -81,7 +80,8 @@ class ImagesRepositoryTest {
         String fileName = "example.jpg";
         ImagesEntity imagesEntity = new ImagesEntity();
 
-        when(imagesJpaRepository.findByName(fileName)).thenReturn(Optional.of(imagesEntity));
+        when(imagesJpaRepository.findByName(fileName))
+                .thenReturn(Optional.of(imagesEntity));
 
         //when, then
         assertDoesNotThrow(() -> imagesRepository.deleteImage(fileName));
@@ -94,7 +94,8 @@ class ImagesRepositoryTest {
         //given
         String fileName = "nonexistent.jpg";
 
-        when(imagesJpaRepository.findByName(fileName)).thenReturn(Optional.empty());
+        when(imagesJpaRepository.findByName(fileName))
+                .thenReturn(Optional.empty());
 
         //when, then
         assertThrows(NotFoundException.class, () -> imagesRepository.deleteImage(fileName));

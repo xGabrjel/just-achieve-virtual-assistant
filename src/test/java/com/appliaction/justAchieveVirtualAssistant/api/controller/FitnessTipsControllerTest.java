@@ -26,16 +26,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class FitnessTipsControllerTest {
 
     private final MockMvc mockMvc;
-
     @MockBean
     private FitnessTipsGeneratorService fitnessTipsGeneratorService;
-
     @MockBean
     private FitnessTipsMapper fitnessTipsMapper;
 
     @Test
     @WithMockUser
-    void tipsReturnsTipsViewCorrectly() throws Exception {
+    void returnTipsViewWorksCorrectly() throws Exception {
         // given
         String username = "testUser";
         DietGoalsDTO dietGoalsDTO = new DietGoalsDTO();
@@ -44,8 +42,10 @@ class FitnessTipsControllerTest {
 
         Principal principal = () -> username;
 
-        when(fitnessTipsGeneratorService.getRandomTipForDietGoal(username)).thenReturn(new FitnessTips());
-        when(fitnessTipsMapper.map(new FitnessTips())).thenReturn(tipsDTO);
+        when(fitnessTipsGeneratorService.getRandomTipForDietGoal(username))
+                .thenReturn(new FitnessTips());
+        when(fitnessTipsMapper.map(new FitnessTips()))
+                .thenReturn(tipsDTO);
 
         // when, then
         mockMvc.perform(get("/tips")

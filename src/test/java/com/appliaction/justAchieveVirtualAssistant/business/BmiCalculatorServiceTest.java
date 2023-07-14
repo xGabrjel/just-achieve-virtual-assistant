@@ -20,7 +20,6 @@ class BmiCalculatorServiceTest {
 
     @InjectMocks
     private BmiCalculatorService bmiCalculatorService;
-
     @Mock
     private UserProfileRepository userProfileRepository;
 
@@ -33,7 +32,8 @@ class BmiCalculatorServiceTest {
                 .withUser(DomainFixtures.someUser().withUsername("test1"))
                 .withWeight(BigDecimal.valueOf(60));
 
-        when(userProfileRepository.findByUserUsername(userProfile.getUser().getUsername())).thenReturn(userProfile);
+        when(userProfileRepository.findByUserUsername(userProfile.getUser().getUsername()))
+                .thenReturn(userProfile);
 
         //when
         BigDecimal result = bmiCalculatorService.calculateBMI(userProfile.getUser().getUsername());
@@ -51,7 +51,8 @@ class BmiCalculatorServiceTest {
                 .withUser(DomainFixtures.someUser().withUsername("test2"))
                 .withWeight(BigDecimal.valueOf(60));
 
-        when(userProfileRepository.findByUserUsername(underweightUser.getUser().getUsername())).thenReturn(underweightUser);
+        when(userProfileRepository.findByUserUsername(underweightUser.getUser().getUsername()))
+                .thenReturn(underweightUser);
 
         //when
         String underweightResult = bmiCalculatorService.calculateAndInterpretBMI(underweightUser.getUser().getUsername());
@@ -69,7 +70,8 @@ class BmiCalculatorServiceTest {
                 .withUser(DomainFixtures.someUser().withUsername("test3"))
                 .withWeight(BigDecimal.valueOf(80));
 
-        when(userProfileRepository.findByUserUsername(healthyUser.getUser().getUsername())).thenReturn(healthyUser);
+        when(userProfileRepository.findByUserUsername(healthyUser.getUser().getUsername()))
+                .thenReturn(healthyUser);
 
         //when
         String healthyResult = bmiCalculatorService.calculateAndInterpretBMI(healthyUser.getUser().getUsername());
@@ -87,7 +89,8 @@ class BmiCalculatorServiceTest {
                 .withUser(DomainFixtures.someUser().withUsername("test4"))
                 .withWeight(BigDecimal.valueOf(90));
 
-        when(userProfileRepository.findByUserUsername(overweightUser.getUser().getUsername())).thenReturn(overweightUser);
+        when(userProfileRepository.findByUserUsername(overweightUser.getUser().getUsername()))
+                .thenReturn(overweightUser);
 
         //when
         String overweightResult = bmiCalculatorService.calculateAndInterpretBMI(overweightUser.getUser().getUsername());
@@ -105,7 +108,8 @@ class BmiCalculatorServiceTest {
                 .withUser(DomainFixtures.someUser().withUsername("test5"))
                 .withWeight(BigDecimal.valueOf(120));
 
-        when(userProfileRepository.findByUserUsername(obeseUser.getUser().getUsername())).thenReturn(obeseUser);
+        when(userProfileRepository.findByUserUsername(obeseUser.getUser().getUsername()))
+                .thenReturn(obeseUser);
 
         //when
         String obeseResult = bmiCalculatorService.calculateAndInterpretBMI(obeseUser.getUser().getUsername());

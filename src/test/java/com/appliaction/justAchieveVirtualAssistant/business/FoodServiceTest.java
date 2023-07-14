@@ -26,24 +26,22 @@ class FoodServiceTest {
 
     @InjectMocks
     private FoodService foodService;
-
     @Mock
     private FoodRepository foodRepository;
-
     @Mock
     private FoodEntityMapper foodEntityMapper;
-
     @Mock
     private UserRepository userRepository;
 
     @Test
     void saveProductWorksCorrectly() {
         //given
+        String username = "user1";
         FoodDTO foodDTO = new FoodDTO();
         foodDTO.setName("Apple");
 
-        String username = "user1";
-        when(userRepository.findByUsername(username)).thenReturn(Optional.of(mock(User.class)));
+        when(userRepository.findByUsername(username))
+                .thenReturn(Optional.of(mock(User.class)));
 
         //when
         foodService.saveProduct(foodDTO, username);
@@ -58,10 +56,12 @@ class FoodServiceTest {
         String username = "user1";
         List<FoodEntity> foodEntities = new ArrayList<>();
         foodEntities.add(mock(FoodEntity.class));
-        when(foodRepository.findAllProducts(username)).thenReturn(foodEntities);
-
         Food food = mock(Food.class);
-        when(foodEntityMapper.mapFromEntity(any(FoodEntity.class))).thenReturn(food);
+
+        when(foodRepository.findAllProducts(username))
+                .thenReturn(foodEntities);
+        when(foodEntityMapper.mapFromEntity(any(FoodEntity.class)))
+                .thenReturn(food);
 
         //when
         List<Food> result = foodService.findAllByUsername(username);
