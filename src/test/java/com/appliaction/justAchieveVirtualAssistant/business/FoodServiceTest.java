@@ -2,11 +2,11 @@ package com.appliaction.justAchieveVirtualAssistant.business;
 
 import com.appliaction.justAchieveVirtualAssistant.api.dto.FoodDTO;
 import com.appliaction.justAchieveVirtualAssistant.domain.Food;
-import com.appliaction.justAchieveVirtualAssistant.domain.User;
+import com.appliaction.justAchieveVirtualAssistant.domain.UserProfile;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.entity.FoodEntity;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.mapper.FoodEntityMapper;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.repository.FoodRepository;
-import com.appliaction.justAchieveVirtualAssistant.security.user.UserRepository;
+import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.repository.UserProfileRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -15,7 +15,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -31,7 +30,7 @@ class FoodServiceTest {
     @Mock
     private FoodEntityMapper foodEntityMapper;
     @Mock
-    private UserRepository userRepository;
+    private UserProfileRepository userProfileRepository;
 
     @Test
     void saveProductWorksCorrectly() {
@@ -40,8 +39,8 @@ class FoodServiceTest {
         FoodDTO foodDTO = new FoodDTO();
         foodDTO.setName("Apple");
 
-        when(userRepository.findByUsername(username))
-                .thenReturn(Optional.of(mock(User.class)));
+        when(userProfileRepository.findByUserUsername(username))
+                .thenReturn(mock(UserProfile.class));
 
         //when
         foodService.saveProduct(foodDTO, username);

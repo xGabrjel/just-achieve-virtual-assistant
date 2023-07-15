@@ -1,7 +1,7 @@
 CREATE TABLE food
 (
     food_id                  SERIAL             NOT NULL,
-    user_id                  INT                NOT NULL,
+    profile_id               INT                NOT NULL,
     name                     VARCHAR(128)       NOT NULL,
     calories                 NUMERIC(10,1)      NOT NULL,
     serving_size_g           INT                NOT NULL,
@@ -15,7 +15,7 @@ CREATE TABLE food
     fiber_g                  NUMERIC(10,1)      NOT NULL,
     sugar_g                  NUMERIC(10,1)      NOT NULL,
     PRIMARY KEY(food_id),
-    CONSTRAINT fk_app_user_food
-    	    FOREIGN KEY (user_id)
-    		    REFERENCES app_user (user_id) ON DELETE CASCADE
+    CONSTRAINT fk_user_profile_food
+    	    FOREIGN KEY (profile_id)
+    		    REFERENCES user_profile (profile_id) ON DELETE CASCADE
 );

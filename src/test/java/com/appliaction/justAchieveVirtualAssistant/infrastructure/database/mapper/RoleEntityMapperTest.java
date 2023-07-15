@@ -25,8 +25,8 @@ class RoleEntityMapperTest {
 
         //then
         assertNull(nullMapping);
-        assertEquals(entity.getRoleId(), domain.getRoleId());
         assertEquals(entity.getRole(), domain.getRole());
+        assertEquals(entity.getRoleId(), domain.getRoleId());
     }
     @Test
     void roleMapToEntityMapperWorksCorrectly() {
@@ -42,7 +42,7 @@ class RoleEntityMapperTest {
 
         //then
         assertNull(nullMapping);
-        assertEquals(domain.getRoleId(), entity.getRoleId());
         assertEquals(domain.getRole(), entity.getRole());
+        assertEquals(domain.getRoleId(), entity.getRoleId());
     }
 }

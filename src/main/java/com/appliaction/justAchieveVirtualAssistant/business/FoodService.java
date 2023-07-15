@@ -6,7 +6,7 @@ import com.appliaction.justAchieveVirtualAssistant.domain.Item;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.entity.FoodEntity;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.mapper.FoodEntityMapper;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.repository.FoodRepository;
-import com.appliaction.justAchieveVirtualAssistant.security.user.UserRepository;
+import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.repository.UserProfileRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -24,7 +24,7 @@ public class FoodService {
     private final WebClient webClient;
     private final FoodRepository foodRepository;
     private final FoodEntityMapper foodEntityMapper;
-    private final UserRepository userRepository;
+    private final UserProfileRepository userProfileRepository;
 
     public Optional<Item> findByQuery(String query) {
         log.info("Query input: [%s]".formatted(query));
@@ -45,7 +45,7 @@ public class FoodService {
 
     public void saveProduct(FoodDTO foodDTO, String username) {
         Food food = Food.builder()
-                .userId(userRepository.findByUsername(username).orElseThrow())
+                .profileId(userProfileRepository.findByUserUsername(username))
                 .name(foodDTO.getName())
                 .calories(foodDTO.getCalories())
                 .servingSizeG(foodDTO.getServingSizeG())

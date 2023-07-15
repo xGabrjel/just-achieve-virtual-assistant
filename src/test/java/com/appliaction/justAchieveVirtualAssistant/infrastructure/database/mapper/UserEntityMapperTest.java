@@ -27,7 +27,7 @@ class UserEntityMapperTest {
         assertEquals(User.class, domain.getClass());
         assertEquals(entity.getEmail(), domain.getEmail());
         assertEquals(entity.getUserId(), domain.getUserId());
-        assertEquals(entity.getUsername(), domain.getUsername());
         assertEquals(entity.getActive(), domain.getActive());
+        assertEquals(entity.getUsername(), domain.getUsername());
     }
 }

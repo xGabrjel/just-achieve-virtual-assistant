@@ -53,7 +53,6 @@ dependencies {
     testImplementation "org.slf4j:slf4j-api:${wiremockSlf4jVersion}"
     testImplementation "io.rest-assured:rest-assured:${restAssuredVersion}"
     testImplementation "com.github.tomakehurst:wiremock-standalone:${wiremockVersion}"
-
 }
 
 test {

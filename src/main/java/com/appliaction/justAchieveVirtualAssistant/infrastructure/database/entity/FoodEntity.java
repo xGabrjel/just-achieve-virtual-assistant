@@ -1,6 +1,5 @@
 package com.appliaction.justAchieveVirtualAssistant.infrastructure.database.entity;
 
-import com.appliaction.justAchieveVirtualAssistant.security.user.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,9 +21,9 @@ public class FoodEntity {
     @Column(name = "food_id", nullable = false)
     private Integer foodId;
 
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "profile_id", nullable = false)
     @OneToOne(fetch = FetchType.EAGER)
-    private UserEntity userId;
+    private UserProfileEntity profileId;
 
     @Column(name = "name", nullable = false)
     private String name;

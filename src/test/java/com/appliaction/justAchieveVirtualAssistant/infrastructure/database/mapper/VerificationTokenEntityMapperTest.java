@@ -37,8 +37,8 @@ class VerificationTokenEntityMapperTest {
         assertNull(nullMapping);
         assertEquals(entity.getId(), domain.getId());
         assertEquals(entity.getToken(), domain.getToken());
-        assertEquals(entity.getExpirationTime(), domain.getExpirationTime());
         assertEquals(User.class, domain.getUser().getClass());
+        assertEquals(entity.getExpirationTime(), domain.getExpirationTime());
     }
 
     @Test
@@ -58,8 +58,8 @@ class VerificationTokenEntityMapperTest {
         assertNull(nullMapping);
         assertEquals(domain.getId(), entity.getId());
         assertEquals(domain.getToken(), entity.getToken());
-        assertEquals(domain.getExpirationTime(), entity.getExpirationTime());
         assertEquals(UserEntity.class, entity.getUser().getClass());
+        assertEquals(domain.getExpirationTime(), entity.getExpirationTime());
     }
 
     @Test

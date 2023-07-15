@@ -1,9 +1,9 @@
 package com.appliaction.justAchieveVirtualAssistant.infrastructure.database.mapper;
 
 import com.appliaction.justAchieveVirtualAssistant.domain.Food;
-import com.appliaction.justAchieveVirtualAssistant.domain.User;
+import com.appliaction.justAchieveVirtualAssistant.domain.UserProfile;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.entity.FoodEntity;
-import com.appliaction.justAchieveVirtualAssistant.security.user.UserEntity;
+import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.entity.UserProfileEntity;
 import com.appliaction.justAchieveVirtualAssistant.util.DomainFixtures;
 import com.appliaction.justAchieveVirtualAssistant.util.EntityFixtures;
 import org.junit.jupiter.api.Test;
@@ -23,7 +23,7 @@ class FoodEntityMapperTest {
         //given
         FoodEntity entity = FoodEntity.builder()
                 .foodId(1)
-                .userId(EntityFixtures.someUserEntity())
+                .profileId(EntityFixtures.someUserProfileEntity())
                 .name("Apple")
                 .calories(new BigDecimal("52"))
                 .servingSizeG(100)
@@ -44,23 +44,28 @@ class FoodEntityMapperTest {
 
         //then
         assertNull(nullMapping);
-        assertEquals(entity.getFoodId(), domain.getFoodId());
         assertEquals(entity.getName(), domain.getName());
+        assertEquals(entity.getFoodId(), domain.getFoodId());
+        assertEquals(entity.getSugarG(), domain.getSugarG());
+        assertEquals(entity.getFiberG(), domain.getFiberG());
         assertEquals(entity.getCalories(), domain.getCalories());
-        assertEquals(entity.getServingSizeG(), domain.getServingSizeG());
-        assertEquals(entity.getFatTotalG(), domain.getFatTotalG());
-        assertEquals(entity.getFatSaturatedG(), domain.getFatSaturatedG());
         assertEquals(entity.getProteinG(), domain.getProteinG());
         assertEquals(entity.getSodiumMg(), domain.getSodiumMg());
+        assertEquals(entity.getFatTotalG(), domain.getFatTotalG());
         assertEquals(entity.getPotassiumMg(), domain.getPotassiumMg());
+        assertEquals(entity.getServingSizeG(), domain.getServingSizeG());
+        assertEquals(UserProfile.class, domain.getProfileId().getClass());
+        assertEquals(entity.getFatSaturatedG(), domain.getFatSaturatedG());
         assertEquals(entity.getCholesterolMg(), domain.getCholesterolMg());
+        assertEquals(entity.getProfileId().getAge(), domain.getProfileId().getAge());
+        assertEquals(entity.getProfileId().getSex(), domain.getProfileId().getSex());
         assertEquals(entity.getCarbohydratesTotalG(), domain.getCarbohydratesTotalG());
-        assertEquals(entity.getFiberG(), domain.getFiberG());
-        assertEquals(entity.getSugarG(), domain.getSugarG());
-        assertEquals(User.class, domain.getUserId().getClass());
-        assertEquals(entity.getUserId().getUserId(), domain.getUserId().getUserId());
-        assertEquals(entity.getUserId().getUsername(), domain.getUserId().getUsername());
-        assertEquals(entity.getUserId().getEmail(), domain.getUserId().getEmail());
+        assertEquals(entity.getProfileId().getName(), domain.getProfileId().getName());
+        assertEquals(entity.getProfileId().getPhone(), domain.getProfileId().getPhone());
+        assertEquals(entity.getProfileId().getWeight(), domain.getProfileId().getWeight());
+        assertEquals(entity.getProfileId().getHeight(), domain.getProfileId().getHeight());
+        assertEquals(entity.getProfileId().getSurname(), domain.getProfileId().getSurname());
+        assertEquals(entity.getProfileId().getProfileId(), domain.getProfileId().getProfileId());
     }
 
     @Test
@@ -68,7 +73,7 @@ class FoodEntityMapperTest {
         //given
         Food domain = Food.builder()
                 .foodId(1)
-                .userId(DomainFixtures.someUser())
+                .profileId(DomainFixtures.someUserProfile())
                 .name("Apple")
                 .calories(new BigDecimal("52"))
                 .servingSizeG(100)
@@ -89,22 +94,27 @@ class FoodEntityMapperTest {
 
         //then
         assertNull(nullMapping);
-        assertEquals(domain.getFoodId(), entity.getFoodId());
         assertEquals(domain.getName(), entity.getName());
+        assertEquals(domain.getSugarG(), entity.getSugarG());
+        assertEquals(domain.getFiberG(), entity.getFiberG());
+        assertEquals(domain.getFoodId(), entity.getFoodId());
         assertEquals(domain.getCalories(), entity.getCalories());
-        assertEquals(domain.getServingSizeG(), entity.getServingSizeG());
-        assertEquals(domain.getFatTotalG(), entity.getFatTotalG());
-        assertEquals(domain.getFatSaturatedG(), entity.getFatSaturatedG());
         assertEquals(domain.getProteinG(), entity.getProteinG());
         assertEquals(domain.getSodiumMg(), entity.getSodiumMg());
+        assertEquals(domain.getFatTotalG(), entity.getFatTotalG());
         assertEquals(domain.getPotassiumMg(), entity.getPotassiumMg());
+        assertEquals(domain.getServingSizeG(), entity.getServingSizeG());
+        assertEquals(domain.getFatSaturatedG(), entity.getFatSaturatedG());
         assertEquals(domain.getCholesterolMg(), entity.getCholesterolMg());
+        assertEquals(UserProfileEntity.class, entity.getProfileId().getClass());
+        assertEquals(domain.getProfileId().getSex(), entity.getProfileId().getSex());
+        assertEquals(domain.getProfileId().getAge(), entity.getProfileId().getAge());
         assertEquals(domain.getCarbohydratesTotalG(), entity.getCarbohydratesTotalG());
-        assertEquals(domain.getFiberG(), entity.getFiberG());
-        assertEquals(domain.getSugarG(), entity.getSugarG());
-        assertEquals(UserEntity.class, entity.getUserId().getClass());
-        assertEquals(domain.getUserId().getUserId(), entity.getUserId().getUserId());
-        assertEquals(domain.getUserId().getUsername(), entity.getUserId().getUsername());
-        assertEquals(domain.getUserId().getEmail(), entity.getUserId().getEmail());
+        assertEquals(domain.getProfileId().getName(), entity.getProfileId().getName());
+        assertEquals(domain.getProfileId().getPhone(), entity.getProfileId().getPhone());
+        assertEquals(domain.getProfileId().getWeight(), entity.getProfileId().getWeight());
+        assertEquals(domain.getProfileId().getHeight(), entity.getProfileId().getHeight());
+        assertEquals(domain.getProfileId().getSurname(), entity.getProfileId().getSurname());
+        assertEquals(domain.getProfileId().getProfileId(), entity.getProfileId().getProfileId());
     }
 }

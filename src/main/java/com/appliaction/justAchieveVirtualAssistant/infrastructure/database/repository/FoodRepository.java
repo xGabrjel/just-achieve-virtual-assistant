@@ -3,10 +3,10 @@ package com.appliaction.justAchieveVirtualAssistant.infrastructure.database.repo
 import com.appliaction.justAchieveVirtualAssistant.domain.Food;
 import com.appliaction.justAchieveVirtualAssistant.domain.exception.NotFoundException;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.entity.FoodEntity;
+import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.entity.UserProfileEntity;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.mapper.FoodEntityMapper;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.repository.jpa.FoodJpaRepository;
-import com.appliaction.justAchieveVirtualAssistant.security.user.UserEntity;
-import com.appliaction.justAchieveVirtualAssistant.security.user.UserJpaRepository;
+import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.repository.jpa.UserProfileJpaRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -18,7 +18,7 @@ public class FoodRepository {
 
     private final FoodJpaRepository foodJpaRepository;
     private final FoodEntityMapper foodEntityMapper;
-    private final UserJpaRepository userRepository;
+    private final UserProfileJpaRepository userProfileJpaRepository;
 
     public void saveIntoDatabase(Food food) {
         FoodEntity foodEntity = foodEntityMapper.mapToEntity(food);
@@ -26,10 +26,10 @@ public class FoodRepository {
     }
 
     public List<FoodEntity> findAllProducts(String username) {
-        UserEntity userEntity = userRepository.findByUsername(username)
-                .orElseThrow(() -> new NotFoundException("User with username [%s] not found!".formatted(username)));
+        UserProfileEntity userProfileEntity = userProfileJpaRepository.findByUserUsername(username)
+                .orElseThrow(() -> new NotFoundException("UserProfile with username [%s] not found!".formatted(username)));
 
-        return foodJpaRepository.findAllByUserId(userEntity);
+        return foodJpaRepository.findAllByProfileId(userProfileEntity);
     }
 
     public void deleteAllProducts() {

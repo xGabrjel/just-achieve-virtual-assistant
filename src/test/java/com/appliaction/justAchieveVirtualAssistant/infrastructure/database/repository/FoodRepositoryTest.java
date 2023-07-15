@@ -3,10 +3,10 @@ package com.appliaction.justAchieveVirtualAssistant.infrastructure.database.repo
 import com.appliaction.justAchieveVirtualAssistant.domain.Food;
 import com.appliaction.justAchieveVirtualAssistant.domain.exception.NotFoundException;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.entity.FoodEntity;
+import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.entity.UserProfileEntity;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.mapper.FoodEntityMapper;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.repository.jpa.FoodJpaRepository;
-import com.appliaction.justAchieveVirtualAssistant.security.user.UserEntity;
-import com.appliaction.justAchieveVirtualAssistant.security.user.UserJpaRepository;
+import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.repository.jpa.UserProfileJpaRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -32,18 +32,18 @@ class FoodRepositoryTest {
     @Mock
     private FoodEntityMapper foodEntityMapper;
     @Mock
-    private UserJpaRepository userJpaRepository;
+    private UserProfileJpaRepository userProfileJpaRepository;
 
     @Test
     void findAllProductsShouldReturnListOfFoodEntitiesWorksCorrectly() {
         // given
         String username = "testUser";
-        UserEntity userEntity = new UserEntity();
+        UserProfileEntity userProfileEntity = new UserProfileEntity();
         List<FoodEntity> foodEntities = new ArrayList<>();
 
-        when(userJpaRepository.findByUsername(username))
-                .thenReturn(Optional.of(userEntity));
-        when(foodJpaRepository.findAllByUserId(userEntity))
+        when(userProfileJpaRepository.findByUserUsername(username))
+                .thenReturn(Optional.of(userProfileEntity));
+        when(foodJpaRepository.findAllByProfileId(userProfileEntity))
                 .thenReturn(foodEntities);
 
         // when
@@ -51,8 +51,8 @@ class FoodRepositoryTest {
 
         // then
         assertEquals(foodEntities, result);
-        verify(userJpaRepository, times(1)).findByUsername(username);
-        verify(foodJpaRepository, times(1)).findAllByUserId(userEntity);
+        verify(userProfileJpaRepository, times(1)).findByUserUsername(username);
+        verify(foodJpaRepository, times(1)).findAllByProfileId(userProfileEntity);
     }
 
     @Test
@@ -81,8 +81,8 @@ class FoodRepositoryTest {
 
         //when, then
         assertThrows(NotFoundException.class, () -> foodRepository.findAllProducts(username));
-        verify(userJpaRepository, times(1)).findByUsername(username);
-        verify(foodJpaRepository, never()).findAllByUserId(any());
+        verify(userProfileJpaRepository, times(1)).findByUserUsername(username);
+        verify(foodJpaRepository, never()).findAllByProfileId(any());
     }
 
     @Test

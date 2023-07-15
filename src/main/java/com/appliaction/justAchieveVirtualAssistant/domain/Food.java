@@ -35,7 +35,7 @@ public class Food {
     @JsonIgnore
     private Integer foodId;
     @JsonIgnore
-    private User userId;
+    private UserProfile profileId;
     @JsonProperty("name")
     private String name;
     @JsonProperty("calories")
