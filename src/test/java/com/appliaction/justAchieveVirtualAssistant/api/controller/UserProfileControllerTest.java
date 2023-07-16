@@ -3,6 +3,7 @@ package com.appliaction.justAchieveVirtualAssistant.api.controller;
 import com.appliaction.justAchieveVirtualAssistant.api.dto.UserProfileDTO;
 import com.appliaction.justAchieveVirtualAssistant.api.dto.mapper.UserProfileMapper;
 import com.appliaction.justAchieveVirtualAssistant.business.DietGoalsService;
+import com.appliaction.justAchieveVirtualAssistant.business.ImagesService;
 import com.appliaction.justAchieveVirtualAssistant.business.UserProfileService;
 import com.appliaction.justAchieveVirtualAssistant.domain.DietGoals;
 import com.appliaction.justAchieveVirtualAssistant.domain.User;
@@ -22,6 +23,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.security.Principal;
+import java.util.Base64;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -44,6 +46,8 @@ class UserProfileControllerTest {
     private DietGoalsService dietGoalsService;
     @MockBean
     private UserService userService;
+    @MockBean
+    private ImagesService imagesService;
 
     @Test
     @WithMockUser
@@ -60,6 +64,8 @@ class UserProfileControllerTest {
         // given
         User user = DomainFixtures.someUser();
         String username = user.getUsername();
+        byte[] fileContent = new byte[] { 0x01, 0x23, 0x45, 0x67};
+        String imageBase64 = Base64.getEncoder().encodeToString(fileContent);
         UserProfile userProfile = DomainFixtures.someUserProfile().withUser(user);
         UserProfileDTO userProfileDTO = userProfileMapper.map(userProfile);
 
@@ -69,12 +75,15 @@ class UserProfileControllerTest {
                 .thenReturn(userProfile);
         when(userProfileMapper.map(userProfile))
                 .thenReturn(userProfileDTO);
+        when(imagesService.downloadImageByProfileId(username))
+                .thenReturn(fileContent);
 
         // when, then
         mockMvc.perform(get("/user-profile/get-data")
                 .principal(principal))
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("userProfile", userProfileDTO))
+                .andExpect(model().attribute("imageBase64", imageBase64))
                 .andExpect(view().name("user-profile"));
     }
     @Test
@@ -82,16 +91,21 @@ class UserProfileControllerTest {
     void profilePageReturnUserProfileViewWithoutUserProfileAttributeWorksCorrectly() throws Exception {
         // given
         String username = "testUser";
+        byte[] fileContent = new byte[] { 0x01, 0x23, 0x45, 0x67};
+        String imageBase64 = Base64.getEncoder().encodeToString(fileContent);
         Principal principal = () -> username;
 
         when(userProfileService.findByUsername(username))
                 .thenReturn(null);
+        when(imagesService.downloadImageByProfileId(username))
+                .thenReturn(fileContent);
 
         // when, then
         mockMvc.perform(get("/user-profile/get-data")
                 .principal(principal))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeDoesNotExist("userProfile"))
+                .andExpect(model().attributeExists("imageBase64"))
                 .andExpect(view().name("user-profile"));
     }
 

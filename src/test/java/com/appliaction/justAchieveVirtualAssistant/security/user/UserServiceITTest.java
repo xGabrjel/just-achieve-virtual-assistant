@@ -51,9 +51,15 @@ public class UserServiceITTest extends AbstractIT {
     @Test
     void findByEmailWorksCorrectly() {
         //given
-        String adminUsername = "admin";
-        String adminEmail = "gabriel.luczyszyn@o2.pl";
-        int adminId = 9999;
+        RegistrationRequest registrationRequest = new RegistrationRequest();
+        registrationRequest.setUsername("anotherUsername1");
+        registrationRequest.setEmail("anotherEmail1@o2.pl");
+        registrationRequest.setPassword("anotherPassword123");
+        userService.registerUser(registrationRequest);
+
+        String adminUsername = "anotherUsername1";
+        String adminEmail = "anotherEmail1@o2.pl";
+        int adminId = 5;
 
         //when
         Optional<User> result = userService.findByEmail(adminEmail);
@@ -68,9 +74,15 @@ public class UserServiceITTest extends AbstractIT {
     @Test
     void findByIdWorksCorrectly() {
         //given
-        String adminUsername = "admin";
-        String adminEmail = "gabriel.luczyszyn@o2.pl";
-        int adminId = 9999;
+        RegistrationRequest registrationRequest = new RegistrationRequest();
+        registrationRequest.setUsername("anotherUsername2");
+        registrationRequest.setEmail("anotherEmail2@o2.pl");
+        registrationRequest.setPassword("anotherPassword123");
+        userService.registerUser(registrationRequest);
+
+        String adminUsername = "anotherUsername2";
+        String adminEmail = "anotherEmail2@o2.pl";
+        int adminId = 3;
 
         //when
         Optional<User> result = userService.findById(adminId);
@@ -85,9 +97,15 @@ public class UserServiceITTest extends AbstractIT {
     @Test
     void findByUsernameWorksCorrectly() {
         //given
-        String adminUsername = "admin";
-        String adminEmail = "gabriel.luczyszyn@o2.pl";
-        int adminId = 9999;
+        RegistrationRequest registrationRequest = new RegistrationRequest();
+        registrationRequest.setUsername("anotherUsername3");
+        registrationRequest.setEmail("anotherEmail3@o2.pl");
+        registrationRequest.setPassword("anotherPassword123");
+        userService.registerUser(registrationRequest);
+
+        String adminUsername = "anotherUsername3";
+        String adminEmail = "anotherEmail3@o2.pl";
+        int adminId = 2;
 
         //when
         Optional<User> result = userService.findByUsername(adminUsername);

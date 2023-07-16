@@ -31,7 +31,15 @@ class UserProfileITTest extends AbstractIT {
     @Test
     void findByUserUsernameWorksCorrectly() {
         //given
-        String adminUsername = "admin";
+        UserEntity userEntity = EntityFixtures.someUserEntity();
+        userEntity.setUsername("test123");
+        UserProfileEntity userProfileEntity = EntityFixtures.someUserProfileEntity();
+        userProfileEntity.getUser().setUsername("test123");
+
+        userJpaRepository.saveAndFlush(userEntity);
+        userProfileJpaRepository.saveAndFlush(userProfileEntity);
+
+        String adminUsername = "test123";
 
         //when
         UserProfile result = userProfileRepository.findByUserUsername(adminUsername);
@@ -57,7 +65,7 @@ class UserProfileITTest extends AbstractIT {
     @Test
     void saveUserProfileDataWorksCorrectly() {
         //given
-        String adminUsername = "admin";
+        String adminUsername = "test123";
         UserProfile adminProfile = userProfileRepository.findByUserUsername(adminUsername);
         adminProfile.setAge(40);
 

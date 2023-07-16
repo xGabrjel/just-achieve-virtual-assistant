@@ -4,6 +4,7 @@ import com.appliaction.justAchieveVirtualAssistant.business.support.ImagesUtils;
 import com.appliaction.justAchieveVirtualAssistant.domain.Images;
 import com.appliaction.justAchieveVirtualAssistant.domain.exception.NotFoundException;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.repository.ImagesRepository;
+import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.repository.UserProfileRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ import java.util.Optional;
 public class ImagesService {
 
     private final ImagesRepository repository;
+    private final UserProfileRepository userProfileRepository;
 
     @Transactional
     public String uploadImage(MultipartFile file) throws IOException {
@@ -33,6 +35,19 @@ public class ImagesService {
         repository.save(image);
         return "File uploaded successfully: [%s]".formatted(file.getOriginalFilename());
     }
+    @Transactional
+    public void uploadProfilePhoto(MultipartFile file, String username) throws IOException {
+        log.info("Uploading file [%s]".formatted(file.getOriginalFilename()));
+
+        Images image = Images.builder()
+                .name("%s_profile_photo".formatted(username) + "_" + file.getOriginalFilename())
+                .type(file.getContentType())
+                .imageData(ImagesUtils.compressImage(file.getBytes()))
+                .profileId(userProfileRepository.findByUserUsername(username))
+                .build();
+
+        repository.save(image);
+    }
 
     @Transactional
     public byte[] downloadImage(String fileName) {
@@ -43,6 +58,16 @@ public class ImagesService {
         return bdImageData
                 .map(image -> ImagesUtils.decompressImage(image.getImageData()))
                 .orElseThrow(() -> new NotFoundException("File: [%s] not found".formatted(fileName)));
+    }
+    @Transactional
+    public byte[] downloadImageByProfileId(String username) {
+        log.info("Downloading profile photo of user: [%s]".formatted(username));
+
+        Optional<Images> bdImageData = repository.getImageByUserProfile(username);
+
+        return bdImageData
+                .map(image -> ImagesUtils.decompressImage(image.getImageData()))
+                .orElseThrow(() -> new NotFoundException("Profile photo of user: [%s] not found".formatted(username)));
     }
 
     @Transactional

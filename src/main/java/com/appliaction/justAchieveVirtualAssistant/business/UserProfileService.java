@@ -6,6 +6,9 @@ import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.repos
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @Slf4j
 @Service
@@ -14,18 +17,20 @@ public class UserProfileService {
 
     private final UserProfileRepository userProfileRepository;
     private final UserProfileJpaRepository userProfileJpaRepository;
+    private final ImagesService imagesService;
 
     public UserProfile findByUsername(String username) {
         log.info("Username to find: [%s]".formatted(username));
         return userProfileRepository.findByUserUsername(username);
     }
 
-    public void saveUserProfileData(String username, UserProfile userProfile) {
+    public void saveUserProfileData(String username, UserProfile userProfile, MultipartFile file) throws IOException {
         log.info("Saving profile data of user: [%s]".formatted(username));
 
         if (userProfileJpaRepository.findByUserUsername(username).isPresent()) {
             userProfileRepository.delete(findByUsername(username));
         }
         userProfileRepository.saveUserProfileData(userProfile);
+        imagesService.uploadProfilePhoto(file, username);
     }
 }

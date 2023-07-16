@@ -3,6 +3,7 @@ package com.appliaction.justAchieveVirtualAssistant.api.controller;
 import com.appliaction.justAchieveVirtualAssistant.api.dto.UserProfileDTO;
 import com.appliaction.justAchieveVirtualAssistant.api.dto.mapper.UserProfileMapper;
 import com.appliaction.justAchieveVirtualAssistant.business.DietGoalsService;
+import com.appliaction.justAchieveVirtualAssistant.business.ImagesService;
 import com.appliaction.justAchieveVirtualAssistant.business.UserProfileService;
 import com.appliaction.justAchieveVirtualAssistant.domain.DietGoals;
 import com.appliaction.justAchieveVirtualAssistant.domain.User;
@@ -12,12 +13,12 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.security.Principal;
+import java.util.Base64;
 
 
 @Controller
@@ -29,6 +30,7 @@ public class UserProfileController {
     private UserProfileMapper userProfileMapper;
     private DietGoalsService dietGoalsService;
     private UserService userService;
+    private ImagesService imagesService;
 
     @GetMapping
     public String homeProfilePage() {
@@ -44,17 +46,21 @@ public class UserProfileController {
         UserProfile userProfile = userProfileService.findByUsername(username);
         UserProfileDTO userProfileDTO = userProfileMapper.map(userProfile);
 
+        byte[] bytes = imagesService.downloadImageByProfileId(username);
+        String imageBase64 = Base64.getEncoder().encodeToString(bytes);
+
         model.addAttribute("userProfile", userProfileDTO);
+        model.addAttribute("imageBase64", imageBase64);
         return "user-profile";
     }
 
     @PostMapping("/submit-user-profile-data")
     public String submitProfileData(
-            Model model,
             Principal principal,
             Integer dietGoalId,
-            @Valid @ModelAttribute("userProfileDTO") UserProfileDTO userProfileDTO
-    ) {
+            @Valid @ModelAttribute("userProfileDTO") UserProfileDTO userProfileDTO,
+            @RequestPart(value = "file", required = false) MultipartFile file
+    ) throws IOException {
         String username = principal.getName();
         User user = userService.findByUsername(username).orElseThrow();
         DietGoals dietGoals = dietGoalsService.findById(dietGoalId).orElseThrow();
@@ -71,7 +77,7 @@ public class UserProfileController {
                 .dietGoal(dietGoals)
                 .build();
 
-        userProfileService.saveUserProfileData(username, userProfile);
+        userProfileService.saveUserProfileData(username, userProfile, file);
         return "redirect:/user-profile?success";
     }
 }

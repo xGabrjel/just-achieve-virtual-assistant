@@ -5,6 +5,7 @@ import com.appliaction.justAchieveVirtualAssistant.domain.exception.NotFoundExce
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.entity.ImagesEntity;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.mapper.ImagesEntityMapper;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.repository.jpa.ImagesJpaRepository;
+import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.repository.jpa.UserProfileJpaRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -26,6 +27,8 @@ class ImagesRepositoryTest {
     private ImagesJpaRepository imagesJpaRepository;
     @Mock
     private ImagesEntityMapper imagesEntityMapper;
+    @Mock
+    private UserProfileJpaRepository userProfileJpaRepository;
 
     @Test
     void getImageReturnsOptionalOfImagesWorksCorrectly() {
@@ -49,7 +52,7 @@ class ImagesRepositoryTest {
         when(imagesEntityMapper.mapFromEntity(imagesEntity))
                 .thenReturn(images);
 
-        ImagesRepository imagesRepository = new ImagesRepository(imagesJpaRepository, imagesEntityMapper);
+        ImagesRepository imagesRepository = new ImagesRepository(imagesJpaRepository, imagesEntityMapper, userProfileJpaRepository);
 
         // when
         Optional<Images> result = imagesRepository.getImage(fileName);

@@ -1,10 +1,7 @@
 package com.appliaction.justAchieveVirtualAssistant.infrastructure.database.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 
 @Data
@@ -13,6 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "images")
+@ToString(of = {"id", "name", "type"})
+@EqualsAndHashCode(of = {"id", "name"})
 public class ImagesEntity {
 
     @Id
@@ -28,4 +27,8 @@ public class ImagesEntity {
 
     @Column(name = "image_data", length = 1000, nullable = false)
     private byte[] imageData;
+
+    @JoinColumn(name = "profile_id", nullable = true)
+    @OneToOne(fetch = FetchType.EAGER)
+    private UserProfileEntity profileId;
 }

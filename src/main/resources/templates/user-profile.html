@@ -17,7 +17,12 @@
             <button type="submit" class="btn btn-primary">Get Profile</button>
             <br>
         </form>
+        <br>
+        <div th:if="${imageBase64}">
+            <img th:src="${'data:image/png;charset=utf-8;base64,' + imageBase64}" alt="Profile Photo" class="img-fluid">
+        </div>
         <div th:if="${userProfile}">
+            <br>
             <p><strong>Name:</strong> <span th:text="${userProfile.name}"></span></p>
             <p><strong>Surname:</strong> <span th:text="${userProfile.surname}"></span></p>
             <p><strong>Phone:</strong> <span th:text="${userProfile.phone}"></span></p>
@@ -27,7 +32,7 @@
             <p><strong>Height:</strong> <span th:text="${userProfile.height}"></span></p>
             <p><strong>Diet Goals:</strong> <span th:text="${userProfile.dietGoal.dietGoal}"></span></p>
         </div>
-        <form th:action="@{/user-profile/submit-user-profile-data}" method="post" id="userProfileForm">
+        <form th:action="@{/user-profile/submit-user-profile-data}" method="post" enctype="multipart/form-data" id="userProfileForm">
             <div class="form-group">
                 <label for="name"><strong>Name:</strong></label>
                 <input type="text" class="form-control" id="name" name="name">
@@ -47,8 +52,8 @@
             <div class="form-group">
                 <label for="sex"><strong>Sex:</strong></label>
                 <select class="form-control" id="sex" name="sex">
-                    <option value="MALE" >MALE</option>
-                    <option value="FEMALE" >FEMALE</option>
+                    <option value="MALE">MALE</option>
+                    <option value="FEMALE">FEMALE</option>
                 </select>
             </div>
             <div class="form-group">
@@ -62,11 +67,14 @@
             <div class="form-group">
                 <label for="dietGoalId"><strong>Diet Goals</strong>:</label>
                 <select class="form-control" id="dietGoalId" name="dietGoalId">
-                    <option value="1" >MUSCLE BUILDING</option>
-                    <option value="2" >FAT LOSS</option>
-                    <option value="3" >WEIGHT MAINTENANCE</option>
+                    <option value="1">MUSCLE BUILDING</option>
+                    <option value="2">FAT LOSS</option>
+                    <option value="3">WEIGHT MAINTENANCE</option>
                 </select>
-
+            </div>
+            <div class="form-group">
+                <label for="file"><strong>Profile Photo:</strong></label>
+                <input type="file" class="form-control" id="file" name="file">
             </div>
             <br>
             <button type="submit" class="btn btn-primary">Save</button>

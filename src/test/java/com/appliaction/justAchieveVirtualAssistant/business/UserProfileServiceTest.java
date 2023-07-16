@@ -11,7 +11,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -27,6 +30,8 @@ class UserProfileServiceTest {
     private UserProfileRepository userProfileRepository;
     @Mock
     private UserProfileJpaRepository userProfileJpaRepository;
+    @Mock
+    private ImagesService imagesService;
 
     @Test
     void findByUsernameWorksCorrectly() {
@@ -45,9 +50,13 @@ class UserProfileServiceTest {
     }
 
     @Test
-    void saveUserProfileDataIsPresentWorksCorrectly() {
+    void saveUserProfileDataIsPresentWorksCorrectly() throws IOException {
+        //given
         UserProfile userProfile = DomainFixtures.someUserProfile();
         UserProfileEntity userProfileEntity = EntityFixtures.someUserProfileEntity();
+        String fileName = "file";
+        byte[] fileContent = new byte[] { 0x01, 0x23, 0x45, 0x67};
+        MultipartFile multipartFile = new MockMultipartFile(fileName, fileContent);
 
         when(userProfileJpaRepository.findByUserUsername(userProfile.getUser().getUsername()))
                 .thenReturn(Optional.of(userProfileEntity));
@@ -55,22 +64,25 @@ class UserProfileServiceTest {
                 .thenReturn(userProfile);
 
         //when
-        userProfileService.saveUserProfileData(userProfile.getUser().getUsername(), userProfile);
+        userProfileService.saveUserProfileData(userProfile.getUser().getUsername(), userProfile, multipartFile);
 
         //then
         verify(userProfileRepository, times(1)).delete(userProfile);
         verify(userProfileRepository, times(1)).saveUserProfileData(userProfile);
     }
     @Test
-    void saveUserProfileDataIsNotPresentWorksCorrectly() {
+    void saveUserProfileDataIsNotPresentWorksCorrectly() throws IOException {
         //given
         UserProfile userProfile = DomainFixtures.someUserProfile();
+        String fileName = "file";
+        byte[] fileContent = new byte[] { 0x01, 0x23, 0x45, 0x67};
+        MultipartFile multipartFile = new MockMultipartFile(fileName, fileContent);
 
         when(userProfileJpaRepository.findByUserUsername(userProfile.getUser().getUsername()))
                 .thenReturn(Optional.empty());
 
         //when
-        userProfileService.saveUserProfileData(userProfile.getUser().getUsername(), userProfile);
+        userProfileService.saveUserProfileData(userProfile.getUser().getUsername(), userProfile, multipartFile);
 
         //then
         verify(userProfileRepository, never()).delete(any(UserProfile.class));

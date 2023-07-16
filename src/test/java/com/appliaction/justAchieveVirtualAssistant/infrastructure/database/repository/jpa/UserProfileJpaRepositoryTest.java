@@ -26,7 +26,7 @@ class UserProfileJpaRepositoryTest {
     @Test
     void customUpdateWeightByProfileIdWorksCorrectly() {
         // given
-        Integer adminProfileId = 9999;
+        Integer adminProfileId = 1;
         BigDecimal newWeight = BigDecimal.valueOf(100.5);
 
         // when
