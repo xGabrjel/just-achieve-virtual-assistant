@@ -2,9 +2,11 @@ package com.appliaction.justAchieveVirtualAssistant.business;
 
 import com.appliaction.justAchieveVirtualAssistant.business.support.ImagesUtils;
 import com.appliaction.justAchieveVirtualAssistant.domain.Images;
+import com.appliaction.justAchieveVirtualAssistant.domain.UserProfile;
 import com.appliaction.justAchieveVirtualAssistant.domain.exception.NotFoundException;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.mapper.ImagesEntityMapper;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.repository.ImagesRepository;
+import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.repository.UserProfileRepository;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.repository.jpa.ImagesJpaRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,6 +33,8 @@ class ImagesServiceTest {
     private ImagesRepository imagesRepository;
     @Mock
     private ImagesEntityMapper imagesEntityMapper;
+    @Mock
+    private UserProfileRepository userProfileRepository;
 
     @Test
     void uploadImageWorksCorrectly() throws IOException {
@@ -46,6 +50,24 @@ class ImagesServiceTest {
         // then
         assertNotNull(result);
         assertTrue(result.contains("File uploaded successfully"));
+    }
+    @Test
+    void uploadProfilePhotoWorksCorrectly() throws IOException {
+        // given
+        String username = "someUsername";
+        String fileName = "test.jpg";
+        String contentType = "image/jpeg";
+        byte[] imageData = "Test image data".getBytes();
+        MultipartFile file = new MockMultipartFile(fileName, fileName, contentType, imageData);
+
+        when(userProfileRepository.findByUserUsername(username))
+                .thenReturn(new UserProfile());
+
+        // when
+        imagesService.uploadProfilePhoto(file, username);
+
+        //then
+        verify(imagesRepository, times(1)).save(any());
     }
 
     @Test
@@ -70,6 +92,30 @@ class ImagesServiceTest {
         assertArrayEquals(imageData, result);
         verify(imagesRepository, times(1)).getImage(fileName);
     }
+    @Test
+    void downloadImageByProfileIdWorksCorrectly() {
+        // given
+        String username = "testUsername";
+        String fileName = "test.jpg";
+        byte[] imageData = "Test image data".getBytes();
+
+        Images image = Images.builder()
+                .name(fileName)
+                .type("image/jpeg")
+                .imageData(ImagesUtils.compressImage(imageData))
+                .build();
+
+        when(imagesRepository.getImageByUserProfile(username))
+                .thenReturn(Optional.of(image));
+
+        // when
+        byte[] result = imagesService.downloadImageByProfileId(username);
+
+        // then
+        assertNotNull(result);
+        assertArrayEquals(imageData, result);
+        verify(imagesRepository, times(1)).getImageByUserProfile(username);
+    }
 
     @Test
     void downloadImageFileNotFoundWorksCorrectly() {
@@ -82,6 +128,18 @@ class ImagesServiceTest {
         // when, then
         assertThrows(NotFoundException.class, () -> imagesService.downloadImage(fileName));
         verify(imagesRepository, times(1)).getImage(fileName);
+    }
+    @Test
+    void downloadProfilePhotoNotFoundWorksCorrectly() {
+        // given
+        String username = "nonexistent";
+
+        when(imagesRepository.getImageByUserProfile(username))
+                .thenReturn(Optional.empty());
+
+        // when, then
+        assertThrows(NotFoundException.class, () -> imagesService.downloadImageByProfileId(username));
+        verify(imagesRepository, times(1)).getImageByUserProfile(username);
     }
 
     @Test
