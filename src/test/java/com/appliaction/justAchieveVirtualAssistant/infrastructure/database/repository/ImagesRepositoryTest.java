@@ -1,11 +1,15 @@
 package com.appliaction.justAchieveVirtualAssistant.infrastructure.database.repository;
 
 import com.appliaction.justAchieveVirtualAssistant.domain.Images;
+import com.appliaction.justAchieveVirtualAssistant.domain.UserProfile;
 import com.appliaction.justAchieveVirtualAssistant.domain.exception.NotFoundException;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.entity.ImagesEntity;
+import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.entity.UserProfileEntity;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.mapper.ImagesEntityMapper;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.repository.jpa.ImagesJpaRepository;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.repository.jpa.UserProfileJpaRepository;
+import com.appliaction.justAchieveVirtualAssistant.util.DomainFixtures;
+import com.appliaction.justAchieveVirtualAssistant.util.EntityFixtures;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -60,6 +64,78 @@ class ImagesRepositoryTest {
         // then
         assertTrue(result.isPresent());
         assertEquals(images, result.get());
+    }
+    @Test
+    void getImageByUserProfileReturnsOptionalOfImagesWorksCorrectly() {
+        // given
+        String username = "testUser";
+        UserProfileEntity userProfileEntity = EntityFixtures.someUserProfileEntity();
+        UserProfile userProfile = DomainFixtures.someUserProfile();
+
+        ImagesEntity imagesEntity = ImagesEntity.builder()
+                .id(1L)
+                .name("test.png")
+                .type("PNG")
+                .imageData(new byte[]{1, 2, 3})
+                .profileId(userProfileEntity)
+                .build();
+        Images images = Images.builder()
+                .id(1L)
+                .name("test.png")
+                .type("PNG")
+                .imageData(new byte[]{1, 2, 3})
+                .profileId(userProfile)
+                .build();
+
+        when(userProfileJpaRepository.findByUserUsername(username))
+                .thenReturn(Optional.ofNullable(userProfileEntity));
+        when(imagesJpaRepository.findByProfileId(userProfileEntity))
+                .thenReturn(Optional.of(imagesEntity));
+        when(imagesEntityMapper.mapFromEntity(imagesEntity))
+                .thenReturn(images);
+
+        ImagesRepository imagesRepository = new ImagesRepository(imagesJpaRepository, imagesEntityMapper, userProfileJpaRepository);
+
+        // when
+        Optional<Images> result = imagesRepository.getImageByUserProfile(username);
+
+        // then
+        assertTrue(result.isPresent());
+        assertEquals(images, result.get());
+    }
+
+    @Test
+    void getImageByUserProfileThrowsExceptionWhenUserProfileNotFound() {
+        // given
+        String username = "nonExistingUser";
+
+        when(userProfileJpaRepository.findByUserUsername(username))
+                .thenReturn(Optional.empty());
+
+        ImagesRepository imagesRepository = new ImagesRepository(imagesJpaRepository, imagesEntityMapper, userProfileJpaRepository);
+
+        // when & then
+        assertThrows(NotFoundException.class, () -> imagesRepository.getImageByUserProfile(username));
+    }
+
+    @Test
+    void getImageByUserProfileReturnsEmptyOptionalWhenImagesNotFound() {
+        // given
+        String username = "testUser";
+        UserProfileEntity userProfileEntity = EntityFixtures.someUserProfileEntity();
+
+        when(userProfileJpaRepository.findByUserUsername(username))
+                .thenReturn(Optional.ofNullable(userProfileEntity));
+        when(imagesJpaRepository.findByProfileId(userProfileEntity))
+                .thenReturn(Optional.empty());
+
+        ImagesRepository imagesRepository = new ImagesRepository(imagesJpaRepository, imagesEntityMapper, userProfileJpaRepository);
+
+        // when
+        Optional<Images> result = imagesRepository.getImageByUserProfile(username);
+
+        // then
+        assertFalse(result.isPresent());
     }
 
     @Test
