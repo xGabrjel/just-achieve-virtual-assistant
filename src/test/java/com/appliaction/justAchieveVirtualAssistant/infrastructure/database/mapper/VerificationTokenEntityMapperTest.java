@@ -205,4 +205,54 @@ class VerificationTokenEntityMapperTest {
         assertNotNull(entity);
         assertEquals(roles.size(), entity.getUser().getRoles().size());
     }
+
+    @Test
+    void nullMapFromEntity() {
+        //given
+        VerificationTokenEntity entity1 = new VerificationTokenEntity();
+        entity1.setId(1L);
+        entity1.setToken(UUID.randomUUID().toString());
+        entity1.setExpirationTime(Date.from(Instant.now()));
+        entity1.setUser(EntityFixtures.someUserEntity());
+        entity1.getUser().setRoles(null);
+
+        VerificationTokenEntity entity2 = new VerificationTokenEntity();
+        entity2.setId(1L);
+        entity2.setToken(UUID.randomUUID().toString());
+        entity2.setExpirationTime(Date.from(Instant.now()));
+        entity2.setUser(EntityFixtures.someUserEntity());
+        entity2.setUser(null);
+
+        //when
+        VerificationToken domain1 = verificationTokenEntityMapper.mapFromEntity(entity1);
+        VerificationToken domain2 = verificationTokenEntityMapper.mapFromEntity(entity2);
+
+        //then
+        assertNull(domain2.getUser());
+        assertNull(domain1.getUser().getRoles());
+    }
+    @Test
+    void nullMapToEntity() {
+        //given
+        VerificationToken domain1 = new VerificationToken();
+        domain1.setId(1L);
+        domain1.setToken(UUID.randomUUID().toString());
+        domain1.setExpirationTime(Date.from(Instant.now()));
+        domain1.setUser(DomainFixtures.someUser());
+        domain1.getUser().setRoles(null);
+
+        VerificationToken domain2 = new VerificationToken();
+        domain2.setId(1L);
+        domain2.setToken(UUID.randomUUID().toString());
+        domain2.setExpirationTime(Date.from(Instant.now()));
+        domain2.setUser(null);
+
+        //when
+        VerificationTokenEntity entity1 = verificationTokenEntityMapper.mapToEntity(domain1);
+        VerificationTokenEntity entity2 = verificationTokenEntityMapper.mapToEntity(domain2);
+
+        //then
+        assertNull(entity2.getUser());
+        assertNull(entity1.getUser().getRoles());
+    }
 }

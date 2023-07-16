@@ -57,4 +57,43 @@ class UserProfileEntityMapperTest {
         assertEquals(UserProfileEntity.class, entity.getClass());
         assertEquals(domain.getProfileId(), entity.getProfileId());
     }
+
+    @Test
+    void nullMapFromEntityWorksCorrectly() {
+        //given
+        UserProfileEntity entity1 = EntityFixtures.someUserProfileEntity();
+        entity1.setDietGoal(null);
+        entity1.setUser(null);
+
+        UserProfileEntity entity2 = EntityFixtures.someUserProfileEntity();
+        entity2.getUser().setRoles(null);
+
+        //when
+        UserProfile domain1 = userProfileEntityMapper.mapFromEntity(entity1);
+        UserProfile domain2 = userProfileEntityMapper.mapFromEntity(entity2);
+
+        //then
+        assertNull(domain1.getUser());
+        assertNull(domain2.getUser().getRoles());
+        assertNull(domain1.getDietGoal());
+    }
+    @Test
+    void nullMapToEntityWorksCorrectly() {
+        //given
+        UserProfile domain1 = DomainFixtures.someUserProfile();
+        domain1.setDietGoal(null);
+        domain1.setUser(null);
+
+        UserProfile domain2 = DomainFixtures.someUserProfile();
+        domain2.getUser().setRoles(null);
+
+        //when
+        UserProfileEntity entity1 = userProfileEntityMapper.mapToEntity(domain1);
+        UserProfileEntity entity2 = userProfileEntityMapper.mapToEntity(domain2);
+
+        //then
+        assertNull(entity1.getUser());
+        assertNull(entity2.getUser().getRoles());
+        assertNull(entity1.getDietGoal());
+    }
 }

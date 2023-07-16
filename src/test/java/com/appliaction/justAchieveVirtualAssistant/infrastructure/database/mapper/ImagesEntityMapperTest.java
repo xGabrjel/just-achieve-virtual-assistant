@@ -57,6 +57,7 @@ class ImagesEntityMapperTest {
         assertEquals(entity.getProfileId().getUser().getPassword(), domain.getProfileId().getUser().getPassword());
         assertEquals(entity.getProfileId().getDietGoal().getDietGoal(), domain.getProfileId().getDietGoal().getDietGoal());
         assertEquals(entity.getProfileId().getDietGoal().getDietGoalId(), domain.getProfileId().getDietGoal().getDietGoalId());
+        assertEquals(entity.getProfileId().getUser().getRoles().toArray().length, domain.getProfileId().getUser().getRoles().toArray().length);
     }
     @Test
     void imagesMapToEntityWorksCorrectly() {
@@ -96,5 +97,95 @@ class ImagesEntityMapperTest {
         assertEquals(domain.getProfileId().getUser().getUsername(), entity.getProfileId().getUser().getUsername());
         assertEquals(domain.getProfileId().getDietGoal().getDietGoal(), entity.getProfileId().getDietGoal().getDietGoal());
         assertEquals(domain.getProfileId().getDietGoal().getDietGoalId(), entity.getProfileId().getDietGoal().getDietGoalId());
+        assertEquals(domain.getProfileId().getUser().getRoles().toArray().length, entity.getProfileId().getUser().getRoles().toArray().length);
+    }
+
+    @Test
+    void nullMapFromEntity() {
+        //given
+        ImagesEntity entity1 = ImagesEntity.builder()
+                .id(1L)
+                .name("Test Image")
+                .type("PNG")
+                .imageData(new byte[]{1, 2, 3})
+                .profileId(EntityFixtures.someUserProfileEntity())
+                .build();
+
+        entity1.getProfileId().setDietGoal(null);
+        entity1.getProfileId().getUser().setRoles(null);
+
+        ImagesEntity entity2 = ImagesEntity.builder()
+                .id(1L)
+                .name("Test Image")
+                .type("PNG")
+                .imageData(new byte[]{1, 2, 3})
+                .profileId(EntityFixtures.someUserProfileEntity())
+                .build();
+
+        entity2.getProfileId().setUser(null);
+
+
+        ImagesEntity entity3 = ImagesEntity.builder()
+                .id(1L)
+                .name("Test Image")
+                .type("PNG")
+                .imageData(new byte[]{1, 2, 3})
+                .profileId(null)
+                .build();
+
+        //when
+        Images domain1 = imagesEntityMapper.mapFromEntity(entity1);
+        Images domain2 = imagesEntityMapper.mapFromEntity(entity2);
+        Images domain3 = imagesEntityMapper.mapFromEntity(entity3);
+
+        //then
+        assertNull(domain3.getProfileId());
+        assertNull(domain2.getProfileId().getUser());
+        assertNull(domain1.getProfileId().getDietGoal());
+        assertNull(domain1.getProfileId().getUser().getRoles());
+    }
+    @Test
+    void nullMapToEntity() {
+        //given
+        Images domain1 = Images.builder()
+                .id(1L)
+                .name("Test Image")
+                .type("PNG")
+                .imageData(new byte[]{1, 2, 3})
+                .profileId(DomainFixtures.someUserProfile())
+                .build();
+
+        domain1.getProfileId().setDietGoal(null);
+        domain1.getProfileId().getUser().setRoles(null);
+
+        Images domain2 = Images.builder()
+                .id(1L)
+                .name("Test Image")
+                .type("PNG")
+                .imageData(new byte[]{1, 2, 3})
+                .profileId(DomainFixtures.someUserProfile())
+                .build();
+
+        domain2.getProfileId().setUser(null);
+
+
+        Images domain3 = Images.builder()
+                .id(1L)
+                .name("Test Image")
+                .type("PNG")
+                .imageData(new byte[]{1, 2, 3})
+                .profileId(null)
+                .build();
+
+        //when
+        ImagesEntity entity1 = imagesEntityMapper.mapToEntity(domain1);
+        ImagesEntity entity2 = imagesEntityMapper.mapToEntity(domain2);
+        ImagesEntity entity3 = imagesEntityMapper.mapToEntity(domain3);
+
+        //then
+        assertNull(entity3.getProfileId());
+        assertNull(entity2.getProfileId().getUser());
+        assertNull(entity1.getProfileId().getDietGoal());
+        assertNull(entity1.getProfileId().getUser().getRoles());
     }
 }

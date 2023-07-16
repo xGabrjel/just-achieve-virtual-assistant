@@ -30,4 +30,17 @@ class FitnessTipsEntityMapperTest {
         assertEquals(entity.getDietGoal().getDietGoalId(), domain.getDietGoal().getDietGoalId());
         assertEquals(entity.getDietGoal().getDietGoal(), domain.getDietGoal().getDietGoal());
     }
+
+    @Test
+    void nullMappingWorksCorrectly() {
+        //given
+        FitnessTipsEntity entity = EntityFixtures.someFitnessTipsEntity();
+        entity.setDietGoal(null);
+
+        //when
+        FitnessTips domain = fitnessTipsEntityMapper.mapFromEntity(entity);
+
+        //then
+        assertNull(domain.getDietGoal());
+    }
 }

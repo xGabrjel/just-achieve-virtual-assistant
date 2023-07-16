@@ -33,4 +33,17 @@ class UserProfileMapperTest {
         assertEquals(UserProfileDTO.class, dto.getClass());
         assertEquals(domain.getSurname(), dto.getSurname());
     }
+
+    @Test
+    void nullMapperWorksCorrectly() {
+        //given
+        UserProfile nullMapper1 = DomainFixtures.someUserProfile();
+        nullMapper1.setDietGoal(null);
+
+        //when
+        UserProfileDTO dtoNull1 = userProfileMapper.map(nullMapper1);
+
+        //then
+        assertNull(dtoNull1.getDietGoal());
+    }
 }
