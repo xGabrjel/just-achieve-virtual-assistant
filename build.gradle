@@ -63,6 +63,14 @@ test {
     finalizedBy jacocoTestReport
 }
 
+bootJar {
+    archiveFileName = "justAchieve-docker.${archiveExtension.get()}"
+}
+
+jar {
+    enabled = false
+}
+
 jacoco {
     toolVersion = "${jacocoTestReportVersion}"
 }
