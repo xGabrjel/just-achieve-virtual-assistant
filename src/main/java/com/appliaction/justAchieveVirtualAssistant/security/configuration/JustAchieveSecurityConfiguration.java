@@ -52,8 +52,7 @@ public class JustAchieveSecurityConfiguration {
                                         "/defaultError",
                                         "/login",
                                         "/registration/**",
-                                        "/images/**",
-                                        "/food/**"
+                                        "/images/**"
                                         )
                                 .permitAll()
                                 .requestMatchers(

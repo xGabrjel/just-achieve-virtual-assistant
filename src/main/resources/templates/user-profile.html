@@ -13,10 +13,6 @@
     </div>
     <div class="container">
         <h2>User Profile</h2>
-        <form th:action="@{/user-profile/get-data}" method="get" id="getUserDataForm">
-            <button type="submit" class="btn btn-primary">Get Profile</button>
-            <br>
-        </form>
         <br>
         <div th:if="${imageBase64}">
             <img th:src="${'data:image/png;charset=utf-8;base64,' + imageBase64}" alt="Profile Photo" class="img-fluid">
@@ -42,7 +38,7 @@
                 <input type="text" class="form-control" id="surname" name="surname">
             </div>
             <div class="form-group">
-                <label for="phone"><strong>Phone Number</strong> (Pattern: +xx xxx xxx xxx):</label>
+                <label for="phone"><strong>Phone Number:</strong> (Pattern: +xx xxx xxx xxx)</label>
                 <input type="text" class="form-control" id="phone" name="phone">
             </div>
             <div class="form-group">
@@ -78,6 +74,11 @@
             </div>
             <br>
             <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+        <br>
+        <form th:action="@{/user-profile/get-data}" method="get" id="getUserDataForm">
+            <button type="submit" class="btn btn-primary">Get Profile</button>
+            <br>
         </form>
         <div class="btn-back">
             <a th:href="@{/}" class="btn btn-info">Go Back to the Main Page</a>
