@@ -9,11 +9,12 @@
 
 ## 📌 Table of content
 
-- [Project Description](#project-description)
-- [Problem Solved](#problem-solved)
-- [Main Features](#main-features)
-- [Tests](#tests)
-- [Technology Stack](#technology-stack)
+- 🏋️ [Project Description](#project-description)
+- 📝 [Problem Solved](#problem-solved)
+- 🎯 [Main Features](#main-features)
+- ✔️ [Tests](#tests)
+- 📚 [Technology Stack](#technology-stack)
+- 💾 [Usage](#usage)
 
 
 ## 🏋️ Project Description
@@ -79,3 +80,28 @@ We used different approaches and tools to write the tests. For unit testing, the
 - Mapstruct
 - PlantUML
 - and more..
+
+## 💾 Usage 
+
+The easiest way (besides the traditional application launch) is to use Docker Compose. 
+
+1. Clone the repository:
+``` 
+$ git clone https://github.com/xGabrjel/just-achieve-virtual-assistant.git
+```
+2. Start the Docker Compose:
+```
+$ docker compose up
+```
+3. Access the application at:
+```
+localhost:2504/justAchieveVirtualAssistant
+```
+4. Register in the app, complete your user profile, and start using the application!
+- Note: The function to delete/edit registered users is available only from the admin account. You can log in as an admin with the following credentials:
+  - Username: admin
+  - Password: admin
+5. Explore the Swagger UI for API documentation:
+```
+http://localhost:2504/justAchieveVirtualAssistant/swagger-ui/index.html
+```
