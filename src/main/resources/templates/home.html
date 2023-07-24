@@ -15,28 +15,26 @@
                 <a th:href="@{/user-profile}" class="btn btn-info" role="button">View Profile</a>
                 <span class="btn-description"> - Explore your profile</span>
             </div>
-            <br>
-
-            <div class="btn-back">
+            <div class="btn-back" th:if="${isProfileCompleted}">
                 <a th:href="@{/bmi}" class="btn btn-info" role="button">BMI Calculator</a>
                 <span class="btn-description"> - Calculate your Body Mass Index (BMI)</span>
             </div>
-            <div class="btn-back">
+            <div class="btn-back" th:if="${isProfileCompleted}">
                 <a th:href="@{/bmr}" class="btn btn-info" role="button">BMR Calculator</a>
                 <span class="btn-description"> - Calculate your Basal Metabolic Rate (BMR)</span>
             </div>
-            <div class="btn-back">
+            <div class="btn-back" th:if="${isProfileCompleted}">
                 <a th:href="@{/macronutrients}" class="btn btn-info" role="button">Macronutrients calculator</a>
                 <span class="btn-description"> - Calculate your daily macronutrient needs</span>
             </div>
-            <div class="btn-back">
+            <div class="btn-back" th:if="${isProfileCompleted}">
                 <a th:href="@{/tips}" class="btn btn-info" role="button">Fitness Tips</a>
                 <span class="btn-description"> - Discover useful fitness tips and advice</span>
             </div>
-            <div class="btn-back">
+            <div class="btn-back" th:if="${isProfileCompleted}">
                 <a th:href="@{/measurements}" class="btn btn-info" role="button">Body Measurements</a>
                 <span class="btn-description"> - Track your body measurements and progress</span>
-            </div><div class="btn-back">
+            </div><div class="btn-back" th:if="${isProfileCompleted}">
                 <a th:href="@{/food}" class="btn btn-info" role="button">Food details tracker</a>
                 <span class="btn-description"> - Keep track of the details of the meals you eat and check that they match your macronutrients</span>
             </div>
