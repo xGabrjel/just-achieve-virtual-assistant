@@ -11,7 +11,7 @@
     <div class="card">
         <div class="card-body">
             <h5 class="card-title"><strong>Calculate BMR</strong></h5>
-            <form method="GET" th:action="@{/bmr/calculate/{activityLevel}}" th:object="${activityLevel}">
+            <form method="GET" th:action="@{/bmr/{activityLevel}}" th:object="${activityLevel}">
                 <div class="form-group">
                     <label for="activityLevel">Activity Level:</label>
                     <select class="form-control" id="activityLevel" name="activityLevel">

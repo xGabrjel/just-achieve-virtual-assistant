@@ -30,7 +30,7 @@ public class BodyMeasurementsController {
         return "measurements";
     }
 
-    @GetMapping("/get")
+    @GetMapping("/available-measurement")
     public String getMeasurements(
             Model model,
             Principal principal,
@@ -46,7 +46,7 @@ public class BodyMeasurementsController {
         return "measurements";
     }
 
-    @PostMapping("/add")
+    @PostMapping("/new-measurement")
     public String postMeasurements(
             Model model,
             Principal principal,

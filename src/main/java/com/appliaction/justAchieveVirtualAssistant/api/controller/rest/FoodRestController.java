@@ -22,7 +22,7 @@ public class FoodRestController {
     private FoodService foodService;
 
     @Operation(summary = "Get the nutritional value of your meal!")
-    @GetMapping("/get/{foodQuantityAndName}")
+    @GetMapping("/nutrients/{foodQuantityAndName}")
     public ResponseEntity<FoodDTO> getFood(
             @Parameter(description = "Quantity of products and its name - example: 150g of Lays")
             @PathVariable String foodQuantityAndName

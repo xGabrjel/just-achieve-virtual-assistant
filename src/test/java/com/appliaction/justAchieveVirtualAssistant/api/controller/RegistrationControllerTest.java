@@ -3,7 +3,6 @@ package com.appliaction.justAchieveVirtualAssistant.api.controller;
 import com.appliaction.justAchieveVirtualAssistant.domain.User;
 import com.appliaction.justAchieveVirtualAssistant.domain.VerificationToken;
 import com.appliaction.justAchieveVirtualAssistant.security.event.Listener.RegistrationCompleteEventListener;
-import com.appliaction.justAchieveVirtualAssistant.security.registration.RegistrationController;
 import com.appliaction.justAchieveVirtualAssistant.security.registration.RegistrationRequest;
 import com.appliaction.justAchieveVirtualAssistant.security.registration.password.PasswordResetTokenService;
 import com.appliaction.justAchieveVirtualAssistant.security.registration.token.VerificationTokenService;
@@ -57,7 +56,7 @@ class RegistrationControllerTest {
         when(userService.registerUser(registration)).thenReturn(user);
 
         //when, then
-        mockMvc.perform(post("/registration/register")
+        mockMvc.perform(post("/registration/new-user-registration")
                 .flashAttr("user", registration))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/registration/registration-form?success"));
@@ -74,7 +73,7 @@ class RegistrationControllerTest {
                 .thenReturn(Optional.of(verificationToken));
 
         // when, then
-        mockMvc.perform(get("/registration/verifyEmail")
+        mockMvc.perform(get("/registration/email-verifier")
                 .param("token", validToken))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/login?verified"));
@@ -93,7 +92,7 @@ class RegistrationControllerTest {
                 .thenReturn("expired");
 
         // when, then
-        mockMvc.perform(get("/registration/verifyEmail")
+        mockMvc.perform(get("/registration/email-verifier")
                 .param("token", expiredToken))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/error?expired"));
@@ -112,7 +111,7 @@ class RegistrationControllerTest {
                 .thenReturn("valid");
 
         // when, then
-        mockMvc.perform(get("/registration/verifyEmail")
+        mockMvc.perform(get("/registration/email-verifier")
                 .param("token", validToken))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/login?valid"));
@@ -130,7 +129,7 @@ class RegistrationControllerTest {
                 .thenReturn(Optional.empty());
 
         // when, then
-        mockMvc.perform(get("/registration/verifyEmail")
+        mockMvc.perform(get("/registration/email-verifier")
                 .param("token", invalidToken))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/error?invalid"));
@@ -153,7 +152,7 @@ class RegistrationControllerTest {
                 .thenReturn(Optional.empty());
 
         // when, then
-        mockMvc.perform(post("/registration/forgot-password")
+        mockMvc.perform(post("/registration/forgot-password-reset")
                 .param("email", notFoundEmail))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/registration/forgot-password-request?not_found"));
@@ -168,7 +167,7 @@ class RegistrationControllerTest {
                 .thenReturn(Optional.of(user));
 
         // when, then
-        mockMvc.perform(post("/registration/forgot-password")
+        mockMvc.perform(post("/registration/forgot-password-reset")
                 .param("email", user.getEmail()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/registration/forgot-password-request?success"));
@@ -199,7 +198,7 @@ class RegistrationControllerTest {
                 .thenReturn(tokenVerificationResult);
 
         // when, then
-        mockMvc.perform(post("/registration/reset-password")
+        mockMvc.perform(post("/registration/password-reset")
                 .param("token", invalidToken)
                 .param("password", password))
                 .andExpect(status().is3xxRedirection())
@@ -219,7 +218,7 @@ class RegistrationControllerTest {
                 .thenReturn(user);
 
         // when, then
-        mockMvc.perform(post("/registration/reset-password")
+        mockMvc.perform(post("/registration/password-reset")
                 .param("token", validToken)
                 .param("password", password))
                 .andExpect(status().is3xxRedirection())
@@ -239,7 +238,7 @@ class RegistrationControllerTest {
                 .thenReturn(user);
 
         // when, then
-        mockMvc.perform(post("/registration/reset-password")
+        mockMvc.perform(post("/registration/password-reset")
                 .param("token", validToken)
                 .param("password", password))
                 .andExpect(status().is3xxRedirection())

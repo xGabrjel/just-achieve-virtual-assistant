@@ -24,7 +24,7 @@ public class BmrController {
         return "bmr";
     }
 
-    @GetMapping("/calculate/{activityLevel}")
+    @GetMapping("/{activityLevel}")
     public String bmr(
             Model model,
             Principal principal,

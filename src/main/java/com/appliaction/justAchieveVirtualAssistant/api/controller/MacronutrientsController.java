@@ -25,7 +25,7 @@ public class MacronutrientsController {
         return "macronutrients";
     }
 
-    @GetMapping("/calculate/{activityLevel}")
+    @GetMapping("/{activityLevel}")
     public String macronutrients(
             Model model,
             Principal principal,

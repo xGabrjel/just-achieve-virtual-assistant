@@ -37,7 +37,7 @@ public class UserProfileController {
         return "user-profile";
     }
 
-    @GetMapping("/get-data")
+    @GetMapping("/data")
     public String profilePage(
             Model model,
             Principal principal
@@ -54,7 +54,7 @@ public class UserProfileController {
         return "user-profile";
     }
 
-    @PostMapping("/submit-user-profile-data")
+    @PostMapping("/new-user-profile-data")
     public String submitProfileData(
             Principal principal,
             Integer dietGoalId,

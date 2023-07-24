@@ -21,7 +21,7 @@ public class ImagesRestController {
     private ImagesService service;
 
     @Operation(summary = "Download a photo of your favorite meal!")
-    @GetMapping("/download/{fileName}")
+    @GetMapping("/downloads/{fileName}")
     public ResponseEntity<?> downloadImage(
             @Parameter(description = "Name of the photo along with the type - example: test.png")
             @PathVariable String fileName
@@ -32,7 +32,7 @@ public class ImagesRestController {
                 .body(imageData);
     }
     @Operation(summary = "Add a photo of your favorite meal!")
-    @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/uploads", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> uploadImage(
             @Parameter(description = "The file from your disk")
             @RequestPart("image") MultipartFile file
@@ -42,7 +42,7 @@ public class ImagesRestController {
                 .body(uploadImage);
     }
     @Operation(summary = "Remove the photo of your meal!")
-    @DeleteMapping("/delete/{fileName}")
+    @DeleteMapping("/deletion/{fileName}")
     public ResponseEntity<?> deleteImage(
             @Parameter(description = "Name of the photo along with the type - example: test.png")
             @PathVariable String fileName
@@ -59,7 +59,7 @@ public class ImagesRestController {
     }
 
     @Operation(summary = "Update your old photo with a new one!")
-    @PutMapping(value ="/update/{fileName}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PutMapping(value ="/updates/{fileName}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> updateImage(
             @Parameter(description = "Name of the photo along with the type - example: test.png")
             @PathVariable String fileName,

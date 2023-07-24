@@ -27,7 +27,7 @@ public class UserController {
         return "users";
     }
 
-    @GetMapping("/edit/{userId}")
+    @GetMapping("/{userId}")
     public String showUpdateForm(
             @PathVariable("userId") int userId,
             Model model
@@ -42,7 +42,7 @@ public class UserController {
         return "update-user";
     }
 
-    @PostMapping("/update/{userId}")
+    @PostMapping("/updates/{userId}")
     public String updateUser(
             @PathVariable("userId") int userId,
             UserDTO user
@@ -51,7 +51,7 @@ public class UserController {
         return "redirect:/users?success";
     }
 
-    @GetMapping("/delete/{userId}")
+    @GetMapping("/deletion/{userId}")
     public String deleteUser(
             @PathVariable("userId") int userId
     ) {

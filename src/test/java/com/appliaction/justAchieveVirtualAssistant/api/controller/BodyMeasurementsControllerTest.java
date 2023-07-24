@@ -68,7 +68,7 @@ class BodyMeasurementsControllerTest {
                 .thenReturn(bodyMeasurementsDTO);
 
         // when, then
-        mockMvc.perform(get("/measurements/get")
+        mockMvc.perform(get("/measurements/available-measurement")
                 .param("date", date)
                 .principal(principal))
                 .andExpect(status().isOk())
@@ -91,7 +91,7 @@ class BodyMeasurementsControllerTest {
                 .thenReturn(userProfile);
 
         // when, then
-        mockMvc.perform(post("/measurements/add")
+        mockMvc.perform(post("/measurements/new-measurement")
                 .flashAttr("bodyMeasurementsDTO", bodyMeasurementsDTO)
                 .principal(principal))
                 .andExpect(status().is3xxRedirection())
@@ -113,7 +113,7 @@ class BodyMeasurementsControllerTest {
                 .thenReturn(userProfile);
 
         // when, then
-        mockMvc.perform(post("/measurements/add")
+        mockMvc.perform(post("/measurements/new-measurement")
                 .flashAttr("bodyMeasurementsDTO", bodyMeasurementsDTO)
                 .principal(principal))
                 .andExpect(status().isBadRequest())

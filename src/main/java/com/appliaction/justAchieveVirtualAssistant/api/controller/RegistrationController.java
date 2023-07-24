@@ -1,9 +1,10 @@
-package com.appliaction.justAchieveVirtualAssistant.security.registration;
+package com.appliaction.justAchieveVirtualAssistant.api.controller;
 
 import com.appliaction.justAchieveVirtualAssistant.domain.User;
 import com.appliaction.justAchieveVirtualAssistant.domain.VerificationToken;
 import com.appliaction.justAchieveVirtualAssistant.security.event.Listener.RegistrationCompleteEventListener;
 import com.appliaction.justAchieveVirtualAssistant.security.event.RegistrationCompleteEvent;
+import com.appliaction.justAchieveVirtualAssistant.security.registration.RegistrationRequest;
 import com.appliaction.justAchieveVirtualAssistant.security.registration.password.PasswordResetTokenService;
 import com.appliaction.justAchieveVirtualAssistant.security.registration.token.VerificationTokenService;
 import com.appliaction.justAchieveVirtualAssistant.security.support.UrlUtil;
@@ -39,7 +40,7 @@ public class RegistrationController {
         return "registration";
     }
 
-    @PostMapping("/register")
+    @PostMapping("/new-user-registration")
     public String registerUser(
             @ModelAttribute("user") RegistrationRequest registration,
             HttpServletRequest request
@@ -49,7 +50,7 @@ public class RegistrationController {
         return "redirect:/registration/registration-form?success";
     }
 
-    @GetMapping("/verifyEmail")
+    @GetMapping("/email-verifier")
     public String verifyEmail(
             @RequestParam("token") String token
     ) {
@@ -70,7 +71,7 @@ public class RegistrationController {
         return "forgot-password-form";
     }
 
-    @PostMapping("/forgot-password")
+    @PostMapping("/forgot-password-reset")
     public String resetPasswordRequest(
             HttpServletRequest request,
             Model model
@@ -101,7 +102,7 @@ public class RegistrationController {
         return "password-reset-form";
     }
 
-    @PostMapping("/reset-password")
+    @PostMapping("/password-reset")
     public String resetPassword(
             HttpServletRequest request
     ) {

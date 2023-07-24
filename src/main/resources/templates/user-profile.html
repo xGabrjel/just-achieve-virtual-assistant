@@ -28,7 +28,7 @@
             <p><strong>Height:</strong> <span th:text="${userProfile.height}"></span></p>
             <p><strong>Diet Goals:</strong> <span th:text="${userProfile.dietGoal.dietGoal}"></span></p>
         </div>
-        <form th:action="@{/user-profile/submit-user-profile-data}" method="post" enctype="multipart/form-data" id="userProfileForm">
+        <form th:action="@{/user-profile/new-user-profile-data}" method="post" enctype="multipart/form-data" id="userProfileForm">
             <div class="form-group">
                 <label for="name"><strong>Name:</strong></label>
                 <input type="text" class="form-control" id="name" name="name">
@@ -76,7 +76,7 @@
             <button type="submit" class="btn btn-primary">Save</button>
         </form>
         <br>
-        <form th:action="@{/user-profile/get-data}" method="get" id="getUserDataForm">
+        <form th:action="@{/user-profile/data}" method="get" id="getUserDataForm">
             <button type="submit" class="btn btn-primary">Get Profile</button>
             <br>
         </form>

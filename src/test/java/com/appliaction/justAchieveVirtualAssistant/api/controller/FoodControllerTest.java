@@ -53,7 +53,7 @@ class FoodControllerTest  {
         Principal principal = () -> username;
 
         //when, then
-        mockMvc.perform(post("/food/save")
+        mockMvc.perform(post("/food/new-details")
                 .flashAttr("foodDTO", foodDTO)
                 .principal(principal))
                 .andExpect(status().is3xxRedirection())
@@ -177,7 +177,7 @@ class FoodControllerTest  {
                 .thenReturn(listOfFoods);
 
         //when, then
-        mockMvc.perform(get("/food/load")
+        mockMvc.perform(get("/food/all-products")
                 .principal(principal))
                 .andExpect(status().isOk())
                 .andExpect(view().name("food"))
@@ -213,7 +213,7 @@ class FoodControllerTest  {
     @WithMockUser
     public void deleteAllProductsWorksCorrectly() throws Exception {
         //given, when, then
-        mockMvc.perform(get("/food/delete"))
+        mockMvc.perform(get("/food/remover"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/food?success"));
 

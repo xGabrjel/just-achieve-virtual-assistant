@@ -62,7 +62,7 @@ class UserControllerTest {
                 .thenReturn(userDTO);
 
         //when, then
-        mockMvc.perform(get("/users/edit/{userId}", userId))
+        mockMvc.perform(get("/users/{userId}", userId))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("user"))
                 .andExpect(model().attribute("user", userDTO))
@@ -75,7 +75,7 @@ class UserControllerTest {
         int userId = 1;
 
         //when, then
-        mockMvc.perform(post("/users/update/{userId}", userId))
+        mockMvc.perform(post("/users/updates/{userId}", userId))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/users?success"));
     }
@@ -86,7 +86,7 @@ class UserControllerTest {
         int userId = 1;
 
         //when, then
-        mockMvc.perform(get("/users/delete/{userId}", userId))
+        mockMvc.perform(get("/users/deletion/{userId}", userId))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/users?delete_success"));
     }

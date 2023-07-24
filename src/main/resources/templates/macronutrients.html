@@ -11,7 +11,7 @@
     <div class="card">
         <div class="card-body">
             <h3 class="card-title"><strong>Calculate Macronutrients</strong></h3>
-            <form method="GET" th:action="@{/macronutrients/calculate/{activityLevel}}" th:object="${activityLevel}">
+            <form method="GET" th:action="@{/macronutrients/{activityLevel}}" th:object="${activityLevel}">
                 <div class="form-group">
                     <label for="activityLevel">Activity Level:</label>
                     <select class="form-control" id="activityLevel" name="activityLevel">

@@ -9,7 +9,7 @@ public interface CalorieNinjaTestSupport {
     RequestSpecification requestSpecification();
     default FoodDTO getFoodDetails(final String query) {
         return requestSpecification()
-                .get("/food-manager/get/" + query)
+                .get("/food-manager/nutrients/" + query)
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .and()

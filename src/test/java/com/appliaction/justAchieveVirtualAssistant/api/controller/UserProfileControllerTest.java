@@ -79,7 +79,7 @@ class UserProfileControllerTest {
                 .thenReturn(fileContent);
 
         // when, then
-        mockMvc.perform(get("/user-profile/get-data")
+        mockMvc.perform(get("/user-profile/data")
                 .principal(principal))
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("userProfile", userProfileDTO))
@@ -101,7 +101,7 @@ class UserProfileControllerTest {
                 .thenReturn(fileContent);
 
         // when, then
-        mockMvc.perform(get("/user-profile/get-data")
+        mockMvc.perform(get("/user-profile/data")
                 .principal(principal))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeDoesNotExist("userProfile"))
@@ -127,7 +127,7 @@ class UserProfileControllerTest {
                 .thenReturn(Optional.of(dietGoals));
 
         // when, then
-        mockMvc.perform(post("/user-profile/submit-user-profile-data")
+        mockMvc.perform(post("/user-profile/new-user-profile-data")
                 .flashAttr("userProfileDTO", userProfileDTO)
                 .param("dietGoalId", dietGoalId.toString())
                 .principal(principal))
@@ -157,14 +157,14 @@ class UserProfileControllerTest {
 
         //when, then
         if (expectedResult) {
-            mockMvc.perform(post("/user-profile/submit-user-profile-data")
+            mockMvc.perform(post("/user-profile/new-user-profile-data")
                             .principal(principal)
                             .flashAttr("userProfileDTO", userProfileDTO)
                             .param("dietGoalId", "1"))
                     .andExpect(status().is3xxRedirection())
                     .andExpect(redirectedUrl("/user-profile?success"));
         } else {
-            mockMvc.perform(post("/user-profile/submit-user-profile-data")
+            mockMvc.perform(post("/user-profile/new-user-profile-data")
                     .principal(principal)
                     .flashAttr("userProfileDTO", userProfileDTO)
                     .param("dietGoalId", "1"))

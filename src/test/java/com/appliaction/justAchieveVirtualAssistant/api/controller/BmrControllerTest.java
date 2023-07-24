@@ -49,7 +49,7 @@ class BmrControllerTest {
                 .thenReturn(bmrValue);
 
         // when, then
-        mockMvc.perform(get("/bmr/calculate/{activityLevel}", activityLevel)
+        mockMvc.perform(get("/bmr/{activityLevel}", activityLevel)
                 .param("activityLevel", activityLevel.toString())
                 .principal(principal))
                 .andExpect(status().isOk())
@@ -71,7 +71,7 @@ class BmrControllerTest {
                 .thenReturn(null);
 
         // when, then
-        mockMvc.perform(get("/bmr/calculate/{activityLevel}", activityLevel)
+        mockMvc.perform(get("/bmr/{activityLevel}", activityLevel)
                 .param("activityLevel", activityLevel.toString())
                 .principal(principal))
                 .andExpect(status().isOk())

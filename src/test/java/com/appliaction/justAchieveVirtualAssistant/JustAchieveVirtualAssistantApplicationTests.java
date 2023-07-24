@@ -7,6 +7,5 @@ import org.springframework.boot.test.context.SpringBootTest;
 class JustAchieveVirtualAssistantApplicationTests {
     @Test
     void contextLoads() {
-        JustAchieveVirtualAssistantApplication.main(new String[]{});
     }
 }

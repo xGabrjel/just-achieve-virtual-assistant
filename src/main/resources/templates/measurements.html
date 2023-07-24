@@ -18,7 +18,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title"><strong>Add Measurements</strong></h5>
-                        <form method="POST" th:action="@{/measurements/add}" th:object="${bodyMeasurementsDTO}">
+                        <form method="POST" th:action="@{/measurements/new-measurement}" th:object="${bodyMeasurementsDTO}">
                             <div class="form-group">
                                 <label for="date"><b>Date:</b></label>
                                 <input type="date" id="date" name="date" required class="form-control" >
@@ -62,7 +62,7 @@
                     <div class="card-body">
                         <h5 class="card-title"><strong>Your Measurements</strong></h5>
                         <div class="search-form">
-                            <form method="GET" th:action="@{/measurements/get}">
+                            <form method="GET" th:action="@{/measurements/available-measurement}">
                                 <label for="date"><b>Date:</b></label>
                                 <input type="date" id="date1" name="date" required class="form-control">
                                 <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Search</button>

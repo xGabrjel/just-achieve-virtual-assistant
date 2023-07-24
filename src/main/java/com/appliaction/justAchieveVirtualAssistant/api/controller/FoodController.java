@@ -58,7 +58,7 @@ public class FoodController {
         return "food";
     }
 
-    @PostMapping("/save")
+    @PostMapping("/new-details")
     public String saveProduct(
             @ModelAttribute FoodDTO foodDTO,
             Principal principal
@@ -68,7 +68,7 @@ public class FoodController {
         return "redirect:/food?success";
     }
 
-    @GetMapping("/load")
+    @GetMapping("/all-products")
     public String loadAllProducts(
             Model model,
             Principal principal
@@ -145,7 +145,7 @@ public class FoodController {
         return "food";
     }
 
-    @GetMapping("/delete")
+    @GetMapping("/remover")
     public String deleteAllProducts() {
         foodService.deleteAll();
         return "redirect:/food?success";

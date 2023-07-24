@@ -56,7 +56,7 @@ class MacronutrientsControllerTest {
                 .thenReturn(macro);
 
         // when, then
-        mockMvc.perform(get("/macronutrients/calculate/{activityLevel}", activityLevel)
+        mockMvc.perform(get("/macronutrients/{activityLevel}", activityLevel)
                 .param("activityLevel", activityLevel.toString())
                 .principal(principal))
                 .andExpect(MockMvcResultMatchers.status().isOk())
