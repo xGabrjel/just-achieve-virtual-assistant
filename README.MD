@@ -9,12 +9,12 @@
 
 ## 📌 Table of content
 
-- 🏋️ [Project Description](#project-description)
-- 📝 [Problem Solved](#problem-solved)
-- 🎯 [Main Features](#main-features)
-- ✔️ [Tests](#tests)
-- 📚 [Technology Stack](#technology-stack)
-- 💾 [Usage](#usage)
+* [🏋️ Project Description](#project-description)
+* [📝 Problem Solved](#problem-solved)
+* [🎯 Main Features](#main-features)
+* [✔️ Tests](#tests)
+* [📚 Technology Stack](#technology-stack)
+* [💾 Usage](#usage)
 
 
 ## 🏋️ Project Description
