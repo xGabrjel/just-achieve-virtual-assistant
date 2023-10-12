@@ -7,14 +7,16 @@
   <br>
 </h1>
 
-## 📌 Table of content
+## 📌 Table of Content
 
-* [🏋️ Project Description](#project-description)
-* [📝 Problem Solved](#problem-solved)
-* [🎯 Main Features](#main-features)
-* [✔️ Tests](#tests)
-* [📚 Technology Stack](#technology-stack)
-* [💾 Usage](#usage)
+* [🏋️ Project Description](#-project-description)
+* [📝 Problem Solved](#-problem-solved)
+* [🎯 Main Features](#-main-features)
+* [✔️ Tests](#-tests)
+* [📚 Technology Stack](#-technology-stack)
+* [💾 Usage](#-usage)
+* [🧾 Entity Relationship Diagram](#-entity-relationship-diagram)
+* [📆 Future Plans](#-future-plans)
 
 
 ## 🏋️ Project Description
@@ -30,6 +32,10 @@
 - Ability to track calories, macronutrients and micronutrients consumed by searching and recording foods and meals consumed
 - Internal profile personalization, including dietary goals and profile pictures
 - Ability to track your own body measurements by adding, reading and editing body measurements
+
+Note: The above-mentioned functionalities are available after registration and confirmation of the account by e-mail. In addition, the function of deleting/editing registered users is only available from an administrator account. You can log in as an administrator with the following credentials:
+- Username: admin
+- Password: admin
 
 ## ✔️ Tests
 In the **justAchieve! Virtual Assistant** tests play an important role, as they are the foundation of security and code quality. Thanks to testing, the application can be better protected from bugs and provide reliable performance.
@@ -89,7 +95,7 @@ A large part of the tests are simple mapping tests of the MapStruct Library. Exc
 - PlantUML
 - and more..
 
-## 💾 Usage 
+## 💾 Usage
 
 The easiest way (besides the traditional application launch) is to use Docker Compose. 
 
@@ -106,10 +112,18 @@ $ docker compose up
 localhost:2504/justAchieveVirtualAssistant
 ```
 4. Register in the app, complete your user profile, and start using the application!
-- Note: The function to delete/edit registered users is available only from the admin account. You can log in as an admin with the following credentials:
-  - Username: admin
-  - Password: admin
+
+
 5. Explore the Swagger UI for API documentation:
 ```
 http://localhost:2504/justAchieveVirtualAssistant/swagger-ui/index.html
 ```
+## 🧾 Entity Relationship Diagram
+
+<h1 align="center">
+  <a><img src="src/main/resources/static/images/justAchieve_virtual_assistant_erd_diagram.png" alt="justAchieve_virtual_assistant_erd_diagram"></a>
+</h1>
+
+## 📆 Future Plans
+- Adding new functionalities such as intermittent fasting (IF) counter
+- Improving visual layer
