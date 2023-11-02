@@ -40,18 +40,30 @@ public class BmrCalculatorService {
     }
 
     public BigDecimal calculateByRevisedHarrisBenedictFormulaForFemale(BigDecimal weight, BigDecimal height, Integer age) {
-        return (((BigDecimal.valueOf(447.6)
-                .add(BigDecimal.valueOf(9.25).multiply(weight)))
-                .add(BigDecimal.valueOf(310).multiply(height)))
-                .subtract(BigDecimal.valueOf(4.33).multiply(BigDecimal.valueOf(age))))
+
+        final BigDecimal femaleWeightFactor = BigDecimal.valueOf(9.25);
+        final BigDecimal femaleHeightFactor = BigDecimal.valueOf(310);
+        final BigDecimal femaleAgeFactor = BigDecimal.valueOf(4.33);
+        final BigDecimal femaleAdditiveFactor = BigDecimal.valueOf(447.6);
+
+        return (((femaleAdditiveFactor
+                .add(femaleWeightFactor.multiply(weight)))
+                .add(femaleHeightFactor.multiply(height)))
+                .subtract(femaleAgeFactor.multiply(BigDecimal.valueOf(age))))
                 .setScale(2, RoundingMode.HALF_UP);
     }
 
     public BigDecimal calculateByRevisedHarrisBenedictFormulaForMale(BigDecimal weight, BigDecimal height, Integer age) {
-        return (((BigDecimal.valueOf(88.4)
-                .add(BigDecimal.valueOf(13.4).multiply(weight)))
-                .add(BigDecimal.valueOf(480).multiply(height)))
-                .subtract(BigDecimal.valueOf(5.68).multiply(BigDecimal.valueOf(age))))
+
+        final BigDecimal maleWeightFactor = BigDecimal.valueOf(13.4);
+        final BigDecimal maleHeightFactor = BigDecimal.valueOf(480);
+        final BigDecimal maleAgeFactor = BigDecimal.valueOf(5.68);
+        final BigDecimal maleAdditiveFactor = BigDecimal.valueOf(88.4);
+
+        return (((maleAdditiveFactor
+                .add(maleWeightFactor.multiply(weight)))
+                .add(maleHeightFactor.multiply(height)))
+                .subtract(maleAgeFactor.multiply(BigDecimal.valueOf(age))))
                 .setScale(2, RoundingMode.HALF_UP);
     }
 }
