@@ -24,12 +24,30 @@ public class RegistrationCompleteEventListener implements ApplicationListener<Re
     private final JavaMailSender mailSender;
     private User user;
 
+    private static void emailMessage(
+            String subject,
+            String senderName,
+            String mailContent,
+            JavaMailSender mailSender,
+            User theUser
+    )
+            throws MessagingException,
+            UnsupportedEncodingException {
+        MimeMessage message = mailSender.createMimeMessage();
+        var messageHelper = new MimeMessageHelper(message);
+        messageHelper.setFrom("justachievevirtualassistant@onet.pl", senderName);
+        messageHelper.setTo(theUser.getEmail());
+        messageHelper.setSubject(subject);
+        messageHelper.setText(mailContent, true);
+        mailSender.send(message);
+    }
+
     @Override
     public void onApplicationEvent(RegistrationCompleteEvent event) {
         user = event.getUser();
         String vToken = UUID.randomUUID().toString();
         tokenService.saveVerificationTokenForUser(user, vToken);
-        String url = event.getConfirmationUrl() + "/registration/verifyEmail?token=" + vToken;
+        String url = event.getConfirmationUrl() + "/registration/email-verifier?token=" + vToken;
         try {
             sendVerificationEmail(url);
         } catch (MessagingException | UnsupportedEncodingException e) {
@@ -57,23 +75,5 @@ public class RegistrationCompleteEventListener implements ApplicationListener<Re
                 "<a href=\"" + url + "\"><b>Reset password</b></a>" +
                 "<p> <br>JustAchieve! Virtual Assistant";
         emailMessage(subject, senderName, mailContent, mailSender, user);
-    }
-
-    private static void emailMessage(
-            String subject,
-            String senderName,
-            String mailContent,
-            JavaMailSender mailSender,
-            User theUser
-    )
-            throws MessagingException,
-            UnsupportedEncodingException {
-        MimeMessage message = mailSender.createMimeMessage();
-        var messageHelper = new MimeMessageHelper(message);
-        messageHelper.setFrom("justachievevirtualassistant@onet.pl", senderName);
-        messageHelper.setTo(theUser.getEmail());
-        messageHelper.setSubject(subject);
-        messageHelper.setText(mailContent, true);
-        mailSender.send(message);
     }
 }
