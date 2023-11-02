@@ -17,25 +17,22 @@ public class BmiCalculatorService {
 
     public String calculateAndInterpretBMI(String username) {
         BigDecimal bmiResult = calculateBMI(username);
+        String interpretation;
 
-        int underweight = bmiResult.compareTo(BigDecimal.valueOf(18.5));
-        int healthy = bmiResult.compareTo(BigDecimal.valueOf(24.9));
-        int overweight = bmiResult.compareTo(BigDecimal.valueOf(29.9));
+        if (bmiResult.compareTo(BigDecimal.valueOf(18.5)) < 0) {
+            interpretation = "You are below 18.5 – you're in the underweight range";
+        } else if (bmiResult.compareTo(BigDecimal.valueOf(24.9)) <= 0) {
+            interpretation = "You are between 18.5 and 24.9 – you're in the healthy weight range";
+        } else if (bmiResult.compareTo(BigDecimal.valueOf(29.9)) <= 0) {
+            interpretation = "You are between 25 and 29.9 – you're in the overweight range";
+        } else {
+            interpretation = "You are 30 or over – you're in the obese range";
+        }
 
-        if (underweight < 0) {
-            log.info("BMI value: [%s] - You are below 18.5 – you're in the underweight range".formatted(bmiResult));
-            return "BMI value: [%s] - You are below 18.5 – you're in the underweight range".formatted(bmiResult);
-        }
-        if (underweight > 0 && healthy < 0) {
-            log.info("BMI value: [%s] - You are between 18.5 and 24.9 – you're in the healthy weight range".formatted(bmiResult));
-            return "BMI value: [%s] - You are between 18.5 and 24.9 – you're in the healthy weight range".formatted(bmiResult);
-        }
-        if (healthy > 0 && overweight < 0) {
-            log.info("BMI value: [%s] - You are between 25 and 29.9 – you're in the overweight range".formatted(bmiResult));
-            return "BMI value: [%s] - You are between 25 and 29.9 – you're in the overweight range".formatted(bmiResult);
-        }
-        log.info("BMI value: [%s] - You are 30 or over – you're in the obese range".formatted(bmiResult));
-        return "BMI value: [%s] - You are 30 or over – you're in the obese range".formatted(bmiResult);
+        String message = String.format("BMI value: [%s] - %s", bmiResult, interpretation);
+        log.info(message);
+
+        return message;
     }
 
     public BigDecimal calculateBMI(String username) {
