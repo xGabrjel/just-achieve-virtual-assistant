@@ -18,13 +18,17 @@ public class PasswordResetTokenService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
+    private static boolean isExpired(Optional<PasswordResetToken> passwordResetToken, Calendar calendar) {
+        return (passwordResetToken.get().getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0;
+    }
+
     public String validatePasswordResetToken(String theToken) {
         Optional<PasswordResetToken> passwordResetToken = passwordResetTokenRepository.findByToken(theToken);
         if (passwordResetToken.isEmpty()) {
             return "invalid";
         }
         Calendar calendar = Calendar.getInstance();
-        if ((passwordResetToken.get().getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0) {
+        if (isExpired(passwordResetToken, calendar)) {
             return "expired";
         }
         return "valid";

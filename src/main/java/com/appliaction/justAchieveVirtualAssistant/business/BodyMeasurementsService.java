@@ -25,12 +25,16 @@ public class BodyMeasurementsService {
     public void saveBodyMeasurements(BodyMeasurements bodyMeasurements) {
         UserProfile userProfile = bodyMeasurements.getProfileId();
 
-        if (bodyMeasurementsJpaRepository
-                .findByDateAndProfileId(bodyMeasurements.getDate(), userProfileEntityMapper.mapToEntity(userProfile)).isPresent()) {
+        if (isPresent(bodyMeasurements, userProfile)) {
             bodyMeasurementsRepository.delete(findByDateAndProfileId(bodyMeasurements.getDate(), bodyMeasurements.getProfileId()));
         }
         log.info("Body measurements to save: [%s]: ".formatted(bodyMeasurements));
         bodyMeasurementsRepository.saveBodyMeasurements(bodyMeasurements);
+    }
+
+    private boolean isPresent(BodyMeasurements bodyMeasurements, UserProfile userProfile) {
+        return bodyMeasurementsJpaRepository
+                .findByDateAndProfileId(bodyMeasurements.getDate(), userProfileEntityMapper.mapToEntity(userProfile)).isPresent();
     }
 
     @Transactional

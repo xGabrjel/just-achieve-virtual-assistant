@@ -18,16 +18,24 @@ public class MacronutrientsCalculatorService {
     private BmrCalculatorService bmrCalculatorService;
 
     public Map<String, BigDecimal> calculateHealthyMacronutrientsValues(String username, ActivityLevel activityLevel) {
+        final BigDecimal proteinFactor = BigDecimal.valueOf(0.2);
+        final BigDecimal carbsFactor = BigDecimal.valueOf(0.5);
+        final BigDecimal fatFactor = BigDecimal.valueOf(0.3);
+
+        final BigDecimal proteinKcalPerOneGram = BigDecimal.valueOf(4.0);
+        final BigDecimal carbsKcalPerOneGram = BigDecimal.valueOf(4.0);
+        final BigDecimal fatKcalPerOneGram = BigDecimal.valueOf(9.0);
+
         BigDecimal bmr = bmrCalculatorService.calculateActivityIncludedBMR(username, activityLevel);
 
-        BigDecimal protein = (bmr.multiply(BigDecimal.valueOf(0.2)))
-                .divide(BigDecimal.valueOf(4.0),
+        BigDecimal protein = (bmr.multiply(proteinFactor))
+                .divide(proteinKcalPerOneGram,
                         1 ,RoundingMode.HALF_UP);
-        BigDecimal carbs = (bmr.multiply(BigDecimal.valueOf(0.5)))
-                .divide(BigDecimal.valueOf(4.0),
+        BigDecimal carbs = (bmr.multiply(carbsFactor))
+                .divide(carbsKcalPerOneGram,
                         1 ,RoundingMode.HALF_UP);
-        BigDecimal fat = (bmr.multiply(BigDecimal.valueOf(0.3)))
-                .divide(BigDecimal.valueOf(9.0),
+        BigDecimal fat = (bmr.multiply(fatFactor))
+                .divide(fatKcalPerOneGram,
                         1, RoundingMode.HALF_UP);
 
         log.info("Default macronutrients values for BMR [%s] kcal: Protein - [%s], Carbohydrates - [%s], Fat - [%s]"

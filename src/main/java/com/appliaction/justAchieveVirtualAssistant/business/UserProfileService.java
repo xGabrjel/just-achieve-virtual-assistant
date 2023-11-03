@@ -27,10 +27,14 @@ public class UserProfileService {
     public void saveUserProfileData(String username, UserProfile userProfile, MultipartFile file) throws IOException {
         log.info("Saving profile data of user: [%s]".formatted(username));
 
-        if (userProfileJpaRepository.findByUserUsername(username).isPresent()) {
+        if (isPresent(username)) {
             userProfileRepository.delete(findByUsername(username));
         }
         userProfileRepository.saveUserProfileData(userProfile);
         imagesService.uploadProfilePhoto(file, username);
+    }
+
+    private boolean isPresent(String username) {
+        return userProfileJpaRepository.findByUserUsername(username).isPresent();
     }
 }

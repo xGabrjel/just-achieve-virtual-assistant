@@ -16,6 +16,10 @@ public class VerificationTokenService {
     private final VerificationTokenRepository tokenRepository;
     private final UserRepository userRepository;
 
+    private static boolean isExpired(Optional<VerificationToken> theToken, Calendar calendar) {
+        return (theToken.get().getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0;
+    }
+
     public String validateToken(String token) {
         Optional<VerificationToken> theToken = tokenRepository.findByToken(token);
         if (theToken.isEmpty()) {
@@ -23,7 +27,7 @@ public class VerificationTokenService {
         }
         User user = theToken.get().getUser();
         Calendar calendar = Calendar.getInstance();
-        if ((theToken.get().getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0) {
+        if (isExpired(theToken, calendar)) {
             return "expired";
         }
         user.setActive(true);

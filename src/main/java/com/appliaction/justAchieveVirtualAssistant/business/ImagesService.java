@@ -82,7 +82,7 @@ public class ImagesService {
     public String updateImage(String fileName, MultipartFile file) throws IOException {
         log.info("The file [%s] will be replaced with new file: [%s]".formatted(fileName, file.getOriginalFilename()));
 
-        if (repository.getImage(fileName).isEmpty()) {
+        if (isEmpty(fileName)) {
             throw new NotFoundException("File: [%s] not found".formatted(fileName));
         }
 
@@ -93,5 +93,9 @@ public class ImagesService {
         repository.save(image1);
 
         return "File updated successfully: [%s]".formatted(file.getOriginalFilename());
+    }
+
+    private boolean isEmpty(String fileName) {
+        return repository.getImage(fileName).isEmpty();
     }
 }
