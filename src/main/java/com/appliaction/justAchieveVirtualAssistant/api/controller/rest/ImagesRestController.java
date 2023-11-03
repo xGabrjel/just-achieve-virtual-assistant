@@ -31,6 +31,7 @@ public class ImagesRestController {
                 .contentType(MediaType.valueOf("image/png"))
                 .body(imageData);
     }
+
     @Operation(summary = "Add a photo of your favorite meal!")
     @PostMapping(value = "/uploads", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> uploadImage(
@@ -41,6 +42,7 @@ public class ImagesRestController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(uploadImage);
     }
+
     @Operation(summary = "Remove the photo of your meal!")
     @DeleteMapping("/deletion/{fileName}")
     public ResponseEntity<?> deleteImage(
@@ -59,7 +61,7 @@ public class ImagesRestController {
     }
 
     @Operation(summary = "Update your old photo with a new one!")
-    @PutMapping(value ="/updates/{fileName}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PutMapping(value = "/updates/{fileName}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> updateImage(
             @Parameter(description = "Name of the photo along with the type - example: test.png")
             @PathVariable String fileName,

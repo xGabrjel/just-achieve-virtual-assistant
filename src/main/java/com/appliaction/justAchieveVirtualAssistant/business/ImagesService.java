@@ -35,6 +35,7 @@ public class ImagesService {
         repository.save(image);
         return "File uploaded successfully: [%s]".formatted(file.getOriginalFilename());
     }
+
     @Transactional
     public void uploadProfilePhoto(MultipartFile file, String username) throws IOException {
         log.info("Uploading file [%s]".formatted(file.getOriginalFilename()));
@@ -59,6 +60,7 @@ public class ImagesService {
                 .map(image -> ImagesUtils.decompressImage(image.getImageData()))
                 .orElseThrow(() -> new NotFoundException("File: [%s] not found".formatted(fileName)));
     }
+
     @Transactional
     public byte[] downloadImageByProfileId(String username) {
         log.info("Downloading profile photo of user: [%s]".formatted(username));

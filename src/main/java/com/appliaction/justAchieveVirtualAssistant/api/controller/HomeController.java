@@ -23,15 +23,12 @@ public class HomeController {
             Model model,
             Principal principal
     ) {
-
         boolean isProfileCompleted;
 
         try {
             String username = principal.getName();
             UserProfile userProfile = userProfileService.findByUsername(username);
-
             isProfileCompleted = userProfile != null;
-
         } catch (Exception e) {
             isProfileCompleted = false;
         }

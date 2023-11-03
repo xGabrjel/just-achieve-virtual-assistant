@@ -30,10 +30,10 @@ public class MacronutrientsCalculatorService {
 
         BigDecimal protein = (bmr.multiply(proteinFactor))
                 .divide(proteinKcalPerOneGram,
-                        1 ,RoundingMode.HALF_UP);
+                        1, RoundingMode.HALF_UP);
         BigDecimal carbs = (bmr.multiply(carbsFactor))
                 .divide(carbsKcalPerOneGram,
-                        1 ,RoundingMode.HALF_UP);
+                        1, RoundingMode.HALF_UP);
         BigDecimal fat = (bmr.multiply(fatFactor))
                 .divide(fatKcalPerOneGram,
                         1, RoundingMode.HALF_UP);

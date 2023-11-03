@@ -53,7 +53,7 @@ public class JustAchieveSecurityConfiguration {
                                         "/login",
                                         "/registration/**",
                                         "/images/**"
-                                        )
+                                )
                                 .permitAll()
                                 .requestMatchers(
                                         "/v3/api-docs/**",
@@ -63,7 +63,7 @@ public class JustAchieveSecurityConfiguration {
                                         "/swagger-ui.html",
                                         "/food-manager/**",
                                         "/image-manager/**"
-                                        )
+                                )
                                 .permitAll()
                                 .requestMatchers("/users").hasAnyAuthority(admin.getAuthority())
                                 .anyRequest().authenticated()

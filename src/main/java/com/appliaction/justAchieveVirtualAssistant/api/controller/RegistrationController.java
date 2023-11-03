@@ -55,7 +55,7 @@ public class RegistrationController {
             @RequestParam("token") String token
     ) {
         Optional<VerificationToken> theToken = tokenService.findByToken(token);
-        if (theToken.isPresent() && theToken.get().getUser().getActive()) {
+        if (isPresentAndActive(theToken)) {
             return "redirect:/login?verified";
         }
         String verificationResult = tokenService.validateToken(token);
@@ -64,6 +64,10 @@ public class RegistrationController {
             case "valid" -> "redirect:/login?valid";
             default -> "redirect:/error?invalid";
         };
+    }
+
+    private static boolean isPresentAndActive(Optional<VerificationToken> theToken) {
+        return theToken.isPresent() && theToken.get().getUser().getActive();
     }
 
     @GetMapping("/forgot-password-request")
@@ -109,7 +113,7 @@ public class RegistrationController {
         String theToken = request.getParameter("token");
         String password = request.getParameter("password");
         String tokenVerificationResult = passwordResetTokenService.validatePasswordResetToken(theToken);
-        if (!tokenVerificationResult.equalsIgnoreCase("valid")) {
+        if (isNotValid(tokenVerificationResult)) {
             return "redirect:/error?invalid_token";
         }
         Optional<User> theUser = passwordResetTokenService.findUserByPasswordResetToken(theToken);
@@ -118,5 +122,9 @@ public class RegistrationController {
             return "redirect:/login?reset_success";
         }
         return "redirect:/error?not_found";
+    }
+
+    private static boolean isNotValid(String tokenVerificationResult) {
+        return !tokenVerificationResult.equalsIgnoreCase("valid");
     }
 }

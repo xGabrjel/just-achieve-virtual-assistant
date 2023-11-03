@@ -9,5 +9,6 @@ import org.mapstruct.ReportingPolicy;
 public interface ImagesEntityMapper {
 
     Images mapFromEntity(ImagesEntity entity);
+
     ImagesEntity mapToEntity(Images domain);
 }

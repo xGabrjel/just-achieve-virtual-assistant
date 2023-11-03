@@ -27,6 +27,7 @@ public class ImagesRepository {
                 .map(imagesEntityMapper::mapFromEntity)
                 .findFirst();
     }
+
     public Optional<Images> getImageByUserProfile(String username) {
         UserProfileEntity userProfile = userProfileJpaRepository.findByUserUsername(username)
                 .orElseThrow(() -> new NotFoundException("UserEntity [%s] not found!".formatted(username)));
