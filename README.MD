@@ -16,6 +16,7 @@
 * [📚 Technology Stack](#-technology-stack)
 * [💾 Usage](#-usage)
 * [🧾 Entity Relationship Diagram](#-entity-relationship-diagram)
+* [👀 Screenshots](#-screenshots)
 * [📆 Future Plans](#-future-plans)
 
 
@@ -122,6 +123,106 @@ http://localhost:2504/justAchieveVirtualAssistant/swagger-ui/index.html
 
 <h1 align="center">
   <a><img src="src/main/resources/static/images/justAchieve_virtual_assistant_erd_diagram.png" alt="justAchieve_virtual_assistant_erd_diagram"></a>
+</h1>
+
+## 👀 Screenshots
+
+<b>Worth noting:</b> 
+The visual layer of the application is created using basic technologies such as HTML, CSS, and Thymeleaf. Given that my primary focus is on mastering backend development, the frontend visual layer is designed to prioritize the optimal presentation of the application's functionalities rather than solely aesthetic appeal.
+The application exposes its REST API, enabling the invocation of GET, POST, PUT, and DELETE endpoints.
+```
+Available endpoints:
+```
+<h1 align="center">
+  <a><img src="src/main/resources/static/images/endpoints.PNG" alt="justAchieve_virtual_assistant"></a>
+</h1>
+
+```
+Screenshot from the application:
+```
+
+<h1 align="center">
+  <a><img src="src/main/resources/static/images/home_page.PNG" alt="justAchieve_virtual_assistant"></a>
+</h1>
+
+<h1 align="center">
+  <a><img src="src/main/resources/static/images/registration.PNG" alt="justAchieve_virtual_assistant"></a>
+</h1>
+
+<h1 align="center">
+  <a><img src="src/main/resources/static/images/registration_2.PNG" alt="justAchieve_virtual_assistant"></a>
+</h1>
+
+<h1 align="center">
+  <a><img src="src/main/resources/static/images/registration_2.PNG" alt="justAchieve_virtual_assistant"></a>
+</h1>
+
+<h1 align="center">
+  <a><img src="src/main/resources/static/images/email_verification.PNG" alt="justAchieve_virtual_assistant"></a>
+</h1>
+
+<h1 align="center">
+  <a><img src="src/main/resources/static/images/email_verification_2.PNG" alt="justAchieve_virtual_assistant"></a>
+</h1>
+
+<h1 align="center">
+  <a><img src="src/main/resources/static/images/profile.PNG" alt="justAchieve_virtual_assistant"></a>
+</h1>
+
+<h1 align="center">
+  <a><img src="src/main/resources/static/images/completed_profile.PNG" alt="justAchieve_virtual_assistant"></a>
+</h1>
+
+<h1 align="center">
+  <a><img src="src/main/resources/static/images/completed_home_page.PNG" alt="justAchieve_virtual_assistant"></a>
+</h1>
+
+<h1 align="center">
+  <a><img src="src/main/resources/static/images/bmi.PNG" alt="justAchieve_virtual_assistant"></a>
+</h1>
+
+<h1 align="center">
+  <a><img src="src/main/resources/static/images/bmr.png" alt="justAchieve_virtual_assistant"></a>
+</h1>
+
+<h1 align="center">
+  <a><img src="src/main/resources/static/images/bmr_2.PNG" alt="justAchieve_virtual_assistant"></a>
+</h1>
+
+<h1 align="center">
+  <a><img src="src/main/resources/static/images/macro.PNG" alt="justAchieve_virtual_assistant"></a>
+</h1>
+
+<h1 align="center">
+  <a><img src="src/main/resources/static/images/tips.PNG" alt="justAchieve_virtual_assistant"></a>
+</h1>
+
+<h1 align="center">
+  <a><img src="src/main/resources/static/images/measurements.PNG" alt="justAchieve_virtual_assistant"></a>
+</h1>
+
+<h1 align="center">
+  <a><img src="src/main/resources/static/images/food_search.PNG" alt="justAchieve_virtual_assistant"></a>
+</h1>
+
+<h1 align="center">
+  <a><img src="src/main/resources/static/images/composing_meals.PNG" alt="justAchieve_virtual_assistant"></a>
+</h1>
+
+<h1 align="center">
+  <a><img src="src/main/resources/static/images/admin.PNG" alt="justAchieve_virtual_assistant"></a>
+</h1>
+
+<h1 align="center">
+  <a><img src="src/main/resources/static/images/forgot_password.PNG" alt="justAchieve_virtual_assistant"></a>
+</h1>
+
+<h1 align="center">
+  <a><img src="src/main/resources/static/images/forgot_password_2.PNG" alt="justAchieve_virtual_assistant"></a>
+</h1>
+
+<h1 align="center">
+  <a><img src="src/main/resources/static/images/forgot_password_3.PNG" alt="justAchieve_virtual_assistant"></a>
 </h1>
 
 ## 📆 Future Plans
