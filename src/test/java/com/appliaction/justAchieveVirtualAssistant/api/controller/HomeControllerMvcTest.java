@@ -37,8 +37,10 @@ class HomeControllerMvcTest {
 
         when(userProfileService.findByUsername(username))
                 .thenReturn(completedProfile);
+        when(userProfileService.isProfileCompleted(principal))
+                .thenReturn(true);
 
-        // when, then
+        //when, then
         mockMvc.perform(get("/")
                 .principal(principal))
                 .andExpect(status().isOk())
@@ -55,7 +57,7 @@ class HomeControllerMvcTest {
         when(userProfileService.findByUsername(username))
                 .thenReturn(emptyProfile);
 
-        // when, then
+        //when, then
         mockMvc.perform(get("/"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("home"))

@@ -9,10 +9,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
 
+import static com.appliaction.justAchieveVirtualAssistant.api.controller.BmiController.ROOT;
+
 @Controller
 @AllArgsConstructor
-@RequestMapping("/bmi")
+@RequestMapping(ROOT)
 public class BmiController {
+
+    static final String ROOT = "/bmi";
 
     private BmiCalculatorService bmiCalculatorService;
 
@@ -21,10 +25,7 @@ public class BmiController {
             Model model,
             Principal principal
     ) {
-        String username = principal.getName();
-        String bmi = bmiCalculatorService.calculateAndInterpretBMI(username);
-
-        model.addAttribute("bmi", bmi);
+        model.addAttribute("bmi", bmiCalculatorService.calculateAndInterpretBMI(principal.getName()));
         return "bmi";
     }
 }

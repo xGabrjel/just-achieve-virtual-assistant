@@ -1,8 +1,10 @@
 package com.appliaction.justAchieveVirtualAssistant.business;
 
 import com.appliaction.justAchieveVirtualAssistant.api.dto.FoodDTO;
+import com.appliaction.justAchieveVirtualAssistant.api.dto.mapper.FoodMapper;
 import com.appliaction.justAchieveVirtualAssistant.domain.Food;
 import com.appliaction.justAchieveVirtualAssistant.domain.Item;
+import com.appliaction.justAchieveVirtualAssistant.domain.exception.NotFoundException;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.entity.FoodEntity;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.mapper.FoodEntityMapper;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.repository.FoodRepository;
@@ -25,6 +27,27 @@ public class FoodService {
     private final FoodRepository foodRepository;
     private final FoodEntityMapper foodEntityMapper;
     private final UserProfileRepository userProfileRepository;
+    private final FoodMapper foodMapper;
+
+    public FoodDTO findFinalProduct(String query) {
+        Item result = findByQuery(query)
+                .orElseThrow(() -> new NotFoundException("Food: [%s] not found".formatted(query)));
+
+        return FoodDTO.builder()
+                .name(result.getFoods().get(0).getName().toUpperCase())
+                .calories(result.getFoods().get(0).getCalories())
+                .servingSizeG(result.getFoods().get(0).getServingSizeG())
+                .fatTotalG(result.getFoods().get(0).getFatTotalG())
+                .fatSaturatedG(result.getFoods().get(0).getFatSaturatedG())
+                .proteinG(result.getFoods().get(0).getProteinG())
+                .sodiumMg(result.getFoods().get(0).getSodiumMg())
+                .potassiumMg(result.getFoods().get(0).getPotassiumMg())
+                .cholesterolMg(result.getFoods().get(0).getCholesterolMg())
+                .carbohydratesTotalG(result.getFoods().get(0).getCarbohydratesTotalG())
+                .fiberG(result.getFoods().get(0).getFiberG())
+                .sugarG(result.getFoods().get(0).getSugarG())
+                .build();
+    }
 
     public Optional<Item> findByQuery(String query) {
         log.info("Query input: [%s]".formatted(query));
@@ -62,13 +85,12 @@ public class FoodService {
         foodRepository.saveIntoDatabase(food);
     }
 
-    public List<Food> findAllByUsername(String username) {
+    public List<FoodDTO> findAllDTOByUsername(String username) {
         List<FoodEntity> allProducts = foodRepository.findAllProducts(username);
-        List<Food> result = new ArrayList<>();
+        List<FoodDTO> result = new ArrayList<>();
 
         for (FoodEntity product : allProducts) {
-            Food food = foodEntityMapper.mapFromEntity(product);
-            result.add(food);
+            result.add(foodMapper.map(foodEntityMapper.mapFromEntity(product)));
         }
 
         return result;

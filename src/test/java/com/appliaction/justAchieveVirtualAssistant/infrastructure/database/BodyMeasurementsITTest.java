@@ -1,5 +1,7 @@
 package com.appliaction.justAchieveVirtualAssistant.infrastructure.database;
 
+import com.appliaction.justAchieveVirtualAssistant.api.dto.BodyMeasurementsDTO;
+import com.appliaction.justAchieveVirtualAssistant.api.dto.mapper.BodyMeasurementsMapper;
 import com.appliaction.justAchieveVirtualAssistant.business.BodyMeasurementsService;
 import com.appliaction.justAchieveVirtualAssistant.configuration.AbstractIT;
 import com.appliaction.justAchieveVirtualAssistant.domain.BodyMeasurements;
@@ -14,6 +16,7 @@ import lombok.AllArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -26,25 +29,35 @@ class BodyMeasurementsITTest extends AbstractIT {
     private final BodyMeasurementsService bodyMeasurementsService;
     private final UserProfileJpaRepository userProfileJpaRepository;
     private final UserJpaRepository userJpaRepository;
+    private final BodyMeasurementsMapper bodyMeasurementsMapper;
 
     @Test
-    void saveAndFindBodyMeasurementsWorksCorrectly() {
+    void saveAndFindBodyMeasurementsWorksCorrectly12() {
         //given
         BodyMeasurements bodyMeasurements = DomainFixtures.someBodyMeasurements();
+        BodyMeasurementsDTO bodyMeasurementsDTO = bodyMeasurementsMapper.map(bodyMeasurements);
         UserEntity userEntity = EntityFixtures.someUserEntity();
         UserProfileEntity userProfileEntity = EntityFixtures.someUserProfileEntity();
+        String date = bodyMeasurementsDTO.getDate().format(DateTimeFormatter.ISO_LOCAL_DATE);
 
         userJpaRepository.saveAndFlush(userEntity);
         userProfileJpaRepository.saveAndFlush(userProfileEntity);
-        bodyMeasurementsService.saveBodyMeasurements(bodyMeasurements);
+        bodyMeasurementsService.saveBodyMeasurements(bodyMeasurementsDTO, userEntity.getUsername());
 
         //when
-        var availableBodyMeasurements = bodyMeasurementsService
-                .findByDateAndProfileId(bodyMeasurements.getDate(), bodyMeasurements.getProfileId());
+        var availableBodyMeasurementsDTO = bodyMeasurementsService
+                .findFinalBodyMeasurementsDTO(date, userEntity.getUsername());
 
         //then
-        assertThat(availableBodyMeasurements).isNotNull();
-        assertThat(availableBodyMeasurements).isEqualTo(bodyMeasurements);
+        assertThat(availableBodyMeasurementsDTO).isNotNull();
+        assertThat(availableBodyMeasurementsDTO.getMeasurementNote()).isEqualTo(bodyMeasurementsDTO.getMeasurementNote());
+        assertThat(availableBodyMeasurementsDTO.getDate()).isEqualTo(bodyMeasurementsDTO.getDate());
+        assertThat(availableBodyMeasurementsDTO.getArm()).isEqualTo(bodyMeasurementsDTO.getArm());
+        assertThat(availableBodyMeasurementsDTO.getCalf()).isEqualTo(bodyMeasurementsDTO.getCalf());
+        assertThat(availableBodyMeasurementsDTO.getChest()).isEqualTo(bodyMeasurementsDTO.getChest());
+        assertThat(availableBodyMeasurementsDTO.getCurrentWeight()).isEqualTo(bodyMeasurementsDTO.getCurrentWeight());
+        assertThat(availableBodyMeasurementsDTO.getThigh()).isEqualTo(bodyMeasurementsDTO.getThigh());
+        assertThat(availableBodyMeasurementsDTO.getWaist()).isEqualTo(bodyMeasurementsDTO.getWaist());
     }
 
     @Test
@@ -67,12 +80,13 @@ class BodyMeasurementsITTest extends AbstractIT {
     void updateUserProfileWeightWorksCorrectly() {
         //given
         BodyMeasurements bodyMeasurements = DomainFixtures.someBodyMeasurements();
+        BodyMeasurementsDTO bodyMeasurementsDTO = bodyMeasurementsMapper.map(bodyMeasurements);
         UserEntity userEntity = EntityFixtures.someUserEntity();
         UserProfileEntity userProfileEntity = EntityFixtures.someUserProfileEntity();
 
         userJpaRepository.saveAndFlush(userEntity);
         userProfileJpaRepository.saveAndFlush(userProfileEntity);
-        bodyMeasurementsService.saveBodyMeasurements(bodyMeasurements);
+        bodyMeasurementsService.saveBodyMeasurements(bodyMeasurementsDTO, userEntity.getUsername());
         bodyMeasurementsService.updateUserProfileWeight(bodyMeasurements);
 
         //when

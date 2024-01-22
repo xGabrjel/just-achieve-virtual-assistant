@@ -33,6 +33,7 @@ class ImagesRestControllerTest extends RestAssureConfigurationTestBase implement
         //when, then
         deleteImage(fileName);
     }
+
     @Test
     void deleteImageThrowingExceptionWorksCorrectly() {
         //given
@@ -51,6 +52,7 @@ class ImagesRestControllerTest extends RestAssureConfigurationTestBase implement
         // when, then
         updateImage(fileName, fileContent);
     }
+
     @Test
     void updateImageThrowingExceptionWorksCorrectly() {
         // given

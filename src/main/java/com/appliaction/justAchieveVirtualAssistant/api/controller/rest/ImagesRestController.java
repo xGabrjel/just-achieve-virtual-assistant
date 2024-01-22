@@ -13,38 +13,49 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
+import static com.appliaction.justAchieveVirtualAssistant.api.controller.rest.ImagesRestController.ROOT;
+
 @RestController
 @AllArgsConstructor
-@RequestMapping("/image-manager")
+@RequestMapping(ROOT)
 public class ImagesRestController {
+
+    static final String ROOT = "/image-manager";
+    static final String DOWNLOAD = "/downloads/{fileName}";
+    static final String UPLOAD = "/uploads";
+    static final String DELETE = "/deletion/{fileName}";
+    static final String UPDATE = "/updates/{fileName}";
+
+    static final String DOWNLOAD_MESSAGE = "Download a photo of your favorite meal!";
+    static final String UPLOAD_MESSAGE = "Add a photo of your favorite meal!";
+    static final String DELETE_MESSAGE = "Remove the photo of your meal!";
+    static final String UPDATE_MESSAGE = "Update your old photo with a new one!";
 
     private ImagesService service;
 
-    @Operation(summary = "Download a photo of your favorite meal!")
-    @GetMapping("/downloads/{fileName}")
+    @Operation(summary = DOWNLOAD_MESSAGE)
+    @GetMapping(DOWNLOAD)
     public ResponseEntity<?> downloadImage(
             @Parameter(description = "Name of the photo along with the type - example: test.png")
             @PathVariable String fileName
     ) {
-        byte[] imageData = service.downloadImage(fileName);
         return ResponseEntity.status(HttpStatus.OK)
                 .contentType(MediaType.valueOf("image/png"))
-                .body(imageData);
+                .body(service.downloadImage(fileName));
     }
 
-    @Operation(summary = "Add a photo of your favorite meal!")
-    @PostMapping(value = "/uploads", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @Operation(summary = UPLOAD_MESSAGE)
+    @PostMapping(value = UPLOAD, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> uploadImage(
             @Parameter(description = "The file from your disk")
             @RequestPart("image") MultipartFile file
     ) throws IOException {
-        String uploadImage = service.uploadImage(file);
         return ResponseEntity.status(HttpStatus.OK)
-                .body(uploadImage);
+                .body(service.uploadImage(file));
     }
 
-    @Operation(summary = "Remove the photo of your meal!")
-    @DeleteMapping("/deletion/{fileName}")
+    @Operation(summary = DELETE_MESSAGE)
+    @DeleteMapping(DELETE)
     public ResponseEntity<?> deleteImage(
             @Parameter(description = "Name of the photo along with the type - example: test.png")
             @PathVariable String fileName
@@ -53,27 +64,23 @@ public class ImagesRestController {
             service.downloadImage(fileName);
             service.deleteImage(fileName);
             return ResponseEntity.ok("Image [%s] deleted successfully.".formatted(fileName));
-
         } catch (NotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(e.getMessage());
         }
     }
 
-    @Operation(summary = "Update your old photo with a new one!")
-    @PutMapping(value = "/updates/{fileName}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @Operation(summary = UPDATE_MESSAGE)
+    @PutMapping(value = UPDATE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> updateImage(
             @Parameter(description = "Name of the photo along with the type - example: test.png")
             @PathVariable String fileName,
             @Parameter(description = "New file replacing the old one")
             @RequestPart("image") MultipartFile file
     ) throws IOException {
-
         try {
             service.downloadImage(fileName);
-            String updateImage = service.updateImage(fileName, file);
-            return ResponseEntity.ok(updateImage);
-
+            return ResponseEntity.ok(service.updateImage(fileName, file));
         } catch (NotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(e.getMessage());

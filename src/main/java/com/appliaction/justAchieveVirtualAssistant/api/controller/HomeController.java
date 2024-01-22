@@ -1,7 +1,6 @@
 package com.appliaction.justAchieveVirtualAssistant.api.controller;
 
 import com.appliaction.justAchieveVirtualAssistant.business.UserProfileService;
-import com.appliaction.justAchieveVirtualAssistant.domain.UserProfile;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,10 +10,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
 
+import static com.appliaction.justAchieveVirtualAssistant.api.controller.HomeController.ROOT;
+
 @Controller
-@RequestMapping("/")
+@RequestMapping(ROOT)
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class HomeController {
+
+    static final String ROOT = "/";
+    static final String LOGIN = "/login";
+    static final String ERROR = "/error";
 
     private final UserProfileService userProfileService;
 
@@ -23,26 +28,16 @@ public class HomeController {
             Model model,
             Principal principal
     ) {
-        boolean isProfileCompleted;
-
-        try {
-            String username = principal.getName();
-            UserProfile userProfile = userProfileService.findByUsername(username);
-            isProfileCompleted = userProfile != null;
-        } catch (Exception e) {
-            isProfileCompleted = false;
-        }
-
-        model.addAttribute("isProfileCompleted", isProfileCompleted);
+        model.addAttribute("isProfileCompleted", userProfileService.isProfileCompleted(principal));
         return "home";
     }
 
-    @GetMapping("/login")
+    @GetMapping(LOGIN)
     public String login() {
         return "login";
     }
 
-    @GetMapping("/error")
+    @GetMapping(ERROR)
     public String error() {
         return "error";
     }

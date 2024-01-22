@@ -57,14 +57,14 @@ class RegistrationControllerTest {
 
         //when, then
         mockMvc.perform(post("/registration/new-user-registration")
-                .flashAttr("user", registration))
+                        .flashAttr("user", registration))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/registration/registration-form?success"));
     }
 
     @Test
     void verifyEmailRedirectToLoginWhenTokenValidAndUserActiveWorksCorrectly() throws Exception {
-        // given
+        //given
         String validToken = "valid";
         User activeUser = DomainFixtures.someUser();
         VerificationToken verificationToken = new VerificationToken(validToken, activeUser);
@@ -72,16 +72,16 @@ class RegistrationControllerTest {
         when(tokenService.findByToken(validToken))
                 .thenReturn(Optional.of(verificationToken));
 
-        // when, then
+        //when, then
         mockMvc.perform(get("/registration/email-verifier")
-                .param("token", validToken))
+                        .param("token", validToken))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/login?verified"));
     }
 
     @Test
     void verifyEmailRedirectToErrorWhenTokenExpiredWorksCorrectly() throws Exception {
-        // given
+        //given
         String expiredToken = "expired-token";
         User user = DomainFixtures.someUser().withActive(false);
         VerificationToken verificationToken = new VerificationToken(expiredToken, user);
@@ -91,16 +91,16 @@ class RegistrationControllerTest {
         when(tokenService.validateToken(expiredToken))
                 .thenReturn("expired");
 
-        // when, then
+        //when, then
         mockMvc.perform(get("/registration/email-verifier")
-                .param("token", expiredToken))
+                        .param("token", expiredToken))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/error?expired"));
     }
 
     @Test
     void verifyEmailRedirectToLoginWhenTokenValidWorksCorrectly() throws Exception {
-        // given
+        //given
         String validToken = "valid-token";
         User user = DomainFixtures.someUser().withActive(false);
         VerificationToken verificationToken = new VerificationToken(validToken, user);
@@ -110,16 +110,16 @@ class RegistrationControllerTest {
         when(tokenService.validateToken(validToken))
                 .thenReturn("valid");
 
-        // when, then
+        //when, then
         mockMvc.perform(get("/registration/email-verifier")
-                .param("token", validToken))
+                        .param("token", validToken))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/login?valid"));
     }
 
     @Test
     void verifyEmailRedirectToErrorWhenTokenInvalidWorksCorrectly() throws Exception {
-        // given
+        //given
         String invalidToken = "invalid-token";
         User user = DomainFixtures.someUser().withActive(false);
 
@@ -128,9 +128,9 @@ class RegistrationControllerTest {
         when(tokenService.findByToken(invalidToken))
                 .thenReturn(Optional.empty());
 
-        // when, then
+        //when, then
         mockMvc.perform(get("/registration/email-verifier")
-                .param("token", invalidToken))
+                        .param("token", invalidToken))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/error?invalid"));
     }
@@ -145,42 +145,42 @@ class RegistrationControllerTest {
 
     @Test
     void resetPasswordRequestRedirectToNotFoundWhenEmailNotFoundWorksCorrectly() throws Exception {
-        // given
+        //given
         String notFoundEmail = "notfound@example.com";
 
         when(userService.findByEmail(notFoundEmail))
                 .thenReturn(Optional.empty());
 
-        // when, then
+        //when, then
         mockMvc.perform(post("/registration/forgot-password-reset")
-                .param("email", notFoundEmail))
+                        .param("email", notFoundEmail))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/registration/forgot-password-request?not_found"));
     }
 
     @Test
     void resetPasswordRequestRedirectToSuccessWhenEmailFoundWorksCorrectly() throws Exception {
-        // given
+        //given
         User user = DomainFixtures.someUser();
 
         when(userService.findByEmail(user.getEmail()))
                 .thenReturn(Optional.of(user));
 
-        // when, then
+        //when, then
         mockMvc.perform(post("/registration/forgot-password-reset")
-                .param("email", user.getEmail()))
+                        .param("email", user.getEmail()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/registration/forgot-password-request?success"));
     }
 
     @Test
     void passwordResetFormReturnPasswordResetFormViewWorksCorrectly() throws Exception {
-        // given
+        //given
         String token = "testToken";
 
-        // when, then
+        //when, then
         mockMvc.perform(get("/registration/password-reset-form")
-                .param("token", token))
+                        .param("token", token))
                 .andExpect(status().isOk())
                 .andExpect(view().name("password-reset-form"))
                 .andExpect(model().attributeExists("token"))
@@ -189,7 +189,7 @@ class RegistrationControllerTest {
 
     @Test
     void resetPasswordReturnErrorWhenTokenInvalidWorksCorrectly() throws Exception {
-        // given
+        //given
         String invalidToken = "invalid-token";
         String password = "newPassword";
         String tokenVerificationResult = "invalid";
@@ -197,17 +197,17 @@ class RegistrationControllerTest {
         when(passwordResetTokenService.validatePasswordResetToken(invalidToken))
                 .thenReturn(tokenVerificationResult);
 
-        // when, then
+        //when, then
         mockMvc.perform(post("/registration/password-reset")
-                .param("token", invalidToken)
-                .param("password", password))
+                        .param("token", invalidToken)
+                        .param("password", password))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/error?invalid_token"));
     }
 
     @Test
     void resetPasswordReturnSuccessWhenTokenValidWorksCorrectly() throws Exception {
-        // given
+        //given
         String validToken = "valid-token";
         String password = "newPassword";
         Optional<User> user = Optional.of(DomainFixtures.someUser());
@@ -217,17 +217,17 @@ class RegistrationControllerTest {
         when(passwordResetTokenService.findUserByPasswordResetToken(validToken))
                 .thenReturn(user);
 
-        // when, then
+        //when, then
         mockMvc.perform(post("/registration/password-reset")
-                .param("token", validToken)
-                .param("password", password))
+                        .param("token", validToken)
+                        .param("password", password))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/login?reset_success"));
     }
 
     @Test
     void resetPasswordReturnErrorWhenUserNotFoundWorksCorrectly() throws Exception {
-        // given
+        //given
         String validToken = "valid-token";
         String password = "newPassword";
         Optional<User> user = Optional.empty();
@@ -237,10 +237,10 @@ class RegistrationControllerTest {
         when(passwordResetTokenService.findUserByPasswordResetToken(validToken))
                 .thenReturn(user);
 
-        // when, then
+        //when, then
         mockMvc.perform(post("/registration/password-reset")
-                .param("token", validToken)
-                .param("password", password))
+                        .param("token", validToken)
+                        .param("password", password))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/error?not_found"));
     }

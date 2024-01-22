@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Base64;
 import java.util.Optional;
 
 @Slf4j
@@ -70,6 +71,11 @@ public class ImagesService {
         return bdImageData
                 .map(image -> ImagesUtils.decompressImage(image.getImageData()))
                 .orElseThrow(() -> new NotFoundException("Profile photo of user: [%s] not found".formatted(username)));
+    }
+
+    public String downloadAndConvertImage(String username) {
+        byte[] bytes = downloadImageByProfileId(username);
+        return Base64.getEncoder().encodeToString(bytes);
     }
 
     @Transactional

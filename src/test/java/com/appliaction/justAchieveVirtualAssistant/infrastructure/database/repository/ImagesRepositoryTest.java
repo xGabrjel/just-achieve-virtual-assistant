@@ -36,7 +36,7 @@ class ImagesRepositoryTest {
 
     @Test
     void getImageReturnsOptionalOfImagesWorksCorrectly() {
-        // given
+        //given
         String fileName = "test.png";
         ImagesEntity imagesEntity = ImagesEntity.builder()
                 .id(1L)
@@ -58,16 +58,16 @@ class ImagesRepositoryTest {
 
         ImagesRepository imagesRepository = new ImagesRepository(imagesJpaRepository, imagesEntityMapper, userProfileJpaRepository);
 
-        // when
+        //when
         Optional<Images> result = imagesRepository.getImage(fileName);
 
-        // then
+        //then
         assertTrue(result.isPresent());
         assertEquals(images, result.get());
     }
     @Test
     void getImageByUserProfileReturnsOptionalOfImagesWorksCorrectly() {
-        // given
+        //given
         String username = "testUser";
         UserProfileEntity userProfileEntity = EntityFixtures.someUserProfileEntity();
         UserProfile userProfile = DomainFixtures.someUserProfile();
@@ -96,17 +96,17 @@ class ImagesRepositoryTest {
 
         ImagesRepository imagesRepository = new ImagesRepository(imagesJpaRepository, imagesEntityMapper, userProfileJpaRepository);
 
-        // when
+        //when
         Optional<Images> result = imagesRepository.getImageByUserProfile(username);
 
-        // then
+        //then
         assertTrue(result.isPresent());
         assertEquals(images, result.get());
     }
 
     @Test
     void getImageByUserProfileThrowsExceptionWhenUserProfileNotFound() {
-        // given
+        //given
         String username = "nonExistingUser";
 
         when(userProfileJpaRepository.findByUserUsername(username))
@@ -114,13 +114,13 @@ class ImagesRepositoryTest {
 
         ImagesRepository imagesRepository = new ImagesRepository(imagesJpaRepository, imagesEntityMapper, userProfileJpaRepository);
 
-        // when & then
+        //when & then
         assertThrows(NotFoundException.class, () -> imagesRepository.getImageByUserProfile(username));
     }
 
     @Test
     void getImageByUserProfileReturnsEmptyOptionalWhenImagesNotFound() {
-        // given
+        //given
         String username = "testUser";
         UserProfileEntity userProfileEntity = EntityFixtures.someUserProfileEntity();
 
@@ -131,22 +131,22 @@ class ImagesRepositoryTest {
 
         ImagesRepository imagesRepository = new ImagesRepository(imagesJpaRepository, imagesEntityMapper, userProfileJpaRepository);
 
-        // when
+        //when
         Optional<Images> result = imagesRepository.getImageByUserProfile(username);
 
-        // then
+        //then
         assertFalse(result.isPresent());
     }
 
     @Test
     void getImageThrowsNotFoundExceptionWhenImageNotFoundWorksCorrectly() {
-        // given
+        //given
         String fileName = "test.png";
 
         when(imagesJpaRepository.findByName(fileName))
                 .thenReturn(Optional.empty());
 
-        // when
+        //when
         Optional<Images> result = imagesRepository.getImage(fileName);
 
         //then

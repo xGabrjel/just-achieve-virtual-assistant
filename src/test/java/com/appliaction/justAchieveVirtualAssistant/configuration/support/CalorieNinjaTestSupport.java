@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 public interface CalorieNinjaTestSupport {
 
     RequestSpecification requestSpecification();
+
     default FoodDTO getFoodDetails(final String query) {
         return requestSpecification()
                 .get("/food-manager/nutrients/" + query)

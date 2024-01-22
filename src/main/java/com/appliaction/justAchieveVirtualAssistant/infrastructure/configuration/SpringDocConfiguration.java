@@ -35,6 +35,6 @@ public class SpringDocConfiguration {
         return new Contact()
                 .name("Gabriel Łuczyszyn")
                 .url("https://github.com/xGabrjel")
-                .email("gabriel.luczyszyn@o2.pl");
+                .email("gabriel.luczyszyn@gmail.com");
     }
 }

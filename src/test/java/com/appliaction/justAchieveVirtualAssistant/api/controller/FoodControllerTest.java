@@ -2,8 +2,7 @@ package com.appliaction.justAchieveVirtualAssistant.api.controller;
 
 import com.appliaction.justAchieveVirtualAssistant.api.dto.FoodDTO;
 import com.appliaction.justAchieveVirtualAssistant.business.FoodService;
-import com.appliaction.justAchieveVirtualAssistant.domain.Food;
-import com.appliaction.justAchieveVirtualAssistant.domain.Item;
+import com.appliaction.justAchieveVirtualAssistant.domain.exception.NotFoundException;
 import lombok.AllArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,6 @@ import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.Mockito.*;
@@ -66,23 +64,6 @@ class FoodControllerTest  {
     void getFoodDetailsWorksCorrectly() throws Exception {
         //given
         String query = "apple";
-
-        List<Food> foods = new ArrayList<>();
-        foods.add(Food.builder()
-                .name("Apple")
-                .calories(new BigDecimal("52"))
-                .servingSizeG(100)
-                .fatTotalG(new BigDecimal("0.2"))
-                .fatSaturatedG(new BigDecimal("0"))
-                .proteinG(new BigDecimal("0.3"))
-                .sodiumMg(new BigDecimal("1"))
-                .potassiumMg(new BigDecimal("107"))
-                .cholesterolMg(new BigDecimal("0"))
-                .carbohydratesTotalG(new BigDecimal("14"))
-                .fiberG(new BigDecimal("2.4"))
-                .sugarG(new BigDecimal("10.3"))
-                .build());
-
         FoodDTO foodDTO = FoodDTO.builder()
                 .name("APPLE")
                 .calories(new BigDecimal("52"))
@@ -98,8 +79,8 @@ class FoodControllerTest  {
                 .sugarG(new BigDecimal("10.3"))
                 .build();
 
-        when(foodService.findByQuery(query))
-                .thenReturn(Optional.of(new Item(foods)));
+        when(foodService.findFinalProduct(query))
+                .thenReturn(foodDTO);
 
         //when, then
         mockMvc.perform(get("/food/details")
@@ -110,7 +91,7 @@ class FoodControllerTest  {
                 .andExpect(model().attribute("foodDTO", foodDTO));
 
 
-        verify(foodService, times(1)).findByQuery(query);
+        verify(foodService, times(1)).findFinalProduct(query);
     }
 
     @Test
@@ -118,7 +99,7 @@ class FoodControllerTest  {
         //given
         String query = "nonexistent-food";
 
-        when(foodService.findByQuery(query)).thenReturn(Optional.empty());
+        when(foodService.findFinalProduct(query)).thenThrow(NotFoundException.class);
 
         //when, then
         mockMvc.perform(get("/food/details")
@@ -128,7 +109,7 @@ class FoodControllerTest  {
                 .andExpect(handler().methodName("getFoodDetails"))
                 .andExpect(view().name("default-error"));
 
-        verify(foodService, times(1)).findByQuery(query);
+        verify(foodService, times(1)).findFinalProduct(query);
     }
 
     @Test
@@ -138,9 +119,9 @@ class FoodControllerTest  {
         String username = "admin";
         Principal principal = () -> username;
 
-        List<Food> listOfFoods = new ArrayList<>();
+        List<FoodDTO> listOfFoods = new ArrayList<>();
 
-        Food food1 = Food.builder()
+        FoodDTO food1 = FoodDTO.builder()
                 .name("Food 1")
                 .calories(BigDecimal.valueOf(100))
                 .servingSizeG(50)
@@ -155,7 +136,7 @@ class FoodControllerTest  {
                 .sugarG(BigDecimal.valueOf(10))
                 .build();
 
-        Food food2 = Food.builder()
+        FoodDTO food2 = FoodDTO.builder()
                 .name("Food 2")
                 .calories(BigDecimal.valueOf(200))
                 .servingSizeG(100)
@@ -173,7 +154,7 @@ class FoodControllerTest  {
         listOfFoods.add(food1);
         listOfFoods.add(food2);
 
-        when(foodService.findAllByUsername(username))
+        when(foodService.findAllDTOByUsername(username))
                 .thenReturn(listOfFoods);
 
         //when, then
@@ -206,7 +187,7 @@ class FoodControllerTest  {
                 .andExpect(model().attributeExists("totalSugar"))
                 .andExpect(model().attribute("totalSugar", BigDecimal.valueOf(25)));
 
-        verify(foodService, times(1)).findAllByUsername(anyString());
+        verify(foodService, times(1)).findAllDTOByUsername(anyString());
     }
 
     @Test

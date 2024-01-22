@@ -2,9 +2,7 @@ package com.appliaction.justAchieveVirtualAssistant.api.controller;
 
 import com.appliaction.justAchieveVirtualAssistant.api.dto.DietGoalsDTO;
 import com.appliaction.justAchieveVirtualAssistant.api.dto.FitnessTipsDTO;
-import com.appliaction.justAchieveVirtualAssistant.api.dto.mapper.FitnessTipsMapper;
 import com.appliaction.justAchieveVirtualAssistant.business.FitnessTipsGeneratorService;
-import com.appliaction.justAchieveVirtualAssistant.domain.FitnessTips;
 import lombok.AllArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,13 +26,11 @@ class FitnessTipsControllerTest {
     private final MockMvc mockMvc;
     @MockBean
     private FitnessTipsGeneratorService fitnessTipsGeneratorService;
-    @MockBean
-    private FitnessTipsMapper fitnessTipsMapper;
 
     @Test
     @WithMockUser
     void returnTipsViewWorksCorrectly() throws Exception {
-        // given
+        //given
         String username = "testUser";
         DietGoalsDTO dietGoalsDTO = new DietGoalsDTO();
         dietGoalsDTO.setDietGoal("FAT LOSS");
@@ -43,11 +39,9 @@ class FitnessTipsControllerTest {
         Principal principal = () -> username;
 
         when(fitnessTipsGeneratorService.getRandomTipForDietGoal(username))
-                .thenReturn(new FitnessTips());
-        when(fitnessTipsMapper.map(new FitnessTips()))
                 .thenReturn(tipsDTO);
 
-        // when, then
+        //when, then
         mockMvc.perform(get("/tips")
                 .principal(principal))
                 .andExpect(status().isOk())

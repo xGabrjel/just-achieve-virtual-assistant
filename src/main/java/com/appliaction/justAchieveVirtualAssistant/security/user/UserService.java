@@ -1,5 +1,7 @@
 package com.appliaction.justAchieveVirtualAssistant.security.user;
 
+import com.appliaction.justAchieveVirtualAssistant.api.dto.UserDTO;
+import com.appliaction.justAchieveVirtualAssistant.api.dto.mapper.UserMapper;
 import com.appliaction.justAchieveVirtualAssistant.domain.Role;
 import com.appliaction.justAchieveVirtualAssistant.domain.User;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.mapper.UserEntityMapper;
@@ -23,10 +25,12 @@ public class UserService {
     private final VerificationTokenService verificationTokenService;
     private final UserEntityMapper userEntityMapper;
     private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
-    public List<User> getAllUsers() {
+    public List<UserDTO> getAllUsers() {
         return userJpaRepository.findAll().stream()
                 .map(userEntityMapper::mapFromEntity)
+                .map(userMapper::map)
                 .toList();
     }
 
@@ -45,8 +49,8 @@ public class UserService {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
-    public Optional<User> findById(int id) {
-        return userRepository.findById(id);
+    public UserDTO findById(int id) {
+        return userMapper.map(userRepository.findById(id).get());
     }
 
     public Optional<User> findByUsername(String username) {

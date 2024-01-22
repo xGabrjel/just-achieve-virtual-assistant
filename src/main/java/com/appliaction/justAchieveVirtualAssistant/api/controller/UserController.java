@@ -1,7 +1,6 @@
 package com.appliaction.justAchieveVirtualAssistant.api.controller;
 
 import com.appliaction.justAchieveVirtualAssistant.api.dto.UserDTO;
-import com.appliaction.justAchieveVirtualAssistant.api.dto.mapper.UserMapper;
 import com.appliaction.justAchieveVirtualAssistant.security.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -11,38 +10,38 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import static com.appliaction.justAchieveVirtualAssistant.api.controller.UserController.ROOT;
+
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/users")
+@RequestMapping(ROOT)
 public class UserController {
 
+    static final String ROOT = "/users";
+    static final String SHOW_UPDATE_FORM = "/{userId}";
+    static final String UPDATE_USER = "/updates/{userId}";
+    static final String DELETE_USER = "/deletion/{userId}";
+
     private final UserService userService;
-    private final UserMapper userMapper;
 
     @GetMapping
     public String getUsers(
             Model model
     ) {
-        model.addAttribute("users", userService.getAllUsers().stream().map(userMapper::map));
+        model.addAttribute("users", userService.getAllUsers());
         return "users";
     }
 
-    @GetMapping("/{userId}")
+    @GetMapping(SHOW_UPDATE_FORM)
     public String showUpdateForm(
             @PathVariable("userId") int userId,
             Model model
     ) {
-        UserDTO userDTO = userService.findById(userId)
-                .stream()
-                .map(userMapper::map)
-                .findFirst()
-                .orElseThrow();
-
-        model.addAttribute("user", userDTO);
+        model.addAttribute("user", userService.findById(userId));
         return "update-user";
     }
 
-    @PostMapping("/updates/{userId}")
+    @PostMapping(UPDATE_USER)
     public String updateUser(
             @PathVariable("userId") int userId,
             UserDTO user
@@ -51,7 +50,7 @@ public class UserController {
         return "redirect:/users?success";
     }
 
-    @GetMapping("/deletion/{userId}")
+    @GetMapping(DELETE_USER)
     public String deleteUser(
             @PathVariable("userId") int userId
     ) {

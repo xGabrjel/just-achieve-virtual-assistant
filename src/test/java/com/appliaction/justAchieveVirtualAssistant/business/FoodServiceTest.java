@@ -1,6 +1,7 @@
 package com.appliaction.justAchieveVirtualAssistant.business;
 
 import com.appliaction.justAchieveVirtualAssistant.api.dto.FoodDTO;
+import com.appliaction.justAchieveVirtualAssistant.api.dto.mapper.FoodMapper;
 import com.appliaction.justAchieveVirtualAssistant.domain.Food;
 import com.appliaction.justAchieveVirtualAssistant.domain.UserProfile;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.entity.FoodEntity;
@@ -31,6 +32,8 @@ class FoodServiceTest {
     private FoodEntityMapper foodEntityMapper;
     @Mock
     private UserProfileRepository userProfileRepository;
+    @Mock
+    private FoodMapper foodMapper;
 
     @Test
     void saveProductWorksCorrectly() {
@@ -56,18 +59,21 @@ class FoodServiceTest {
         List<FoodEntity> foodEntities = new ArrayList<>();
         foodEntities.add(mock(FoodEntity.class));
         Food food = mock(Food.class);
+        FoodDTO foodDTO = mock(FoodDTO.class);
 
         when(foodRepository.findAllProducts(username))
                 .thenReturn(foodEntities);
         when(foodEntityMapper.mapFromEntity(any(FoodEntity.class)))
                 .thenReturn(food);
+        when(foodMapper.map(any(Food.class)))
+                .thenReturn(foodDTO);
 
         //when
-        List<Food> result = foodService.findAllByUsername(username);
+        List<FoodDTO> result = foodService.findAllDTOByUsername(username);
 
         //then
         assertEquals(foodEntities.size(), result.size());
-        assertTrue(result.contains(food));
+        assertTrue(result.contains(foodDTO));
     }
 
     @Test

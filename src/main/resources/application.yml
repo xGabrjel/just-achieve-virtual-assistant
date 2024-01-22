@@ -42,6 +42,10 @@ spring:
           auth: true
           starttls:
             enable: true
+          ssl:
+            protocols: TLSv1.2
+            checkserveridentity: true
+            trust: smtp.poczta.onet.pl
 jasypt:
   encryptor:
     iv-generator-classname: org.jasypt.iv.NoIvGenerator

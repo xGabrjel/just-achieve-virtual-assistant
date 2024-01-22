@@ -1,6 +1,7 @@
 package com.appliaction.justAchieveVirtualAssistant.business;
 
-import com.appliaction.justAchieveVirtualAssistant.domain.FitnessTips;
+import com.appliaction.justAchieveVirtualAssistant.api.dto.FitnessTipsDTO;
+import com.appliaction.justAchieveVirtualAssistant.api.dto.mapper.FitnessTipsMapper;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.mapper.FitnessTipsEntityMapper;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.repository.UserProfileRepository;
 import com.appliaction.justAchieveVirtualAssistant.infrastructure.database.repository.jpa.FitnessTipsJpaRepository;
@@ -19,15 +20,17 @@ public class FitnessTipsGeneratorService {
     private final FitnessTipsJpaRepository fitnessTipsJpaRepository;
     private final FitnessTipsEntityMapper fitnessTipsEntityMapper;
     private final UserProfileRepository userProfileRepository;
+    private final FitnessTipsMapper fitnessTipsMapper;
 
-    public FitnessTips getRandomTipForDietGoal(String username) {
+    public FitnessTipsDTO getRandomTipForDietGoal(String username) {
 
-        List<FitnessTips> tips = fitnessTipsJpaRepository.findByDietGoalDietGoalId(userProfileRepository
+        List<FitnessTipsDTO> tips = fitnessTipsJpaRepository.findByDietGoalDietGoalId(userProfileRepository
                         .findByUserUsername(username)
                         .getDietGoal()
                         .getDietGoalId())
                 .stream()
                 .map(fitnessTipsEntityMapper::mapFromEntity)
+                .map(fitnessTipsMapper::map)
                 .toList();
 
         log.info("Selected tip: [%s]".formatted(tips.get(new Random().nextInt(tips.size()))));

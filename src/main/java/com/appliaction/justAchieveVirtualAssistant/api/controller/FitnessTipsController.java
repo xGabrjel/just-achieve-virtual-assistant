@@ -1,9 +1,6 @@
 package com.appliaction.justAchieveVirtualAssistant.api.controller;
 
-import com.appliaction.justAchieveVirtualAssistant.api.dto.FitnessTipsDTO;
-import com.appliaction.justAchieveVirtualAssistant.api.dto.mapper.FitnessTipsMapper;
 import com.appliaction.justAchieveVirtualAssistant.business.FitnessTipsGeneratorService;
-import com.appliaction.justAchieveVirtualAssistant.domain.FitnessTips;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,25 +9,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
 
+import static com.appliaction.justAchieveVirtualAssistant.api.controller.FitnessTipsController.ROOT;
+
 @Controller
 @AllArgsConstructor
-@RequestMapping("/tips")
+@RequestMapping(ROOT)
 public class FitnessTipsController {
 
+    static final String ROOT = "/tips";
+
     private FitnessTipsGeneratorService fitnessTipsGeneratorService;
-    private FitnessTipsMapper fitnessTipsMapper;
 
     @GetMapping
     public String tips(
             Model model,
             Principal principal
     ) {
-        String username = principal.getName();
-        FitnessTips randomTipForDietGoal = fitnessTipsGeneratorService.getRandomTipForDietGoal(username);
-        FitnessTipsDTO tipsDTO = fitnessTipsMapper.map(randomTipForDietGoal);
-
-        model.addAttribute("dietGoal", tipsDTO.getDietGoal().getDietGoal());
-        model.addAttribute("tip", tipsDTO.getTip());
+        model.addAttribute("dietGoal", fitnessTipsGeneratorService.getRandomTipForDietGoal(principal.getName())
+                .getDietGoal().getDietGoal());
+        model.addAttribute("tip", fitnessTipsGeneratorService.getRandomTipForDietGoal(principal.getName())
+                .getTip());
         return "tips";
     }
 }

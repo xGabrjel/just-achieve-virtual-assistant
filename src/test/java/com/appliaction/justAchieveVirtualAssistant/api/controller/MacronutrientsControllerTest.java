@@ -41,7 +41,7 @@ class MacronutrientsControllerTest {
     @Test
     @WithMockUser
     void returnMacronutrientsViewCorrectly() throws Exception {
-        // given
+        //given
         String username = "testUser";
         ActivityLevel activityLevel = ActivityLevel.MODERATELY_ACTIVE;
         Map<String, BigDecimal> macro = new HashMap<>();
@@ -55,7 +55,7 @@ class MacronutrientsControllerTest {
         when(macronutrientsCalculatorService.calculateHealthyMacronutrientsValues(username, activityLevel))
                 .thenReturn(macro);
 
-        // when, then
+        //when, then
         mockMvc.perform(get("/macronutrients/{activityLevel}", activityLevel)
                 .param("activityLevel", activityLevel.toString())
                 .principal(principal))

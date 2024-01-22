@@ -1,5 +1,8 @@
 package com.appliaction.justAchieveVirtualAssistant.business;
 
+import com.appliaction.justAchieveVirtualAssistant.api.dto.DietGoalsDTO;
+import com.appliaction.justAchieveVirtualAssistant.api.dto.FitnessTipsDTO;
+import com.appliaction.justAchieveVirtualAssistant.api.dto.mapper.FitnessTipsMapper;
 import com.appliaction.justAchieveVirtualAssistant.domain.DietGoals;
 import com.appliaction.justAchieveVirtualAssistant.domain.FitnessTips;
 import com.appliaction.justAchieveVirtualAssistant.domain.UserProfile;
@@ -32,9 +35,11 @@ class FitnessTipsGeneratorServiceTest {
     private FitnessTipsEntityMapper fitnessTipsEntityMapper;
     @Mock
     private UserProfileRepository userProfileRepository;
+    @Mock
+    private FitnessTipsMapper fitnessTipsMapper;
 
     @Test
-    void getRandomTipForDietGoalWorksCorrectly() {
+    void getRandomTipForDietGoalWorksCorrectly1() {
         //given
         UserProfile user = DomainFixtures.someUserProfile();
         List<FitnessTipsEntity> fitnessTipsEntities = new ArrayList<>();
@@ -52,14 +57,18 @@ class FitnessTipsGeneratorServiceTest {
                 .thenReturn(fitnessTipsEntities);
         when(fitnessTipsEntityMapper.mapFromEntity(any(FitnessTipsEntity.class)))
                 .thenReturn(new FitnessTips(
-                        1, DietGoals
+                        1,
+                        DietGoals.builder().dietGoalId(1).dietGoal("MUSCLE BUILDING").build(),
+                        "Tip 1"));
+        when(fitnessTipsMapper.map(any(FitnessTips.class)))
+                .thenReturn(FitnessTipsDTO
                         .builder()
-                        .dietGoalId(1)
-                        .dietGoal("MUSCLE BUILDING")
-                        .build(), "Tip 1"));
+                        .dietGoal(DietGoalsDTO.builder().dietGoal("MUSCLE BUILDING").build())
+                        .tip("Tip 1")
+                        .build());
 
         //when
-        FitnessTips result = fitnessTipsGeneratorService.getRandomTipForDietGoal(user.getUser().getUsername());
+        FitnessTipsDTO result = fitnessTipsGeneratorService.getRandomTipForDietGoal(user.getUser().getUsername());
 
         //then
         assertNotNull(result);

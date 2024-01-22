@@ -1,5 +1,6 @@
 package com.appliaction.justAchieveVirtualAssistant.security.user;
 
+import com.appliaction.justAchieveVirtualAssistant.api.dto.UserDTO;
 import com.appliaction.justAchieveVirtualAssistant.configuration.AbstractIT;
 import com.appliaction.justAchieveVirtualAssistant.domain.User;
 import com.appliaction.justAchieveVirtualAssistant.security.registration.RegistrationRequest;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -41,7 +43,7 @@ public class UserServiceITTest extends AbstractIT {
     @Test
     void getAllUsersWorksCorrectly() {
         //given, when
-        List<User> result = userService.getAllUsers();
+        List<UserDTO> result = userService.getAllUsers();
 
         //then
         assertNotNull(result);
@@ -85,13 +87,12 @@ public class UserServiceITTest extends AbstractIT {
         int adminId = 3;
 
         //when
-        Optional<User> result = userService.findById(adminId);
+        var result = userService.findById(adminId);
 
         //then
-        assertThat(result).isNotEmpty();
         assertThat(result).isNotNull();
-        assertEquals(adminUsername, result.get().getUsername());
-        assertEquals(adminEmail, result.get().getEmail());
+        assertEquals(adminUsername, result.getUsername());
+        assertEquals(adminEmail, result.getEmail());
     }
 
     @Test
@@ -131,7 +132,7 @@ public class UserServiceITTest extends AbstractIT {
 
         //when
         userService.updateUser(user.getUserId(), newUsername, newEmail);
-        User result = userService.findById(user.getUserId()).orElseThrow();
+        var result = userService.findById(user.getUserId());
 
         //then
         assertEquals(result.getUsername(), newUsername);
@@ -149,7 +150,7 @@ public class UserServiceITTest extends AbstractIT {
 
         //when, then
         userService.deleteUser(user.getUserId());
-        assertEquals(Optional.empty(), userService.findById(user.getUserId()));
+        assertThrows(NoSuchElementException.class, () -> userService.findById(user.getUserId()));
     }
 
     @Test

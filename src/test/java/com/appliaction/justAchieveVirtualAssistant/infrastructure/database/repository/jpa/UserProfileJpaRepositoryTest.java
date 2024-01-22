@@ -25,14 +25,14 @@ class UserProfileJpaRepositoryTest {
 
     @Test
     void customUpdateWeightByProfileIdWorksCorrectly() {
-        // given
+        //given
         Integer adminProfileId = 1;
         BigDecimal newWeight = BigDecimal.valueOf(100.5);
 
-        // when
+        //when
         userProfileJpaRepository.updateWeightByProfileId(adminProfileId, newWeight);
 
-        // then
+        //then
         UserProfileEntity updatedUserProfileEntity = userProfileJpaRepository.findById(adminProfileId).orElseThrow();
         assertEquals(newWeight, updatedUserProfileEntity.getWeight());
     }

@@ -1,10 +1,10 @@
 package com.appliaction.justAchieveVirtualAssistant;
 
+import com.appliaction.justAchieveVirtualAssistant.configuration.AbstractIT;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
-class JustAchieveVirtualAssistantApplicationTests {
+class JustAchieveVirtualAssistantApplicationTests extends AbstractIT {
+
     @Test
     void contextLoads() {
     }

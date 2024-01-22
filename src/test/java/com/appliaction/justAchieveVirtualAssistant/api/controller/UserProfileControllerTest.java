@@ -61,7 +61,7 @@ class UserProfileControllerTest {
     @Test
     @WithMockUser
     void profilePageReturnUserProfileViewWithUserProfileAttributeWorksCorrectly() throws Exception {
-        // given
+        //given
         User user = DomainFixtures.someUser();
         String username = user.getUsername();
         byte[] fileContent = new byte[] { 0x01, 0x23, 0x45, 0x67};
@@ -71,14 +71,12 @@ class UserProfileControllerTest {
 
         Principal principal = () -> username;
 
-        when(userProfileService.findByUsername(username))
-                .thenReturn(userProfile);
-        when(userProfileMapper.map(userProfile))
+        when(userProfileService.findDTOByUsername(username))
                 .thenReturn(userProfileDTO);
-        when(imagesService.downloadImageByProfileId(username))
-                .thenReturn(fileContent);
+        when(imagesService.downloadAndConvertImage(username))
+                .thenReturn(imageBase64);
 
-        // when, then
+        //when, then
         mockMvc.perform(get("/user-profile/data")
                 .principal(principal))
                 .andExpect(status().isOk())
@@ -89,18 +87,18 @@ class UserProfileControllerTest {
     @Test
     @WithMockUser
     void profilePageReturnUserProfileViewWithoutUserProfileAttributeWorksCorrectly() throws Exception {
-        // given
+        //given
         String username = "testUser";
         byte[] fileContent = new byte[] { 0x01, 0x23, 0x45, 0x67};
         String imageBase64 = Base64.getEncoder().encodeToString(fileContent);
         Principal principal = () -> username;
 
-        when(userProfileService.findByUsername(username))
+        when(userProfileService.findDTOByUsername(username))
                 .thenReturn(null);
-        when(imagesService.downloadImageByProfileId(username))
-                .thenReturn(fileContent);
+        when(imagesService.downloadAndConvertImage(username))
+                .thenReturn(imageBase64);
 
-        // when, then
+        //when, then
         mockMvc.perform(get("/user-profile/data")
                 .principal(principal))
                 .andExpect(status().isOk())
@@ -112,7 +110,7 @@ class UserProfileControllerTest {
     @Test
     @WithMockUser
     void submitProfileDataRedirectToUserProfileWithSuccessParameterWorksCorrectly() throws Exception {
-        // given
+        //given
         String username = "testUser";
         UserProfileDTO userProfileDTO = new UserProfileDTO();
         Integer dietGoalId = 1;
@@ -126,7 +124,7 @@ class UserProfileControllerTest {
         when(dietGoalsService.findById(dietGoalId))
                 .thenReturn(Optional.of(dietGoals));
 
-        // when, then
+        //when, then
         mockMvc.perform(post("/user-profile/new-user-profile-data")
                 .flashAttr("userProfileDTO", userProfileDTO)
                 .param("dietGoalId", dietGoalId.toString())

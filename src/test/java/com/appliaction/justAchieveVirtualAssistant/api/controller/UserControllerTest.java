@@ -1,8 +1,6 @@
 package com.appliaction.justAchieveVirtualAssistant.api.controller;
 
 import com.appliaction.justAchieveVirtualAssistant.api.dto.UserDTO;
-import com.appliaction.justAchieveVirtualAssistant.api.dto.mapper.UserMapper;
-import com.appliaction.justAchieveVirtualAssistant.domain.User;
 import com.appliaction.justAchieveVirtualAssistant.security.user.UserService;
 import lombok.AllArgsConstructor;
 import org.junit.jupiter.api.Test;
@@ -11,8 +9,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
-
-import java.util.Optional;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -27,8 +23,6 @@ class UserControllerTest {
     private final MockMvc mockMvc;
     @MockBean
     private final UserService userService;
-    @MockBean
-    private final UserMapper userMapper;
 
     @Test
     void getUsersPageWorksCorrectly() throws Exception {
@@ -44,12 +38,6 @@ class UserControllerTest {
         //given
         int userId = 1;
 
-        User user = new User();
-        user.setUserId(1);
-        user.setUsername("test");
-        user.setEmail("test@o2.pl");
-        user.setActive(true);
-
         UserDTO userDTO = new UserDTO();
         userDTO.setUserId(1);
         userDTO.setUsername("test");
@@ -57,8 +45,6 @@ class UserControllerTest {
         userDTO.setActive(true);
 
         when(userService.findById(userDTO.getUserId()))
-                .thenReturn(Optional.of(user));
-        when(userMapper.map(user))
                 .thenReturn(userDTO);
 
         //when, then

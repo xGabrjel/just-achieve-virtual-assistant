@@ -36,7 +36,7 @@ class FoodRepositoryTest {
 
     @Test
     void findAllProductsShouldReturnListOfFoodEntitiesWorksCorrectly() {
-        // given
+        //given
         String username = "testUser";
         UserProfileEntity userProfileEntity = new UserProfileEntity();
         List<FoodEntity> foodEntities = new ArrayList<>();
@@ -46,10 +46,10 @@ class FoodRepositoryTest {
         when(foodJpaRepository.findAllByProfileId(userProfileEntity))
                 .thenReturn(foodEntities);
 
-        // when
+        //when
         List<FoodEntity> result = foodRepository.findAllProducts(username);
 
-        // then
+        //then
         assertEquals(foodEntities, result);
         verify(userProfileJpaRepository, times(1)).findByUserUsername(username);
         verify(foodJpaRepository, times(1)).findAllByProfileId(userProfileEntity);

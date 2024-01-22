@@ -9,13 +9,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.math.BigDecimal;
 import java.security.Principal;
+
+import static com.appliaction.justAchieveVirtualAssistant.api.controller.BmrController.ROOT;
 
 @Controller
 @AllArgsConstructor
-@RequestMapping("/bmr")
+@RequestMapping(ROOT)
 public class BmrController {
+
+    static final String ROOT = "/bmr";
+    static final String BMR = "/{activityLevel}";
 
     private BmrCalculatorService bmrCalculatorService;
 
@@ -24,16 +28,13 @@ public class BmrController {
         return "bmr";
     }
 
-    @GetMapping("/{activityLevel}")
+    @GetMapping(BMR)
     public String bmr(
             Model model,
             Principal principal,
             @RequestParam("activityLevel") ActivityLevel activityLevel
     ) {
-        String username = principal.getName();
-        BigDecimal bmr = bmrCalculatorService.calculateActivityIncludedBMR(username, activityLevel);
-
-        model.addAttribute("bmr", bmr);
+        model.addAttribute("bmr", bmrCalculatorService.calculateActivityIncludedBMR(principal.getName(), activityLevel));
         return "bmr";
     }
 }
